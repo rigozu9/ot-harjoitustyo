@@ -6,7 +6,7 @@ Sovelluksen ideana on käyttäjän päivittäisten tapojen parantaminen tieteell
 ## Suunnitellut toiminnallisuudet
 - **Rekisteröityminen:** Voi luoda käyttäjätunnuksen, jonka kautta pääset kirjautumaan sovellukseen. 
 - **Ensikysely:** Kun ensimmäistä kertaa kirjautuu sisään käyttäjä vastaa lyhyeen kyselyyn, jonka perusteella ehdotukset räätälöityvät hänelle.
-- **Sovelluksessa:** 
+### Sovelluksessa:
 -Käyttäjä voi lisätä päivittäisiä aktiviteetteja listaan ja suunnitella seuraavan päivän tekemisiä.
     -Aktiviteettejä olisi esim. unen pituus, ruutuaika, urheilu, askelien määrä... 
 -Aktiviteettien perusteella sovellus ehdottaa tieteellisten tutkimuksien perusteella parannuksia
