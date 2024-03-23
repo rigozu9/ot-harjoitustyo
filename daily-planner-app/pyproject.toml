@@ -8,6 +8,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.8"
 bcrypt = "^4.1.2"
+alembic = "^1.13.1"
+sqlalchemy = "^2.0.28"
 
 
 [build-system]
