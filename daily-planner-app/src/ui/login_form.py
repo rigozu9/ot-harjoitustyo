@@ -1,6 +1,6 @@
 import tkinter as tk
-from services.user_service import login_user
-from ui.daily_planner_view import DailyPlannerView
+from services.user_service import UserService
+from ui.daily_planner_view import DailyPlanner
 """"Sisäänkirjatumisen form. Kysyy nimeä ja salasanaa.
     Käyttää user_service, kun kirjatuu. """
 
@@ -8,6 +8,7 @@ class LoginForm:
     def __init__(self, master):
         self.master = master
         self.frame = tk.Frame(self.master)
+        self.user_service = UserService()
 
         self.username_label = tk.Label(self.frame, text="Username:")
         self.username_label.pack()
@@ -28,8 +29,8 @@ class LoginForm:
         username = self.username_entry.get()
         password = self.password_entry.get()
 
-        if login_user(username, password):
+        if self.user_service.login_user(username, password):
             self.frame.destroy()
-            DailyPlannerView(self.master)
+            DailyPlanner(self.master)
         else:
             pass

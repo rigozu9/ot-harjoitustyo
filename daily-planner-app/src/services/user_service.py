@@ -1,35 +1,15 @@
-import bcrypt
+from repositories.user_repository import UserRepository
 from database_connection import get_database_connection
 
-""""Käyttäjien hallintaan service"""
+class UserService:
+    def __init__(self):
+        self.user_repository = UserRepository(get_database_connection())
 
-""""Rekisteröinti"""
-def register_user(username, password):
-    connection = get_database_connection()
-    cursor = connection.cursor()
-
-    cursor.execute('SELECT * FROM users WHERE username = ?', (username,))
-    existing_user = cursor.fetchone()
-
-    if existing_user:
-        return False
-
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-    
-    cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, hashed_password))
-    connection.commit()
-
-    return True
-
-""""Sisäänkirjatuminen."""
-def login_user(username, password):
-    connection = get_database_connection()
-    cursor = connection.cursor()
-
-    cursor.execute('SELECT * FROM users WHERE username = ?', (username,))
-    user_record = cursor.fetchone()
-
-    if user_record and bcrypt.checkpw(password.encode('utf-8'), user_record['password']):
+    def register_user(self, username, password):
+        if self.user_repository.find_by_username(username):
+            return False
+        self.user_repository.create_user(username, password)
         return True
 
-    return False
+    def login_user(self, username, password):
+        return self.user_repository.verify_user(username, password)
