@@ -1,6 +1,5 @@
 from tkinter import Tk
 from ui.ui import UI
-from ui.daily_planner_view import DailyPlanner
 
 """tkInterin alustaminen, joka kutsuu ui.ui UI luokkaa"""
 def main():
@@ -11,7 +10,6 @@ def main():
 
     ui_view = UI(window)
     ui_view.start()
-    #DailyPlanner(window)
 
     window.mainloop()
 

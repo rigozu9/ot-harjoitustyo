@@ -6,31 +6,32 @@ from ui.daily_planner_view import DailyPlanner
 
 class LoginForm:
     def __init__(self, master):
-        self.master = master
-        self.frame = tk.Frame(self.master)
-        self.user_service = UserService()
+        self._master = master
+        self._frame = tk.Frame(self._master)
+        self._user_service = UserService()
 
-        self.username_label = tk.Label(self.frame, text="Username:")
-        self.username_label.pack()
-        self.username_entry = tk.Entry(self.frame)
-        self.username_entry.pack()
+        self._username_label = tk.Label(self._frame, text="Username:")
+        self._username_label.pack()
+        self._username_entry = tk.Entry(self._frame)
+        self._username_entry.pack()
 
-        self.username_label = tk.Label(self.frame, text="Password:")
-        self.username_label.pack()
-        self.password_entry = tk.Entry(self.frame, show="*")
-        self.password_entry.pack()
+        self._password_label = tk.Label(self._frame, text="Password:")
+        self._password_label.pack()
+        self._password_entry = tk.Entry(self._frame, show="*")
+        self._password_entry.pack()
 
-        self.login_button = tk.Button(self.frame, text="Login", command=self._login)
-        self.login_button.pack()
+        self._login_button = tk.Button(self._frame, text="Login", command=self._login)
+        self._login_button.pack()
 
-        self.frame.pack()
+        self._frame.pack()
 
     def _login(self):
-        username = self.username_entry.get()
-        password = self.password_entry.get()
+        username = self._username_entry.get()
+        password = self._password_entry.get()
 
-        if self.user_service.login_user(username, password):
-            self.frame.destroy()
-            DailyPlanner(self.master)
+        user_id = self._user_service.login_user(username, password)
+        if user_id is not None:
+            self._frame.destroy()
+            DailyPlanner(self._master, user_id) 
         else:
-            pass
+            pass 

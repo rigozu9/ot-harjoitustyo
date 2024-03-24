@@ -1,47 +1,49 @@
 import tkinter as tk
-# Adjust this import to match the location and name of your service class
 from services.daily_planner_service import DailyPlannerService
 
-
-""""Testi dailyplanner näyttämiseen."""
+#Daily planner view for the application
 class DailyPlanner:
-    def __init__(self, master):
-        self.master = master
-        self.frame = tk.Frame(self.master)
-        self.service = DailyPlannerService()
+    def __init__(self, master, user_id):
+        self._master = master
+        self._user_id = user_id
 
-        label = tk.Label(self.frame, text="You are now logged in", font=('Arial', 18))
-        label.pack()
+        self._frame = tk.Frame(self._master)
+        self._service = DailyPlannerService()
+        self._username = self._service.get_username(self._user_id)
 
-        self.activity_label = tk.Label(self.frame, text="Add new activity:")
-        self.activity_label.pack()
-        self.activity_entry = tk.Entry(self.frame, width=30)
-        self.activity_entry.pack()
+        self._welcome_label = tk.Label(self._frame, text=f"Welcome, {self._username['username']}", font=('Arial', 18))
+        self._welcome_label.pack()
 
-        self.submit_button = tk.Button(self.frame, text="Submit", command=self._submit)
-        self.submit_button.pack()
+        self._activity_label = tk.Label(self._frame, text="Add new activity:")
+        self._activity_label.pack()
 
-        self.activities_label = tk.Label(self.frame, text="Activities:")
-        self.activities_label.pack()
+        self._activity_entry = tk.Entry(self._frame, width=30)
+        self._activity_entry.pack()
 
-        self.frame.pack()
+        self._submit_button = tk.Button(self._frame, text="Submit", command=self._submit)
+        self._submit_button.pack()
+
+        self._activities_label = tk.Label(self._frame, text="Your activities:")
+        self._activities_label.pack()
+
+        self._frame.pack()
         
-        self.display_activities()
+        self._display_activities()
         
     def _submit(self):
-        activity_description = self.activity_entry.get()
+        activity_description = self._activity_entry.get()
         if activity_description:
-            self.service.add_activity(activity_description)  # Use service to add activity
+            self._service.add_activity(activity_description, self._user_id)
             print("Activity added successfully!")
-            self.display_activities()  # Refresh the displayed activities
+            self._display_activities()
 
-    def display_activities(self):
+    def _display_activities(self):
         # Clear existing activities display
-        for widget in self.frame.winfo_children():
-            if isinstance(widget, tk.Label) and widget != self.activity_label and widget != self.activities_label:
+        for widget in self._frame.winfo_children():
+            if isinstance(widget, tk.Label) and widget != self._activity_label and widget != self._activities_label and widget != self._welcome_label:
                 widget.destroy()
 
-        activities = self.service.show_activities()  # Use service to get activities
+        activities = self._service.show_activities(self._user_id)  # Use service to get activities
         for activity in activities:
-            activity_label = tk.Label(self.frame, text=activity[1])
+            activity_label = tk.Label(self._frame, text=activity[1])
             activity_label.pack()

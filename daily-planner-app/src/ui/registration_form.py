@@ -8,39 +8,38 @@ from ui.login_form import LoginForm
 
 class RegistrationForm:
     def __init__(self, master):
-        self.master = master
-        self.frame = tk.Frame(self.master)
-        self.user_service = UserService()
+        self._master = master
+        self._frame = tk.Frame(self._master)
+        self._user_service = UserService()
 
-        self.username_label = tk.Label(self.frame, text="Username:")
-        self.username_label.pack()
-        self.username_entry = tk.Entry(self.frame)
-        self.username_entry.pack()
+        self._username_label = tk.Label(self._frame, text="Username:")
+        self._username_label.pack()
+        self._username_entry = tk.Entry(self._frame)
+        self._username_entry.pack()
 
-        self.password_label = tk.Label(self.frame, text="Password:")
-        self.password_label.pack()
-        self.password_entry = tk.Entry(self.frame, show="*")
-        self.password_entry.pack()
+        self._password_label = tk.Label(self._frame, text="Password:")
+        self._password_label.pack()
+        self._password_entry = tk.Entry(self._frame, show="*")
+        self._password_entry.pack()
 
-        self.register_button = tk.Button(self.frame, text="Register", command=self._register)
-        self.register_button.pack()
+        self._register_button = tk.Button(self._frame, text="Register", command=self._register)
+        self._register_button.pack()
 
-        self.goto_login_button = tk.Button(self.frame, text="Go to Login", command=self.go_to_login)
-        self.goto_login_button.pack()
+        self._goto_login_button = tk.Button(self._frame, text="Already have an account? Go to Login", command=self._go_to_login)
+        self._goto_login_button.pack()
 
-
-        self.frame.pack()
+        self._frame.pack()
 
     def _register(self):
-        username = self.username_entry.get()
-        password = self.password_entry.get()
+        username = self._username_entry.get()
+        password = self._password_entry.get()
         
-        if self.user_service.register_user(username, password):
-            self.frame.destroy()
-            LoginForm(self.master) 
+        if self._user_service.register_user(username, password):
+            self._frame.destroy()
+            LoginForm(self._master) 
         else:
             pass
 
-    def go_to_login(self):
-        self.frame.destroy()
-        LoginForm(self.master) 
+    def _go_to_login(self):
+        self._frame.destroy()
+        LoginForm(self._master)
