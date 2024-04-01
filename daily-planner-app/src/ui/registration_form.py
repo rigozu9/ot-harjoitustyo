@@ -1,5 +1,4 @@
 import tkinter as tk
-from services.user_service import UserService
 from ui.login_form import LoginForm
 
 """"Rekisteröitymisen form. Kysyy nimeä ja salasanaa.
@@ -7,10 +6,11 @@ from ui.login_form import LoginForm
     Nappi myös kirjatumiselle, jos on jo käyttäjä """
 
 class RegistrationForm:
-    def __init__(self, master):
+    def __init__(self, master, user_service, daily_planner_service):
         self._master = master
         self._frame = tk.Frame(self._master)
-        self._user_service = UserService()
+        self._user_service = user_service
+        self._daily_planner_service = daily_planner_service
 
         self._username_label = tk.Label(self._frame, text="Username:")
         self._username_label.pack()
@@ -36,10 +36,10 @@ class RegistrationForm:
         
         if self._user_service.register_user(username, password):
             self._frame.destroy()
-            LoginForm(self._master) 
+            LoginForm(self._master, self._user_service, self._daily_planner_service) 
         else:
             pass
 
     def _go_to_login(self):
         self._frame.destroy()
-        LoginForm(self._master)
+        LoginForm(self._master, self._user_service, self._daily_planner_service)

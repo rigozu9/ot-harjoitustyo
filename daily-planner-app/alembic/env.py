@@ -5,9 +5,10 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from src.entities.base  import Base
-from src.entities.user import User
-from src.entities.activity import Activity
+# Import your models here
+from src.entities.base import Base
+from src.entities.activity import Activity  # Ensure Alembic can find this
+from src.entities.user import User  # Ensure Alembic can find this
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

@@ -1,12 +1,10 @@
-from repositories.user_repository import UserRepository
-from database_connection import get_database_connection
-
 #Class for users application logic
+#Now receives the repository when app starting or testing
 
 class UserService:
-    def __init__(self):
-        #initializing database for UserRepository
-        self.user_repository = UserRepository(get_database_connection())
+    def __init__(self, user_repository):
+        self.user_repository = user_repository
+        
 
     def register_user(self, username, password):
         if self.user_repository.find_by_username(username):
@@ -16,3 +14,6 @@ class UserService:
 
     def login_user(self, username, password):
         return self.user_repository.verify_user(username, password)
+    
+    def get_username(self, user_id):
+        return self.user_repository.get_username_by_user(user_id)

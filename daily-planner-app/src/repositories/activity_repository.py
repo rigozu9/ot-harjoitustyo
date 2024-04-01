@@ -1,26 +1,19 @@
-#Class for all the activity database methods
+#Changed to use sqlaclhemy instead of raw sql commands
+#Repository for activity database methods and functions
+from entities.activity import Activity
+
 class ActivityRepository:
-    def __init__(self, connection):
-        self._connection = connection
+    def __init__(self, session):
+        self._session = session
 
-    #Adding an activity to database
+    # Adding an activity to the database
     def add_activity(self, description, user_id):
-        cursor = self._connection.cursor()
-        cursor.execute('INSERT INTO activities (description, user_id) VALUES (?, ?)', (description, user_id))
-        self._connection.commit()
+        new_activity = Activity(description=description, user_id=user_id)
+        self._session.add(new_activity)
+        self._session.commit()
+        return new_activity
 
-    #Retrivien users activities
+    # Retrieving user's activities
     def get_all_activities_by_user(self, user_id):
-        cursor = self._connection.cursor()
-        cursor.execute('SELECT * FROM activities WHERE user_id = ?', (user_id,))
-        activities = cursor.fetchall()
+        activities = self._session.query(Activity).filter_by(user_id=user_id).all()
         return activities
-
-    #Retrivien users username
-    def get_username_by_user(self, user_id):
-        cursor = self._connection.cursor()
-        cursor.execute('SELECT username FROM users WHERE id = ?', (user_id,))
-        username = cursor.fetchone()
-        return username
-        
-        

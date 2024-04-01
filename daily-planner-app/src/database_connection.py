@@ -1,16 +1,24 @@
+#Tiedosto tietokantaan yhdistämiselle. 
 import os
-import sqlite3
+from sqlalchemy import create_engine
+from entities.base import Base
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 dirname = os.path.dirname(__file__)
-
-# Determine if we are running in a test environment
+#Jos TEST_ENV on true niin käytetään testi tietokantaa
 is_test_env = os.getenv("TEST_ENV", "False") == "True"
-
-# Choose database file based on the environment
 db_file = "test_database.sqlite" if is_test_env else "database.sqlite"
 
-connection = sqlite3.connect(os.path.join(dirname, "..", "data", db_file))
-connection.row_factory = sqlite3.Row
+database_url = f"sqlite:///{os.path.join(dirname, '..', 'data', db_file)}"
 
-def get_database_connection():
-    return connection
+engine = create_engine(database_url, connect_args={"check_same_thread": False}, echo=True)
+session_factory = sessionmaker(bind=engine)
+Session = scoped_session(session_factory)
+
+def init_db():
+    from entities.user import User
+    from entities.activity import Activity
+    Base.metadata.create_all(bind=engine)
+
+def get_database_session():
+    return Session()
