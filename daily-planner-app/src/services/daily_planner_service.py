@@ -5,8 +5,12 @@ class DailyPlannerService:
     def __init__(self, activity_repository):
         self._activity_repository = activity_repository
 
-    def add_activity(self, description, user_id):
+    def create_activity(self, description, user_id):
         self._activity_repository.add_activity(description, user_id)
+        return True
+
+    def remove_activity(self, activity_id):
+        self._activity_repository.delete_activity(activity_id)
         return True
 
     def show_activities(self, user_id):

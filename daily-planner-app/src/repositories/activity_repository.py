@@ -17,3 +17,15 @@ class ActivityRepository:
     def get_all_activities_by_user(self, user_id):
         activities = self._session.query(Activity).filter_by(user_id=user_id).all()
         return activities
+
+    def delete_activity(self, activity_id):
+        # Find the activity by ID
+        activity_to_delete = self._session.query(Activity).filter_by(id=activity_id).first()
+        if activity_to_delete:
+            # If the activity exists, delete it
+            self._session.delete(activity_to_delete)
+            self._session.commit()
+            return True
+        else:
+            # If the activity does not exist, return False or handle as needed
+            return False

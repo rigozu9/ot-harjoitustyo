@@ -43,11 +43,25 @@ class TestApp(unittest.TestCase):
         self.user_service.register_user("testuser", "password")
         user_id = self.user_repository.find_id_by_username("testuser")
 
-        self.assertTrue(self.daily_planner_service.add_activity("Test Activity", user_id), "Activity should be successfully added.")
+        self.assertTrue(self.daily_planner_service.create_activity("Test Activity", user_id), "Activity should be successfully added.")
 
         activities = self.daily_planner_service.show_activities(user_id)
         self.assertEqual(len(activities), 1, "There should be exactly one activity.")
         self.assertEqual(activities[0].description, "Test Activity", "The activity description should match the input.")
+    
+    # Test for removing activity
+    def test_deleting_activity(self):
+        self.user_service.register_user("testuser", "password")
+        user_id = self.user_repository.find_id_by_username("testuser")
+        self.assertTrue(self.daily_planner_service.create_activity("Activity to be deleted", user_id), "Activity should be successfully added.")
+        
+        activities = self.daily_planner_service.show_activities(user_id)
+        activity_id = activities[0].id
+
+        self.assertTrue(self.daily_planner_service.remove_activity(activity_id), "Activity should be successfully removed.")
+
+        activities_after_removal = self.daily_planner_service.show_activities(user_id)
+        self.assertEqual(len(activities_after_removal), 0, "There should be no activities after removal.")
 
 if __name__ == "__main__":
     unittest.main()
