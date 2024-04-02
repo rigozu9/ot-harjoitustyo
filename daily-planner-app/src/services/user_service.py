@@ -8,9 +8,11 @@ class UserService:
 
     def register_user(self, username, password):
         if self.user_repository.find_by_username(username):
-            return False
+            return "username_exists"
+        if len(password) < 4:
+            return "password_short"
         self.user_repository.create_user(username, password)
-        return True
+        return "success"
 
     def login_user(self, username, password):
         return self.user_repository.verify_user(username, password)

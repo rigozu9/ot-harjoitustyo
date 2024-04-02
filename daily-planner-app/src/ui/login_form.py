@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 from ui.daily_planner_view import DailyPlanner
 """"Sisäänkirjatumisen form. Kysyy nimeä ja salasanaa.
     Käyttää user_service, kun kirjatuu. """
@@ -30,8 +31,9 @@ class LoginForm:
         password = self._password_entry.get()
 
         user_id = self._user_service.login_user(username, password)
-        if user_id is not None:
+        if user_id:
             self._frame.destroy()
             DailyPlanner(self._master, user_id, self._user_service, self._daily_planner_service) 
         else:
-            pass
+            # Display an error message if login fails
+            messagebox.showerror("Login failed", "Incorrect username or password.")

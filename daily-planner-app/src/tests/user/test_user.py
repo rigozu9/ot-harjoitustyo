@@ -37,22 +37,26 @@ class TestApp(unittest.TestCase):
         self.activity_repository = ActivityRepository(self.session)
         self.user_service = UserService(self.user_repository)
         self.daily_planner_service = DailyPlannerService(self.activity_repository)
-
-    def test_user_registration(self):
-        self.assertTrue(self.user_service.register_user("testuser", "password"), "User should be successfully registered.")
+    # Test that a user can be registered
+    def test_user_registration(self):        
+        self.assertEqual(self.user_service.register_user("testuser", "password"), "success")
         
         # Verify the user exists in the database
         user_id = self.user_repository.find_id_by_username("testuser")
         self.assertIsNotNone(user_id, "Registered user should have a valid ID.")
+    
+    # Too short password test
+    def test_password_short_registration(self):      
+        self.assertEqual(self.user_service.register_user("testuser", "123"), "password_short")
         
-        # Test that a user can be registered
+    # Test that cant register with existing username
     def test_for_existing_user_registration(self):
         # Register a user for the first time
         self.user_service.register_user("existinguser", "password")
 
         # Attempt to register the same username again
         result = self.user_service.register_user("existinguser", "password")
-        self.assertFalse(result, "Registration should fail due to existing username.")
+        self.assertEqual(result, "username_exists")
 
     # Test that a registered user can log in
     def test_user_login(self):

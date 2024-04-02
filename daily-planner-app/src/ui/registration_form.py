@@ -1,9 +1,6 @@
 import tkinter as tk
+from tkinter import messagebox  # Import messagebox for showing error messages
 from ui.login_form import LoginForm
-
-""""Rekisteröitymisen form. Kysyy nimeä ja salasanaa.
-    Käyttää user_service, kun kirjatuu. 
-    Nappi myös kirjatumiselle, jos on jo käyttäjä """
 
 class RegistrationForm:
     def __init__(self, master, user_service, daily_planner_service):
@@ -22,6 +19,11 @@ class RegistrationForm:
         self._password_entry = tk.Entry(self._frame, show="*")
         self._password_entry.pack()
 
+        self._password_confirm_label = tk.Label(self._frame, text="Confirm Password:")  # Add confirmation label
+        self._password_confirm_label.pack()
+        self._password_confirm_entry = tk.Entry(self._frame, show="*")  # Add confirmation entry
+        self._password_confirm_entry.pack()
+
         self._register_button = tk.Button(self._frame, text="Register", command=self._register)
         self._register_button.pack()
 
@@ -33,12 +35,22 @@ class RegistrationForm:
     def _register(self):
         username = self._username_entry.get()
         password = self._password_entry.get()
-        
-        if self._user_service.register_user(username, password):
+        password_confirm = self._password_confirm_entry.get()
+
+        if password != password_confirm:
+            messagebox.showerror("Error", "Passwords do not match.")  # Show error if passwords don't match
+            return
+
+        registration_result = self._user_service.register_user(username, password)
+        if registration_result == "success":
             self._frame.destroy()
-            LoginForm(self._master, self._user_service, self._daily_planner_service) 
+            LoginForm(self._master, self._user_service, self._daily_planner_service)
+        elif registration_result == "username_exists":
+            messagebox.showerror("Error", "Username already exists.")  # Show error if username is in use
+        elif registration_result == "password_short":
+            messagebox.showerror("Error", "Password too short.")  # Show error if username is in use
         else:
-            pass
+            messagebox.showerror("Error", "Registration failed for an unknown reason.")
 
     def _go_to_login(self):
         self._frame.destroy()
