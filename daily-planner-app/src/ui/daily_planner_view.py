@@ -11,7 +11,6 @@ class DailyPlanner:
         self._user_service = user_service
         self._daily_planner_service = daily_planner_service
         self._username = self._user_service.get_username(self._user_id)
-        print("username:", self._user_id)
 
         self._welcome_label = tk.Label(self._frame, text=f"Welcome, {self._username} ", font=('Arial', 18))
         self._welcome_label.pack()

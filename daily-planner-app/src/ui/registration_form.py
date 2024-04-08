@@ -3,11 +3,12 @@ from tkinter import messagebox  # Import messagebox for showing error messages
 from ui.login_form import LoginForm
 
 class RegistrationForm:
-    def __init__(self, master, user_service, daily_planner_service):
+    def __init__(self, master, user_service, daily_planner_service, survey_service):
         self._master = master
         self._frame = tk.Frame(self._master)
         self._user_service = user_service
         self._daily_planner_service = daily_planner_service
+        self._survey_service = survey_service
 
         self._username_label = tk.Label(self._frame, text="Username:")
         self._username_label.pack()
@@ -44,7 +45,7 @@ class RegistrationForm:
         registration_result = self._user_service.register_user(username, password)
         if registration_result == "success":
             self._frame.destroy()
-            LoginForm(self._master, self._user_service, self._daily_planner_service)
+            LoginForm(self._master, self._user_service, self._daily_planner_service, self._survey_service)
         elif registration_result == "username_exists":
             messagebox.showerror("Error", "Username already exists.")  # Show error if username is in use
         elif registration_result == "password_short":
@@ -54,4 +55,4 @@ class RegistrationForm:
 
     def _go_to_login(self):
         self._frame.destroy()
-        LoginForm(self._master, self._user_service, self._daily_planner_service)
+        LoginForm(self._master, self._user_service, self._daily_planner_service, self._survey_service)

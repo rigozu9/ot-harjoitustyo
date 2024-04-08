@@ -10,3 +10,5 @@
 | 30.3. | 2    | SQLalchemyyn tutustuminen ja integrointi sovellukseen.|
 | 31.3. | 4    | SQLalchemyyn tutustuminen ja integrointi sovellukseen.|
 | 1.4.  | 4    | Vihdoin sqlalchemy ja testit toimintoon.|
+| 4.4.  | 1    | Alkukyselyn tekemistä|
+| 8.4.  | 2    | Alkukyselyn tekemistä|

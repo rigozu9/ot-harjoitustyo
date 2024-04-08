@@ -19,3 +19,9 @@ class UserService:
     
     def get_username(self, user_id):
         return self.user_repository.get_username_by_user(user_id)
+    
+    def is_first_login(self, user_id):
+        return self.user_repository.check_first_login(user_id)
+    
+    def complete_first_login(self, user_id):
+        self.user_repository.complete_first_login_process(user_id)

@@ -35,3 +35,13 @@ class UserRepository:
     def get_username_by_user(self, user_id):
         user = self._session.get(User, user_id)
         return user.username if user else None
+
+    def check_first_login(self, user_id):
+        user = self._session.query(User).filter_by(id=user_id).one_or_none()
+        return user is not None and not user.first_login_completed
+
+    def complete_first_login_process(self, user_id):
+        user = self._session.query(User).filter_by(id=user_id).one_or_none()
+        if user:
+            user.first_login_completed = True
+            self._session.commit()
