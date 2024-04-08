@@ -39,7 +39,7 @@ class LoginForm:
             first_login = self._user_service.is_first_login(user_id)
             print("first login true or not:", first_login)
             if first_login:
-                SurveyView(self._master, user_id, self._user_service, self._daily_planner_service)
+                SurveyView(self._master, user_id, self._user_service, self._daily_planner_service, self._survey_service)
             else:
                 DailyPlanner(self._master, user_id, self._user_service, self._daily_planner_service)
 

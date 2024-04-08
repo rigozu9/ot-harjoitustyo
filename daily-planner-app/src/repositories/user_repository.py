@@ -45,3 +45,11 @@ class UserRepository:
         if user:
             user.first_login_completed = True
             self._session.commit()
+
+    def create_info(self, age, sex, sleep, user_id):
+        user = self._session.query(User).filter_by(id=user_id).one_or_none()
+        if user:
+            user.age = age
+            user.sex = sex
+            user.sleep = sleep
+            self._session.commit()

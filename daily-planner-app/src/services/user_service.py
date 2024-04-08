@@ -25,3 +25,6 @@ class UserService:
     
     def complete_first_login(self, user_id):
         self.user_repository.complete_first_login_process(user_id)
+
+    def add_info(self, age, sex, sleep, user_id):
+        self.user_repository.create_info(age, sex, sleep, user_id)
