@@ -35,9 +35,7 @@ class LoginForm:
         user_id = self._user_service.login_user(username, password)
         if user_id:
             self._frame.destroy()
-            print("user id is:", user_id)
             first_login = self._user_service.is_first_login(user_id)
-            print("first login true or not:", first_login)
             if first_login:
                 SurveyView(self._master, user_id, self._user_service, self._daily_planner_service, self._survey_service)
             else:

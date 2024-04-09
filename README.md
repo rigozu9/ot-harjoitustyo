@@ -3,9 +3,13 @@
 A sciene based daily planner program to help develop better daily habits.
 
 ### Dokumentaatio
+
 [Vaatimusmäärittely](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/dokumentaatio/vaatimusmaarittely.md)
-[Tuntikirjanpito](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/dokumentaatio/tuntikirjanpito.md)  
-[Changelog](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/dokumentaatio/changelog.md) 
+
+[Tuntikirjanpito](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/dokumentaatio/tuntikirjanpito.md)
+
+[Changelog](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/dokumentaatio/changelog.md)
+
 
 ## Asennus
 
@@ -15,7 +19,7 @@ git clone git@github.com:rigozu9/ot-harjoitustyo.git
 ```
 tai https:
 ```bash
-git clone git@github.com:rigozu9/ot-harjoitustyo.git
+git clone https://github.com/rigozu9/ot-harjoitustyo.git
 ```
 2. Asenna riippuvuudet komennolla:
 

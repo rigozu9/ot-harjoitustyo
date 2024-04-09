@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter import messagebox, ttk
+from ui.daily_planner_view import DailyPlanner
 
 #Daily planner view for the application
 class SurveyView:
@@ -19,18 +21,23 @@ class SurveyView:
 
         self._age = tk.Label(self._frame, text="Age:")
         self._age.pack()
-        self._age_entry = tk.Entry(self._frame)
+        #generöity koodi alkaa
+        self._age_entry = tk.Spinbox(self._frame, from_=15, to=120, wrap=True)
         self._age_entry.pack()
 
         self._sex = tk.Label(self._frame, text="Sex:")
         self._sex.pack()
-        self._sex_entry = tk.Entry(self._frame)
+
+        self._sex_var = tk.StringVar()
+        self._sex_entry = ttk.Combobox(self._frame, textvariable=self._sex_var, state="readonly", values=['Male', 'Female', 'Other'])
         self._sex_entry.pack()
 
         self._sleep = tk.Label(self._frame, text="How many hours in average do you sleep in a night:")
         self._sleep.pack()
-        self._sleep_entry = tk.Entry(self._frame)
+
+        self._sleep_entry = tk.Spinbox(self._frame, from_=1, to=16, wrap=True)
         self._sleep_entry.pack()
+        #generöity koodi loppuu
 
         self._submit_button = tk.Button(self._frame, text="Submit", command=self._submit)
         self._submit_button.pack()
@@ -39,7 +46,20 @@ class SurveyView:
 
     def _submit(self):
         age = self._age_entry.get()
-        sex = self._sex_entry.get()
+        sex = self._sex_var.get()
         sleep = self._sleep_entry.get()
 
-        self._user_service.add_info(age, sex, sleep, self._user_id)
+        if not age or not sex or not sleep:
+            messagebox.showerror("Error", "All fields are required!")
+            return
+    
+        try:
+            self._user_service.add_info(age, sex, sleep, self._user_id)
+        except Exception as e:
+            messagebox.showerror("Submission Error", str(e))
+            return
+
+        messagebox.showinfo("Success", "Your information has been submitted successfully!")
+
+        self._frame.destroy()
+        DailyPlanner(self._master, self._user_id, self._user_service, self._daily_planner_service)

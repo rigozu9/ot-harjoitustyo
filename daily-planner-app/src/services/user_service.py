@@ -27,4 +27,14 @@ class UserService:
         self.user_repository.complete_first_login_process(user_id)
 
     def add_info(self, age, sex, sleep, user_id):
+        try:
+            age = int(age)
+            if age < 15 or age > 120:
+                raise ValueError("Age must be between 15 and 120.")
+            sleep = int(sleep)
+            if sleep < 1 or sleep > 16:
+                raise ValueError("Sleep must be between 1 and 16 hours.")
+        except ValueError as e:
+            raise
+
         self.user_repository.create_info(age, sex, sleep, user_id)
