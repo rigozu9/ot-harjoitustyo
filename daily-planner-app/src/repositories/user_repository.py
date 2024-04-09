@@ -53,3 +53,8 @@ class UserRepository:
             user.sex = sex
             user.sleep = sleep
             self._session.commit()
+
+    def get_info(self, user_id):
+        user = self._session.query(User).filter_by(id=user_id).one_or_none()
+        return [user.age, user.sex, user.sleep]
+        

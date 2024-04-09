@@ -1,4 +1,5 @@
 import tkinter as tk
+from ui.user_info_view import UserInfoView
 
 #Daily planner view for the application
 class DailyPlanner:
@@ -14,6 +15,9 @@ class DailyPlanner:
 
         self._welcome_label = tk.Label(self._frame, text=f"Welcome, {self._username} ", font=('Arial', 18))
         self._welcome_label.pack()
+
+        self._info_button = tk.Button(self._frame, text="Your profile", command=self._go_to_userpage)
+        self._info_button.pack()
 
         self._activity_label = tk.Label(self._frame, text="Add new activity:")
         self._activity_label.pack()
@@ -36,6 +40,10 @@ class DailyPlanner:
         if activity_description:
             self._daily_planner_service.create_activity(activity_description, self._user_id)
             self._display_activities()
+
+    def _go_to_userpage(self):
+        self._frame.destroy()
+        UserInfoView(self._master, self._user_id, self._user_service, self._daily_planner_service)
 
     def _display_activities(self):
         # Clear existing activity frames

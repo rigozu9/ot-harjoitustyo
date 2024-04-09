@@ -4,14 +4,13 @@ from ui.daily_planner_view import DailyPlanner
 
 #Daily planner view for the application
 class SurveyView:
-    def __init__(self, master, user_id, user_service, daily_planner_service, survey_service):
+    def __init__(self, master, user_id, user_service, daily_planner_service):
         self._master = master
         self._user_id = user_id
 
         self._frame = tk.Frame(self._master)
         self._user_service = user_service
         self._daily_planner_service = daily_planner_service
-        self._survey_service = survey_service
         self._username = self._user_service.get_username(self._user_id)
 
         self._user_service.complete_first_login(user_id)

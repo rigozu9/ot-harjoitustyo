@@ -38,3 +38,6 @@ class UserService:
             raise
 
         self.user_repository.create_info(age, sex, sleep, user_id)
+
+    def show_info(self, user_id):
+        return self.user_repository.get_info(user_id)

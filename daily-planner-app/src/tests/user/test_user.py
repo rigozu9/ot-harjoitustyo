@@ -4,7 +4,7 @@ import os
 #Turn testing enviroment on when running this 
 os.environ["TEST_ENV"] = "True"
 import unittest
-from database_connection import get_database_session, Base, engine, database_url, init_db
+from database_connection import get_database_session, Base, engine
 from repositories.user_repository import UserRepository
 from repositories.activity_repository import ActivityRepository
 from services.user_service import UserService
@@ -37,6 +37,7 @@ class TestApp(unittest.TestCase):
         self.activity_repository = ActivityRepository(self.session)
         self.user_service = UserService(self.user_repository)
         self.daily_planner_service = DailyPlannerService(self.activity_repository)
+
     # Test that a user can be registered
     def test_user_registration(self):        
         self.assertEqual(self.user_service.register_user("testuser", "password"), "success")
@@ -80,6 +81,49 @@ class TestApp(unittest.TestCase):
 
         retrieved_username = self.user_service.get_username(user_id)
         self.assertEqual(retrieved_username, "testuser", "The retrieved username should match the registered username.")
+
+    # test checking for a users first login status
+    def test_is_first_login(self):
+        self.user_service.register_user("testuser", "password")
+        user_id = self.user_repository.find_id_by_username("testuser")
+        self.assertTrue(self.user_service.is_first_login(user_id), "New user should be first login")
+
+        self.user_service.complete_first_login(user_id)
+        self.assertFalse(self.user_service.is_first_login(user_id), "Should be False after completing first login")
+
+    # test completing the first login process
+    def test_complete_first_login(self):
+        self.user_service.register_user("testuser", "password")
+        user_id = self.user_repository.find_id_by_username("testuser")
+        self.user_service.complete_first_login(user_id)
+        
+        user = self.session.query(User).filter_by(id=user_id).one()
+        self.assertTrue(user.first_login_completed, "First login should be marked as completed")
+
+    # test for info addiung with valid and invalid data
+    def test_add_info(self):
+        self.user_service.register_user("testuser", "password")
+        user_id = self.user_repository.find_id_by_username("testuser")
+        
+        try:
+            self.user_service.add_info("25", "Male", "8", user_id)
+        except ValueError:
+            self.fail("add_info raised ValueError unexpectedly with valid inputs")
+
+        with self.assertRaises(ValueError):
+            self.user_service.add_info("0", "Male", "8", user_id)
+        
+        with self.assertRaises(ValueError):
+            self.user_service.add_info("25", "Male", "0", user_id)
+
+    # test for showing users info
+    def test_show_info(self):
+        self.user_service.register_user("testuser", "password")
+        user_id = self.user_repository.find_id_by_username("testuser")
+        self.user_service.add_info("22", "Male", "8", user_id)
+        
+        info = self.user_service.show_info(user_id)
+        self.assertEqual(info, [22, "Male", 8], "User info should match the added info")
 
 if __name__ == "__main__":
     unittest.main()
