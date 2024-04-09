@@ -1,6 +1,11 @@
 # Science based daily plannmer
 
-A sciene based daily planner program to help develop better daily habits.
+A sciene based daily planner program to help develop better daily habits. 
+User can be registered and logged in.
+Survey for first time users.
+Can add and delete activites.
+
+Testattu koulun fuksiläppärillä ja toimi oikein.
 
 ### Dokumentaatio
 
@@ -21,16 +26,10 @@ tai https:
 ```bash
 git clone https://github.com/rigozu9/ot-harjoitustyo.git
 ```
-2. Asenna riippuvuudet komennolla:
+2. Navigoi daily-planner-app folderiin ja asenna riippuvuudet komennolla:
 
 ```bash
 poetry install
-```
-
-3. Käynnistä sovellus komennolla:
-
-```bash
-poetry run invoke start
 ```
 
 ### Ohjelman suorittaminen
