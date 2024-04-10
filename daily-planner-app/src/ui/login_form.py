@@ -5,6 +5,7 @@ from ui.survey_view import SurveyView
 """"Sisäänkirjatumisen form. Kysyy nimeä ja salasanaa.
     Käyttää user_service, kun kirjatuu. """
 
+
 class LoginForm:
     def __init__(self, master, user_service, daily_planner_service):
         self._master = master
@@ -22,12 +23,13 @@ class LoginForm:
         self._password_entry = tk.Entry(self._frame, show="*")
         self._password_entry.pack()
 
-        self._login_button = tk.Button(self._frame, text="Login", command=self._login)
+        self._login_button = tk.Button(
+            self._frame, text="Login", command=self._login)
         self._login_button.pack()
 
-        self._goto_register_button = tk.Button(self._frame, text="Don't have an account? Register", command=self._go_to_register)
+        self._goto_register_button = tk.Button(
+            self._frame, text="Don't have an account? Register", command=self._go_to_register)
         self._goto_register_button.pack()
-
 
         self._frame.pack()
 
@@ -40,15 +42,19 @@ class LoginForm:
             self._frame.destroy()
             first_login = self._user_service.is_first_login(user_id)
             if first_login:
-                SurveyView(self._master, user_id, self._user_service, self._daily_planner_service)
+                SurveyView(self._master, user_id, self._user_service,
+                           self._daily_planner_service)
             else:
-                DailyPlanner(self._master, user_id, self._user_service, self._daily_planner_service)
+                DailyPlanner(self._master, user_id,
+                             self._user_service, self._daily_planner_service)
 
         else:
             # Display an error message if login fails
-            messagebox.showerror("Login failed", "Incorrect username or password.")
+            messagebox.showerror(
+                "Login failed", "Incorrect username or password.")
 
     def _go_to_register(self):
         from ui.registration_form import RegistrationForm
         self._frame.destroy()
-        RegistrationForm(self._master, self._user_service, self._daily_planner_service)
+        RegistrationForm(self._master, self._user_service,
+                         self._daily_planner_service)

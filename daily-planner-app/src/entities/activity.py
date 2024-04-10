@@ -1,10 +1,11 @@
+"""Sqlalchemy imports and base class import"""
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from .base import Base
 
-#SQLAlchemy class for Activity. Used for alembic
-
 class Activity(Base):
+    """This an sqlalchmy model for Activity"""
+
     __tablename__ = 'activities'
 
     id = Column(Integer, primary_key=True)

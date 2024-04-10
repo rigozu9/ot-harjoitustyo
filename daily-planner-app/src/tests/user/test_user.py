@@ -1,16 +1,17 @@
-#Tests for user functions. 
+# Tests for user functions.
 
-import os
-#Turn testing enviroment on when running this 
-os.environ["TEST_ENV"] = "True"
-import unittest
-from database_connection import get_database_session, Base, engine
-from repositories.user_repository import UserRepository
-from repositories.activity_repository import ActivityRepository
-from services.user_service import UserService
-from services.daily_planner_service import DailyPlannerService
-from entities.user import User
 from entities.activity import Activity
+from entities.user import User
+from services.daily_planner_service import DailyPlannerService
+from services.user_service import UserService
+from repositories.activity_repository import ActivityRepository
+from repositories.user_repository import UserRepository
+from database_connection import get_database_session, Base, engine
+import unittest
+import os
+# Turn testing enviroment on when running this
+os.environ["TEST_ENV"] = "True"
+
 
 class TestApp(unittest.TestCase):
     @classmethod
@@ -26,7 +27,8 @@ class TestApp(unittest.TestCase):
     def tearDownClass(cls):
         cls.session.close()
         engine.dispose()
-        Base.metadata.drop_all(bind=engine)  # Optionally drop all tables after tests
+        # Optionally drop all tables after tests
+        Base.metadata.drop_all(bind=engine)
         os.environ["TEST_ENV"] = "False"
 
     def setUp(self):
@@ -36,20 +38,24 @@ class TestApp(unittest.TestCase):
         self.user_repository = UserRepository(self.session)
         self.activity_repository = ActivityRepository(self.session)
         self.user_service = UserService(self.user_repository)
-        self.daily_planner_service = DailyPlannerService(self.activity_repository)
+        self.daily_planner_service = DailyPlannerService(
+            self.activity_repository)
 
     # Test that a user can be registered
-    def test_user_registration(self):        
-        self.assertEqual(self.user_service.register_user("testuser", "password"), "success")
-        
+    def test_user_registration(self):
+        self.assertEqual(self.user_service.register_user(
+            "testuser", "password"), "success")
+
         # Verify the user exists in the database
         user_id = self.user_repository.find_id_by_username("testuser")
-        self.assertIsNotNone(user_id, "Registered user should have a valid ID.")
-    
+        self.assertIsNotNone(
+            user_id, "Registered user should have a valid ID.")
+
     # Too short password test
-    def test_password_short_registration(self):      
-        self.assertEqual(self.user_service.register_user("testuser", "123"), "password_short")
-        
+    def test_password_short_registration(self):
+        self.assertEqual(self.user_service.register_user(
+            "testuser", "123"), "password_short")
+
     # Test that cant register with existing username
     def test_for_existing_user_registration(self):
         # Register a user for the first time
@@ -62,49 +68,56 @@ class TestApp(unittest.TestCase):
     # Test that a registered user can log in
     def test_user_login(self):
         self.user_service.register_user("loginuser", "password")
-        self.assertTrue(self.user_service.login_user("loginuser", "password"), "User should be able to log in with correct credentials.")
-        
+        self.assertTrue(self.user_service.login_user(
+            "loginuser", "password"), "User should be able to log in with correct credentials.")
+
         # Test login with incorrect password
-        self.assertFalse(self.user_service.login_user("loginuser", "wrongpassword"), "User should not be able to log in with incorrect password.")
-        
+        self.assertFalse(self.user_service.login_user("loginuser", "wrongpassword"),
+                         "User should not be able to log in with incorrect password.")
+
     # Test finding non-existent user
     def test_find_nonexistent_user(self):
         user_id = self.user_repository.find_id_by_username("nonexistentuser")
         self.assertIsNone(user_id, "Non-existent user should not have an ID.")
-    
-    #test for finding the username by id
+
+    # test for finding the username by id
     def test_get_username_by_user(self):
         self.user_service.register_user("testuser", "password")
 
         user_id = self.user_repository.find_id_by_username("testuser")
-        self.assertIsNotNone(user_id, "User ID should not be None after registration.")
+        self.assertIsNotNone(
+            user_id, "User ID should not be None after registration.")
 
         retrieved_username = self.user_service.get_username(user_id)
-        self.assertEqual(retrieved_username, "testuser", "The retrieved username should match the registered username.")
+        self.assertEqual(retrieved_username, "testuser",
+                         "The retrieved username should match the registered username.")
 
     # test checking for a users first login status
     def test_is_first_login(self):
         self.user_service.register_user("testuser", "password")
         user_id = self.user_repository.find_id_by_username("testuser")
-        self.assertTrue(self.user_service.is_first_login(user_id), "New user should be first login")
+        self.assertTrue(self.user_service.is_first_login(
+            user_id), "New user should be first login")
 
         self.user_service.complete_first_login(user_id)
-        self.assertFalse(self.user_service.is_first_login(user_id), "Should be False after completing first login")
+        self.assertFalse(self.user_service.is_first_login(
+            user_id), "Should be False after completing first login")
 
     # test completing the first login process
     def test_complete_first_login(self):
         self.user_service.register_user("testuser", "password")
         user_id = self.user_repository.find_id_by_username("testuser")
         self.user_service.complete_first_login(user_id)
-        
+
         user = self.session.query(User).filter_by(id=user_id).one()
-        self.assertTrue(user.first_login_completed, "First login should be marked as completed")
+        self.assertTrue(user.first_login_completed,
+                        "First login should be marked as completed")
 
     # test for info addiung with valid and invalid data
     def test_add_info(self):
         self.user_service.register_user("testuser", "password")
         user_id = self.user_repository.find_id_by_username("testuser")
-        
+
         try:
             self.user_service.add_info("25", "Male", "8", user_id)
         except ValueError:
@@ -112,7 +125,7 @@ class TestApp(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             self.user_service.add_info("0", "Male", "8", user_id)
-        
+
         with self.assertRaises(ValueError):
             self.user_service.add_info("25", "Male", "0", user_id)
 
@@ -121,9 +134,11 @@ class TestApp(unittest.TestCase):
         self.user_service.register_user("testuser", "password")
         user_id = self.user_repository.find_id_by_username("testuser")
         self.user_service.add_info("22", "Male", "8", user_id)
-        
+
         info = self.user_service.show_info(user_id)
-        self.assertEqual(info, [22, "Male", 8], "User info should match the added info")
+        self.assertEqual(info, [22, "Male", 8],
+                         "User info should match the added info")
+
 
 if __name__ == "__main__":
     unittest.main()

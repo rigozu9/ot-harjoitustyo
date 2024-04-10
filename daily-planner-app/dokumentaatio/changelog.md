@@ -1,5 +1,8 @@
 # Changelog
 
+## Viikko 4
+- Pylint lisätty
+
 ## Viikko 3
 
 - Käyttäjä voi rekisteröityä ja kirjautua sisään sovellukseen
