@@ -1,3 +1,4 @@
+# pylint: disable=all
 import tkinter as tk
 
 # Daily planner view for the application

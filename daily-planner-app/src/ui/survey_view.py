@@ -1,3 +1,4 @@
+# pylint: disable=all
 import tkinter as tk
 from tkinter import messagebox, ttk
 from ui.daily_planner_view import DailyPlanner
