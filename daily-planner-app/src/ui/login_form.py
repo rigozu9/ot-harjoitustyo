@@ -44,8 +44,11 @@ class LoginForm:
             self._frame.destroy()
             first_login = self._user_service.is_first_login(user_id)
             if first_login:
-                SurveyView(self._master, user_id, self._user_service,
-                           self._daily_planner_service)
+                SurveyView(self._master,
+                           user_id,
+                           self._user_service,
+                           self._daily_planner_service,
+                           self._daily_plan_service)
             else:
                 DailyPlanner(self._master, user_id,
                              self._user_service, 

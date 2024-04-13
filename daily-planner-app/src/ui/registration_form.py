@@ -1,10 +1,11 @@
-# pylint: disable=all
+"""importing tkinter, messagebox for errors and loginform."""
 import tkinter as tk
-from tkinter import messagebox  # Import messagebox for showing error messages
+from tkinter import messagebox
 from ui.login_form import LoginForm
 
 
 class RegistrationForm:
+    """Registration form view"""
     def __init__(self, master, user_service, daily_planner_service, daily_plan_service):
         self._master = master
         self._frame = tk.Frame(self._master)
@@ -40,6 +41,7 @@ class RegistrationForm:
         self._frame.pack()
 
     def _register(self):
+        """function for registering."""
         username = self._username_entry.get()
         password = self._password_entry.get()
         password_confirm = self._password_confirm_entry.get()
@@ -67,7 +69,9 @@ class RegistrationForm:
                 "Error", "Registration failed for an unknown reason.")
 
     def _go_to_login(self):
+        """method for goign back to login"""
         self._frame.destroy()
-        LoginForm(self._master, self._user_service,
+        LoginForm(self._master,
+                  self._user_service,
                   self._daily_planner_service,
                   self._daily_plan_service)

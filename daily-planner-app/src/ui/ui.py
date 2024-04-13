@@ -1,10 +1,8 @@
-# pylint: disable=all
+""""Rekisteröionnyn import """
 from ui.registration_form import RegistrationForm
 
-""""Näkymien hallinnan tiedosto """
-
-
 class UI:
+    """"Näkymien hallinnan tiedosto """
     def __init__(self, root, user_service, daily_planner_service, daily_plan_service,):
         self._root = root
         self._user_service = user_service
@@ -12,8 +10,8 @@ class UI:
         self._daily_plan_service = daily_plan_service
         self._current_view = None
 
-    # Aloittaa rekisteröinti formilla
     def start(self):
+        """start funktio rekisteröinty forumille"""
         RegistrationForm(self._root, self._user_service,
                          self._daily_planner_service,
                          self._daily_plan_service)

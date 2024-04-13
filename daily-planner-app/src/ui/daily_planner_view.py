@@ -102,8 +102,11 @@ class DailyPlanner:
 
     def _go_to_userpage(self):
         self._frame.destroy()
-        UserInfoView(self._master, self._user_id,
-                     self._user_service, self._daily_planner_service)
+        UserInfoView(self._master, 
+                     self._user_id,
+                     self._user_service, 
+                     self._daily_planner_service,
+                     self._daily_plan_service)
 
     def _display_activities(self):
         # Clear existing activity frames
