@@ -1,10 +1,10 @@
+#pylint: disable=all
 # Tests for activity functions.
-
-from entities.activity import Activity
+from entities.dailyplan import DailyPlan
 from entities.user import User
-from services.daily_planner_service import DailyPlannerService
+from services.dailyplan_service import DailyPlanService
 from services.user_service import UserService
-from repositories.activity_repository import ActivityRepository
+from repositories.dailyplan_repository import DailyPlanRepository
 from repositories.user_repository import UserRepository
 from database_connection import get_database_session, Base, engine, database_url, init_db
 import unittest
@@ -33,12 +33,12 @@ class TestApp(unittest.TestCase):
 
     def setUp(self):
         self.session.query(User).delete()
-        self.session.query(Activity).delete()
+        self.session.query(DailyPlan).delete()
         self.session.commit()
         self.user_repository = UserRepository(self.session)
-        self.activity_repository = ActivityRepository(self.session)
+        self.activity_repository = DailyPlanRepository(self.session)
         self.user_service = UserService(self.user_repository)
-        self.daily_planner_service = DailyPlannerService(
+        self.daily_planner_service = DailyPlanService(
             self.activity_repository)
 
     # Test for adding activity

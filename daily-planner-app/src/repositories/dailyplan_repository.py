@@ -7,7 +7,16 @@ class DailyPlanRepository:
     def __init__(self, session):
         self._session = session
 
-    def add_plans(self, user_id, date, sleep, outsidetime, productivetime, exercisetime, screentime, other):
+    def add_plans(self,
+                  user_id,
+                  date,
+                  sleep,
+                  outsidetime,
+                  productivetime,
+                  exercisetime,
+                  screentime,
+                  other
+                  ):
         """adding plans to database"""
         plan = DailyPlan()
 

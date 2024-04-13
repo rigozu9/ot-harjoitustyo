@@ -3,13 +3,12 @@ import tkinter as tk
 
 class UserInfoView:
     """here you can see your own information"""
-    def __init__(self, master, user_id, user_service, daily_planner_service, daily_plan_service):
+    def __init__(self, master, user_id, user_service, daily_plan_service):
         self._master = master
         self._user_id = user_id
 
         self._frame = tk.Frame(self._master)
         self._user_service = user_service
-        self._daily_planner_service = daily_planner_service
         self._daily_plan_service = daily_plan_service
 
         self._username = self._user_service.get_username(self._user_id)
@@ -47,5 +46,4 @@ class UserInfoView:
         DailyPlanner(self._master,
                      self._user_id,
                      self._user_service,
-                     self._daily_planner_service,
                      self._daily_plan_service)

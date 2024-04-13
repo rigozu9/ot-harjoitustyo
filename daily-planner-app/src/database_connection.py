@@ -9,7 +9,6 @@ from entities.base import Base
 
 #I need to import the entities for the metadata to work correctly. So I disabled unused import.
 from entities.user import User  # pylint: disable=unused-import
-from entities.activity import Activity  # pylint: disable=unused-import
 from entities.dailyplan import DailyPlan  # pylint: disable=unused-import
 
 

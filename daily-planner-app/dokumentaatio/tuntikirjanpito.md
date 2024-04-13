@@ -15,3 +15,4 @@
 | 9.4.   | 2    | Alkukyselyn viimeistely ja sen testaus. Sovelluksen käytettävyyden parantelua.|
 | 10.4.  | 1    | Pylint lisätty.|
 | 12.4.  | 3    | Muutoksia dailyplannerin toimintaan.|
+| 13.4.  | 2    | Lisää muutoksia dailyplannerin toimintaan.|
