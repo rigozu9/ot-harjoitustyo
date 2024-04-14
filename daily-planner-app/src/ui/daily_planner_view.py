@@ -2,6 +2,7 @@
 import tkinter as tk
 from datetime import date
 from ui.user_info_view import UserInfoView
+from ui.today_view import TodayView
 
 class DailyPlanner:
     """Daily planner view for the application"""
@@ -89,6 +90,12 @@ class DailyPlanner:
             self._screentime_entry.get(),
             self._other_entry.get()
         )
+        self._frame.destroy()
+        TodayView(self._master,
+                     self._user_id,
+                     self._user_service,
+                     self._daily_plan_service)
+
 
     def _go_to_userpage(self):
         """go to userinfoview"""

@@ -16,3 +16,4 @@
 | 10.4.  | 1    | Pylint lisätty.|
 | 12.4.  | 3    | Muutoksia dailyplannerin toimintaan.|
 | 13.4.  | 2    | Lisää muutoksia dailyplannerin toimintaan.|
+| 14.4.  | 2    | Lisätty sivu mistä näkee päivän aktiviteetit.|

@@ -1,7 +1,6 @@
 """Activity entity class import"""
 from entities.dailyplan import DailyPlan
 
-
 class DailyPlanRepository:
     """Dailyplan repository for database actions"""
     def __init__(self, session):
@@ -31,3 +30,8 @@ class DailyPlanRepository:
 
         self._session.add(plan)
         self._session.commit()
+
+    def get_plan_from_db(self, user_id, date):
+        """Gets a user's plan from the database for a specific date."""
+        daily_plan = self._session.query(DailyPlan).filter(DailyPlan.user_id == user_id, DailyPlan.date == date).one_or_none()
+        return daily_plan

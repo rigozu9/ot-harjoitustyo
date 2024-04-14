@@ -16,5 +16,4 @@ class User(Base):
     sleep = Column(Integer, nullable=True)
     first_login_completed = Column(Boolean, default=False, nullable=False)
 
-    activities = relationship("Activity", back_populates="user", cascade="all, delete")
     daily_plans = relationship("DailyPlan", back_populates="user", cascade="all, delete")

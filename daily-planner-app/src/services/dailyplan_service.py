@@ -25,3 +25,7 @@ class DailyPlanService:
             screentime,
             other
         )
+
+    def get_plans_by_id(self, user_id, date):
+        """gets users plans from repository"""
+        return self._dailyplan_repository.get_plan_from_db(user_id, date)
