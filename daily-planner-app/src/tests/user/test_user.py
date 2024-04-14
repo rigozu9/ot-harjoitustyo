@@ -1,17 +1,14 @@
 # Tests for user functions.
 # pylint: disable=all
-
-from entities.dailyplan import DailyPlan
-from entities.user import User
-from services.dailyplan_service import DailyPlanService
-from services.user_service import UserService
-from repositories.dailyplan_repository import DailyPlanRepository
-from repositories.user_repository import UserRepository
-from database_connection import get_database_session, Base, engine
 import unittest
 import os
 # Turn testing enviroment on when running this
 os.environ["TEST_ENV"] = "True"
+from entities.dailyplan import DailyPlan
+from entities.user import User
+from services.user_service import UserService
+from repositories.user_repository import UserRepository
+from database_connection import get_database_session, Base, engine
 
 class TestApp(unittest.TestCase):
     @classmethod
@@ -36,10 +33,7 @@ class TestApp(unittest.TestCase):
         self.session.query(DailyPlan).delete()
         self.session.commit()
         self.user_repository = UserRepository(self.session)
-        self.activity_repository = DailyPlanRepository(self.session)
         self.user_service = UserService(self.user_repository)
-        self.daily_planner_service = DailyPlanService(
-            self.activity_repository)
 
     # Test that a user can be registered
     def test_user_registration(self):
