@@ -4,6 +4,7 @@
 - Pylint lisätty
 - Nyt sovelluksen ensinäkymä on päivä aktiviteeteistä kysely, kuten kauan nukkui ja urheilu.
 - Lisätty sivu mistä näkee päivän 
+- Lisätty kalenteri mistä näkee tietyn päivän aktiviteetit.
 
 ## Viikko 3
 

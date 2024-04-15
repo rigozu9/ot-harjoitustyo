@@ -59,8 +59,12 @@ class TodayView:
 
         else:
             self._no_plan_label = tk.Label(
-                self._frame, text="NO PLANS HERE!!")
+                self._frame, text="There are no plans for this date.")
             self._no_plan_label.pack()
+
+            self._go_to_planner_button = tk.Button(
+                self._frame, text="Add plan here", command=self._go_to_planner)
+            self._go_to_planner_button.pack()
 
         self._frame.pack()
 
@@ -71,4 +75,17 @@ class TodayView:
                     self._user_id,
                     self._user_service,
                     self._daily_plan_service)
-        
+    
+    def _go_to_planner(self):
+        """
+            method for going to calendar
+            need to import here to avoid cross imports.
+        """
+        # pylint: disable=import-outside-toplevel
+        from ui.daily_planner_view import DailyPlanner
+        self._frame.destroy()
+        DailyPlanner(self._master,
+                    self._user_id,
+                    self._user_service,
+                    self._daily_plan_service,
+                    self._date)

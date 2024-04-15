@@ -6,7 +6,7 @@ from ui.today_view import TodayView
 
 class DailyPlanner:
     """Daily planner view for the application"""
-    def __init__(self, master, user_id, user_service, daily_plan_service):
+    def __init__(self, master, user_id, user_service, daily_plan_service, selected_date=None):
         self._master = master
         self._user_id = user_id
 
@@ -14,7 +14,13 @@ class DailyPlanner:
         self._user_service = user_service
         self._daily_plan_service = daily_plan_service
 
-        self._date = date.today()
+        if selected_date:
+            self._date = selected_date
+        else:
+            self._date = date.today()
+        
+        self._formatted_date = self._date.strftime('%d-%m-%Y')
+
         self._username = self._user_service.get_username(self._user_id)
 
         self._welcome_label = tk.Label(
@@ -22,7 +28,7 @@ class DailyPlanner:
         self._welcome_label.pack()
 
         self._date_label = tk.Label(
-            self._frame, text=f"Todays date, {self._date} ", font=('Arial', 18))
+            self._frame, text=f"Date: {self._formatted_date} ", font=('Arial', 18))
         self._date_label.pack()
 
         self._info_button = tk.Button(

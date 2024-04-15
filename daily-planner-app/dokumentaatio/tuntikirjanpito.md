@@ -17,3 +17,4 @@
 | 12.4.  | 3    | Muutoksia dailyplannerin toimintaan.|
 | 13.4.  | 2    | Lisää muutoksia dailyplannerin toimintaan.|
 | 14.4.  | 2    | Lisätty sivu mistä näkee päivän aktiviteetit.|
+| 15.4.  | 2    | Lisätty kalenteri mistä näkee tietyn päivän aktiviteetit.|

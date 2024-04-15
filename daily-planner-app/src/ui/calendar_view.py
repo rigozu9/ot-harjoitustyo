@@ -34,12 +34,7 @@ class CalendarView:
         from ui.today_view import TodayView
 
         selected_date_str = self.cal.get_date()
-        # try:
-        #     # Try parsing as 'month/day/four-digit-year'
-        #     selected_date = datetime.strptime(selected_date_str, '%m/%d/%Y').date()
-        # except ValueError:
-        #     # If there's an error, it might be because the year is two digits.
-        #     # Try 'month/day/two-digit-year' if your calendar gives you a two-digit year.
+
         selected_date = datetime.strptime(selected_date_str, '%m/%d/%y').date()
 
         print("this is the selected_date:", selected_date)
