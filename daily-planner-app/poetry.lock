@@ -51,6 +51,23 @@ pycodestyle = ">=2.11.0"
 tomli = {version = "*", markers = "python_version < \"3.11\""}
 
 [[package]]
+name = "babel"
+version = "2.14.0"
+description = "Internationalization utilities"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "Babel-2.14.0-py3-none-any.whl", hash = "sha256:efb1a25b7118e67ce3a259bed20545c29cb68be8ad2c784c83689981b7a57287"},
+    {file = "Babel-2.14.0.tar.gz", hash = "sha256:6919867db036398ba21eb5c7a0f6b28ab8cbc3ae7a73a44ebe34ae74a4e7d363"},
+]
+
+[package.dependencies]
+pytz = {version = ">=2015.7", markers = "python_version < \"3.9\""}
+
+[package.extras]
+dev = ["freezegun (>=1.0,<2.0)", "pytest (>=6.0)", "pytest-cov"]
+
+[[package]]
 name = "bcrypt"
 version = "4.1.2"
 description = "Modern password hashing for your software and your servers"
@@ -542,6 +559,17 @@ tomli = {version = ">=1", markers = "python_version < \"3.11\""}
 testing = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
 
 [[package]]
+name = "pytz"
+version = "2024.1"
+description = "World timezone definitions, modern and historical"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pytz-2024.1-py2.py3-none-any.whl", hash = "sha256:328171f4e3623139da4983451950b28e95ac706e13f3f2630a879749e7a8b319"},
+    {file = "pytz-2024.1.tar.gz", hash = "sha256:2a29735ea9c18baf14b448846bde5a48030ed267578472d8955cd0e7443a9812"},
+]
+
+[[package]]
 name = "sqlalchemy"
 version = "2.0.28"
 description = "Database Abstraction Library"
@@ -629,6 +657,20 @@ pymysql = ["pymysql"]
 sqlcipher = ["sqlcipher3_binary"]
 
 [[package]]
+name = "tkcalendar"
+version = "1.6.1"
+description = "Calendar and DateEntry widgets for Tkinter"
+optional = false
+python-versions = "*"
+files = [
+    {file = "tkcalendar-1.6.1-py3-none-any.whl", hash = "sha256:9d3a80816a7b32d64fab696fa3d2a007fb23c87953267d5e343a38ff4cd7c15c"},
+    {file = "tkcalendar-1.6.1.tar.gz", hash = "sha256:5edf958c0a59429e90309e9b805b2e229192bbcab952460247204d7030eea5cf"},
+]
+
+[package.dependencies]
+babel = "*"
+
+[[package]]
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
@@ -679,4 +721,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "b3062baa68ac22aef6e37ca0024bd346caf66b1fb976819be6e14e68d832f3d6"
+content-hash = "44056b8441630ecd1b4471f86decaef54c5678b7684cf5759ba0ab8a5d39c1da"

@@ -9,7 +9,6 @@ class DailyPlanner:
     def __init__(self, master, user_id, user_service, daily_plan_service):
         self._master = master
         self._user_id = user_id
-        self._activity_frames = []
 
         self._frame = tk.Frame(self._master)
         self._user_service = user_service
@@ -91,10 +90,11 @@ class DailyPlanner:
             self._other_entry.get()
         )
         self._frame.destroy()
-        TodayView(self._master,
-                     self._user_id,
-                     self._user_service,
-                     self._daily_plan_service)
+        TodayView(
+                self._master,
+                self._user_id,
+                self._user_service,
+                self._daily_plan_service)
 
 
     def _go_to_userpage(self):
