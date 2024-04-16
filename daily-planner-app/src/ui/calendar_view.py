@@ -35,7 +35,7 @@ class CalendarView:
 
         selected_date_str = self.cal.get_date()
 
-        selected_date = datetime.strptime(selected_date_str, '%m/%d/%y').date()
+        selected_date = datetime.strptime(selected_date_str, '%d/%m/%Y').date()
 
         print("this is the selected_date:", selected_date)
         self._frame.destroy()
