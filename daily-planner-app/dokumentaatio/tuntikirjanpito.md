@@ -18,6 +18,8 @@
 | 13.4.  | 2    | Lisää muutoksia dailyplannerin toimintaan.|
 | 14.4.  | 2    | Lisätty sivu mistä näkee päivän aktiviteetit.|
 | 15.4.  | 2    | Lisätty kalenteri mistä näkee tietyn päivän aktiviteetit. Lisätty arkkitehtuuri.md|
+| 16.4.  | 1    | Dokumentaatio tehty viikko 4 tehtäviin.|
 
 
-| YHT | 38h    |
+
+| YHT | 39h    |

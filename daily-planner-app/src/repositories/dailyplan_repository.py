@@ -33,5 +33,6 @@ class DailyPlanRepository:
 
     def get_plan_from_db(self, user_id, date):
         """Gets a user's plan from the database for a specific date."""
-        daily_plan = self._session.query(DailyPlan).filter(DailyPlan.user_id == user_id, DailyPlan.date == date).one_or_none()
+        daily_plan = self._session.query(DailyPlan).filter(DailyPlan.user_id == user_id,
+                                                           DailyPlan.date == date).one_or_none()
         return daily_plan

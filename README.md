@@ -1,4 +1,4 @@
-# Science based daily plannmer
+# Science based daily planner
 
 A sciene based daily planner program to help develop better daily habits. 
 User can be registered and logged in.
