@@ -59,3 +59,11 @@ poetry run invoke coverage-report
 ```
 
 Raportti generoituu _htmlcov_-hakemistoon.
+
+### Pylint tarkistus
+
+Pylintin tarkistus komento:
+
+```bash
+poetry run invoke lint
+```
