@@ -19,7 +19,9 @@
 | 14.4.  | 2    | Lisätty sivu mistä näkee päivän aktiviteetit.|
 | 15.4.  | 2    | Lisätty kalenteri mistä näkee tietyn päivän aktiviteetit. Lisätty arkkitehtuuri.md|
 | 16.4.  | 1    | Dokumentaatio tehty viikko 4 tehtäviin.|
+| 18.4.  | 3    | Ensikyselyssä kysytään tavoitteita. Nyt voi lähettää minuutteja tuntien lisäki aktiviteetteihin.|
 
 
 
-| YHT | 39h    |
+
+| YHT | 42h    |

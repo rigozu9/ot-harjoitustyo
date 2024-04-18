@@ -1,4 +1,7 @@
 # Changelog
+## Viikko 5
+- Ensikysely kysyy nyt tavoitteita
+- Voi sijoittaa tuntien lisäksi minuutteja aktiviteetteihin.
 
 ## Viikko 4
 - Pylint lisätty

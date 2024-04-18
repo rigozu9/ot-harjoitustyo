@@ -14,7 +14,7 @@ class UserInfoView:
         self._username = self._user_service.get_username(self._user_id)
 
         self._welcome_label = tk.Label(
-            self._frame, text=f"{self._username}'s information", font=('Arial', 18))
+            self._frame, text=f"{self._username}'s information and goals", font=('Arial', 18))
         self._welcome_label.pack()
 
         self._goto_dailyplanner_button = tk.Button(
@@ -35,8 +35,20 @@ class UserInfoView:
         self._gender_label = tk.Label(self._frame, text=f"Gender: {info[1]}")
         self._gender_label.pack()
 
-        self._avg_sleep_label = tk.Label(self._frame, text=f"Age: {info[2]}")
-        self._avg_sleep_label.pack()
+        self._sleep_label = tk.Label(self._frame, text=f"Sleep goal: {info[2]/60} hours")
+        self._sleep_label.pack()
+
+        self._exericse_label = tk.Label(self._frame, text=f"Exercise goal: {info[3]/60} hours")
+        self._exericse_label.pack()
+
+        self._outside_label = tk.Label(self._frame, text=f"Outside goal: {info[4]/60} hours")
+        self._outside_label.pack()
+
+        self._productive_label = tk.Label(self._frame, text=f"Productive goal: {info[5]/60} hours")
+        self._productive_label.pack()
+
+        self._screentime_label = tk.Label(self._frame, text=f"Screentime goal: {info[6]/60} hours")
+        self._screentime_label.pack()
 
     def _goto_dailyplanner(self):
         """going to dailyplanner button. Need to import here to avoid cross import"""

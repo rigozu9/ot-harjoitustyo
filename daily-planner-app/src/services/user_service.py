@@ -31,19 +31,19 @@ class UserService:
         """completes the first login"""
         self.user_repository.complete_first_login_process(user_id)
 
-    def add_info(self, age, sex, sleep, user_id):
+    def add_info(self, age, sex, sleep_minutes, exercise_minutes, outside_minutes,
+                 productive_minutes, screen_minutes, user_id):
         """
-            checks if age and sleep are integrers. Also if age 15-120years and sleep 1-16hrs
-            raises error otherwise.
+        Validates and updates the user's info with new time goals in minutes.
         """
         age = int(age)
-        if age < 15 or age > 120:
-            raise ValueError("Age must be between 15 and 120.")
-        sleep = int(sleep)
-        if sleep < 1 or sleep > 16:
-            raise ValueError("Sleep must be between 1 and 16 hours.")
-
-        self.user_repository.create_info(age, sex, sleep, user_id)
+        if age < 13 or age > 120:
+            raise ValueError("Age must be between 13 and 120.")
+        
+        self.user_repository.create_info(
+            age, sex, sleep_minutes, exercise_minutes, outside_minutes, 
+            productive_minutes, screen_minutes, user_id
+        )
 
     def show_info(self, user_id):
         """calls user repo's get_info method for showing users information from user_id"""

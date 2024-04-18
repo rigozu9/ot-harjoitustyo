@@ -30,23 +30,23 @@ class TodayView:
        
         if self._plans:
             self._sleep_label = tk.Label(
-                self._frame, text=f"You slept for: {self._plans.sleep} hours")
+                self._frame, text=f"You slept for: {self._plans.sleep/60} hours")
             self._sleep_label.pack()
         
             self._outside_label = tk.Label(
-                self._frame, text=f"You spent {self._plans.outside_time} hours outside:")
+                self._frame, text=f"You spent {self._plans.outside_time/60} hours outside:")
             self._outside_label.pack()
 
             self._productivity_label = tk.Label(
-                self._frame, text=f"You spent {self._plans.productive_time} hours productive things:")
+                self._frame, text=f"You spent {self._plans.productive_time/60} hours productive things:")
             self._productivity_label.pack()
 
             self._exercise_label = tk.Label(
-                self._frame, text=f"You spent {self._plans.exercise} hours exercising:")
+                self._frame, text=f"You spent {self._plans.exercise/60} hours exercising:")
             self._exercise_label.pack()
 
             self._screentime_label = tk.Label(
-                self._frame, text=f"Your screentime was {self._plans.screen_time} hours:")
+                self._frame, text=f"Your screentime was {self._plans.screen_time/60} hours:")
             self._screentime_label.pack()
 
             self._other_label = tk.Label(

@@ -13,7 +13,13 @@ class User(Base):
     password = Column(String, nullable=False)
     age = Column(Integer, nullable=True)
     sex = Column(Enum('Male', 'Female', 'Other', name='sex_types'), nullable=True)
-    sleep = Column(Integer, nullable=True)
+    
+    sleep_goal = Column(Integer, nullable=True)
+    exercise_goal = Column(Integer, nullable=True)
+    outside_goal = Column(Integer, nullable=True)
+    productive_goal = Column(Integer, nullable=True)
+    screen_goal = Column(Integer, nullable=True)
+
     first_login_completed = Column(Boolean, default=False, nullable=False)
 
     daily_plans = relationship("DailyPlan", back_populates="user", cascade="all, delete")
