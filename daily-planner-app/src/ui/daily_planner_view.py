@@ -4,6 +4,7 @@ from tkinter import messagebox
 from datetime import date
 from ui.user_info_view import UserInfoView
 from ui.today_view import TodayView
+from ui.calendar_view import CalendarView
 
 class DailyPlanner:
     """Daily planner view for the application"""
@@ -36,6 +37,10 @@ class DailyPlanner:
         self._info_button = tk.Button(
             self._frame, text="Your profile", command=self._go_to_userpage)
         self._info_button.pack()
+
+        self._go_to_calender_button = tk.Button(
+            self._frame, text="Go to calendar", command=self._go_to_calender)
+        self._go_to_calender_button.pack()
 
         #generöity koodi alkaa
         self._create_time_entry("Sleep", "How many hours did you sleep?")
@@ -126,3 +131,11 @@ class DailyPlanner:
                      self._user_id,
                      self._user_service,
                      self._daily_plan_service)
+        
+    def _go_to_calender(self):
+        """method for going to calendar"""
+        self._frame.destroy()
+        CalendarView(self._master,
+                    self._user_id,
+                    self._user_service,
+                    self._daily_plan_service)

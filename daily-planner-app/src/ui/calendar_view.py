@@ -2,7 +2,7 @@
 import tkinter as tk
 from datetime import datetime
 from tkcalendar import Calendar
-
+from ui.user_info_view import UserInfoView
 class CalendarView:
     """Daily planner view for the application"""
     def __init__(self, master, user_id, user_service, daily_plan_service):
@@ -14,7 +14,9 @@ class CalendarView:
         self._frame = tk.Frame(self._master)
 
         #generöity koodi alkaa
-        self.cal = Calendar(self._frame, selectmode='day', year=2024, month=4, day=15)
+        self._today = datetime.today()
+        self.cal = Calendar(self._frame, selectmode='day',
+                            year=self._today.year, month=self._today.month, day=self._today.day)
         self.cal.pack(pady=20)
 
         # Button to choose date
@@ -22,6 +24,10 @@ class CalendarView:
         self.my_button.pack(pady=20)
 
         #generöity koodi loppuu
+        self._info_button = tk.Button(
+            self._frame, text="Your profile", command=self._go_to_userpage)
+        self._info_button.pack()
+
 
         self._frame.pack()
 
@@ -45,3 +51,10 @@ class CalendarView:
                 self._daily_plan_service,
                 choosen_date=selected_date)
 
+    def _go_to_userpage(self):
+        """go to userinfoview"""
+        self._frame.destroy()
+        UserInfoView(self._master,
+                     self._user_id,
+                     self._user_service,
+                     self._daily_plan_service)

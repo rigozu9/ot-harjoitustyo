@@ -4,6 +4,7 @@ from tkinter import Canvas
 import math
 from datetime import date
 from ui.calendar_view import CalendarView
+from ui.user_info_view import UserInfoView
 
 class TodayView:
     """Todays view for the application to see the days activities"""
@@ -14,7 +15,7 @@ class TodayView:
         self._frame = tk.Frame(self._master)
 
         self._canvas = Canvas(self._master,width=500,height=500)
-        self._canvas.place(x=190,y=190)
+        self._canvas.place(x=190,y=220)
         
         self._user_service = user_service
         self._daily_plan_service = daily_plan_service
@@ -27,6 +28,10 @@ class TodayView:
         self._formatted_date = self._date.strftime('%d-%m-%Y')
 
         self._username = self._user_service.get_username(self._user_id)
+
+        self._info_button = tk.Button(
+            self._frame, text="Your profile", command=self._go_to_userpage)
+        self._info_button.pack()
 
         self._date_label = tk.Label(
             self._frame, text=f"{self._username}'s activities on {self._formatted_date}", font=('Arial', 18))
@@ -150,3 +155,12 @@ class TodayView:
                     self._user_service,
                     self._daily_plan_service,
                     self._date)
+        
+    def _go_to_userpage(self):
+        """go to userinfoview"""
+        self._frame.destroy()
+        self._canvas.destroy()
+        UserInfoView(self._master,
+                     self._user_id,
+                     self._user_service,
+                     self._daily_plan_service)
