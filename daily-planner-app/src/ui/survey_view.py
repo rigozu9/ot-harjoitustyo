@@ -38,87 +38,41 @@ class SurveyView:
             self._frame, text="What are your goals?", font=('Arial', 16))
         self._goal_label.pack()
 
-        #sleep time
-        self._sleep_label = tk.Label(self._frame, text="How many hours and minutes would you like to sleep a night?:")
-        self._sleep_label.pack()
-
-        self._sleep_time_frame = tk.Frame(self._frame)
-        self._sleep_time_frame.pack()
-
-        self._sleep_hours_entry = tk.Entry(self._sleep_time_frame, width=5)
-        self._sleep_hours_entry.pack(side=tk.LEFT)
-        tk.Label(self._sleep_time_frame, text="hours").pack(side=tk.LEFT)
-
-        self._sleep_minutes_entry = tk.Entry(self._sleep_time_frame, width=5)
-        self._sleep_minutes_entry.pack(side=tk.LEFT)
-        tk.Label(self._sleep_time_frame, text="minutes").pack(side=tk.LEFT)
-
-        #exercise time
-        self._exercise_label = tk.Label(self._frame, text="How many hours and minutes would you like to exercise in a day?:")
-        self._exercise_label.pack()
-
-        self._exercise_time_frame = tk.Frame(self._frame)
-        self._exercise_time_frame.pack()
-
-        self._exercise_hours_entry = tk.Entry(self._exercise_time_frame, width=5)
-        self._exercise_hours_entry.pack(side=tk.LEFT)
-        tk.Label(self._exercise_time_frame, text="hours").pack(side=tk.LEFT)
-
-        self._exercise_minutes_entry = tk.Entry(self._exercise_time_frame, width=5)
-        self._exercise_minutes_entry.pack(side=tk.LEFT)
-        tk.Label(self._exercise_time_frame, text="minutes").pack(side=tk.LEFT)
-        #generöity kooodi loppuu
-
-        #outside time
-        self._outside_label = tk.Label(self._frame, text="How many hours and minutes would you like to spend outside?:")
-        self._outside_label.pack()
-
-        self._outside_time_frame = tk.Frame(self._frame)
-        self._outside_time_frame.pack()
-
-        self._outside_hours_entry = tk.Entry(self._outside_time_frame, width=5)
-        self._outside_hours_entry.pack(side=tk.LEFT)
-        tk.Label(self._outside_time_frame, text="hours").pack(side=tk.LEFT)
-
-        self._outside_minutes_entry = tk.Entry(self._outside_time_frame, width=5)
-        self._outside_minutes_entry.pack(side=tk.LEFT)
-        tk.Label(self._outside_time_frame, text="minutes").pack(side=tk.LEFT)
-
-        #productive things
-        self._productive_label = tk.Label(self._frame, text="How many hours and minutes would you like to spend doing productive things?:")
-        self._productive_label.pack()
-
-        self._productive_time_frame = tk.Frame(self._frame)
-        self._productive_time_frame.pack()
-
-        self._productive_hours_entry = tk.Entry(self._productive_time_frame, width=5)
-        self._productive_hours_entry.pack(side=tk.LEFT)
-        tk.Label(self._productive_time_frame, text="hours").pack(side=tk.LEFT)
-
-        self._productive_minutes_entry = tk.Entry(self._productive_time_frame, width=5)
-        self._productive_minutes_entry.pack(side=tk.LEFT)
-        tk.Label(self._productive_time_frame, text="minutes").pack(side=tk.LEFT)
-
-        #screentime
-        self._screentime_label = tk.Label(self._frame, text="How many hours and minutes of screentime would you like to have?:")
-        self._screentime_label.pack()
-
-        self._screen_time_frame = tk.Frame(self._frame)
-        self._screen_time_frame.pack()
-
-        self._screen_hours_entry = tk.Entry(self._screen_time_frame, width=5)
-        self._screen_hours_entry.pack(side=tk.LEFT)
-        tk.Label(self._screen_time_frame, text="hours").pack(side=tk.LEFT)
-
-        self._screen_minutes_entry = tk.Entry(self._screen_time_frame, width=5)
-        self._screen_minutes_entry.pack(side=tk.LEFT)
-        tk.Label(self._screen_time_frame, text="minutes").pack(side=tk.LEFT)
+        #generöity koodi alkaa
+        self._create_time_entry("Sleep", "How many hours and minutes dou you want to sleep a night?")
+        # Outside time
+        self._create_time_entry("Outside", "How many hours and minutes would you like to spend outside a day?")
+        # Productive time
+        self._create_time_entry("Productive", "How many hours and minutes would you like to spend productive things (work, school, etc.)?")
+        # Exercise time
+        self._create_time_entry("Exercise", "How many hours and minutes would you like to exercise a day?")
+        # Screentime
+        self._create_time_entry("Screen", "What would you like your screentime to be a day?")
+        #generöity koodi loppuu
 
         self._submit_button = tk.Button(
             self._frame, text="Submit", command=self._submit)
         self._submit_button.pack()
 
         self._frame.pack()
+
+    def _create_time_entry(self, activity_name, label_text):
+        """
+        Helper method to create hour and minute entries for an activity.
+        """
+        setattr(self, f"_{activity_name.lower()}_label", tk.Label(self._frame, text=label_text))
+        getattr(self, f"_{activity_name.lower()}_label").pack()
+
+        time_frame = tk.Frame(self._frame)
+        time_frame.pack()
+
+        setattr(self, f"_{activity_name.lower()}_hours_entry", tk.Entry(time_frame, width=5))
+        getattr(self, f"_{activity_name.lower()}_hours_entry").pack(side=tk.LEFT)
+        tk.Label(time_frame, text="hours").pack(side=tk.LEFT)
+
+        setattr(self, f"_{activity_name.lower()}_minutes_entry", tk.Entry(time_frame, width=5))
+        getattr(self, f"_{activity_name.lower()}_minutes_entry").pack(side=tk.LEFT)
+        tk.Label(time_frame, text="minutes").pack(side=tk.LEFT)
 
     #generöity koodi alkaa
     def _submit(self):
@@ -127,20 +81,20 @@ class SurveyView:
             age = int(self._age_entry.get())
             sex = self._sex_var.get()
 
-            # Helper function to calculate total minutes from hours and minutes
-            def get_total_minutes(hours_entry, minutes_entry):
-                hours = int(hours_entry.get())
-                minutes = int(minutes_entry.get())
+            # Helper function to calculate total minutes from hours and minutes entries
+            def get_total_minutes(activity_name):
+                hours = int(getattr(self, f"_{activity_name.lower()}_hours_entry").get())
+                minutes = int(getattr(self, f"_{activity_name.lower()}_minutes_entry").get())
                 if not (0 <= hours <= 24 and 0 <= minutes < 60):
-                    raise ValueError(f"Time must be a valid time of day for {hours_entry} and {minutes_entry}.")
+                    raise ValueError(f"{activity_name} time must be a valid time of day.")
                 return hours * 60 + minutes
-
+            
             # Calculate total minutes for all activities
-            total_sleep_minutes = get_total_minutes(self._sleep_hours_entry, self._sleep_minutes_entry)
-            total_exercise_minutes = get_total_minutes(self._exercise_hours_entry, self._exercise_minutes_entry)
-            total_outside_minutes = get_total_minutes(self._outside_hours_entry, self._outside_minutes_entry)
-            total_productive_minutes = get_total_minutes(self._productive_hours_entry, self._productive_minutes_entry)
-            total_screen_minutes = get_total_minutes(self._screen_hours_entry, self._screen_minutes_entry)
+            total_sleep_minutes = get_total_minutes("Sleep")
+            total_outside_minutes = get_total_minutes("Outside")
+            total_productive_minutes = get_total_minutes("Productive")
+            total_exercise_minutes = get_total_minutes("Exercise")
+            total_screen_minutes = get_total_minutes("Screen")
 
             # Validate all fields are filled
             if not all([age, sex, total_sleep_minutes, total_exercise_minutes,

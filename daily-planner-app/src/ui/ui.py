@@ -11,6 +11,6 @@ class UI:
 
     def start(self):
         """start funktio rekisteröinty forumille"""
-        RegistrationForm(self._root, 
+        RegistrationForm(self._root,
                          self._user_service,
                          self._daily_plan_service)

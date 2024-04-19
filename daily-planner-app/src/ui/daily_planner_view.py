@@ -12,6 +12,7 @@ class DailyPlanner:
         self._user_id = user_id
 
         self._frame = tk.Frame(self._master)
+        
         self._user_service = user_service
         self._daily_plan_service = daily_plan_service
 
