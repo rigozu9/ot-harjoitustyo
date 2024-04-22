@@ -38,3 +38,8 @@ class DailyPlanRepository:
         daily_plan = self._session.query(DailyPlan).filter(DailyPlan.user_id == user_id,
                                                            DailyPlan.date == date).one_or_none()
         return daily_plan
+
+    def get_all_plans_for_user_db(self, user_id):
+        """Retrieve all daily plans for a specific user_id."""
+        daily_plans = self._session.query(DailyPlan).filter(DailyPlan.user_id == user_id).all()
+        return daily_plans

@@ -12,7 +12,7 @@ class DailyPlan(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     date = Column(Date, nullable=False)
-    sleep = Column(Integer, nullable=True)  # Hours of sleep
+    sleep = Column(Integer, nullable=True)  # Minutes of sleep
     # Time spent outside in minutes
     outside_time = Column(Integer, nullable=True)
     # Productive time in minutes

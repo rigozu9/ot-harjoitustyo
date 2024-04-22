@@ -21,8 +21,8 @@
 | 16.4.  | 1    | Dokumentaatio tehty viikko 4 tehtäviin.|
 | 18.4.  | 3    | Ensikyselyssä kysytään tavoitteita. Nyt voi lähettää minuutteja tuntien lisäki aktiviteetteihin.|
 | 19.4.  | 3    | Lisätty kaavio josta näkee paremmin tietoja ja tavoitteita.|
-| 22.4.  | 1    | Debuggausta ja linttausta.|
+| 22.4.  | 3    | Debuggausta ja linttausta. Lisätty keskivertotunnit päiviltä ja kaavio tavoitteiden viereen.|
 
 
 
-| YHT | 43h    |
+| YHT | 45h    |
