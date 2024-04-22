@@ -13,7 +13,7 @@ class DailyPlanService:
                      exercisetime,
                      screentime,
                      other
-                    ):
+                     ):
         """Calls daily plan repository to add new plans"""
         self._dailyplan_repository.add_plans(
             user_id,

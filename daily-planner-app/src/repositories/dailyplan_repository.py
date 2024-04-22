@@ -1,8 +1,10 @@
 """Activity entity class import"""
 from entities.dailyplan import DailyPlan
 
+
 class DailyPlanRepository:
     """Dailyplan repository for database actions"""
+
     def __init__(self, session):
         self._session = session
 

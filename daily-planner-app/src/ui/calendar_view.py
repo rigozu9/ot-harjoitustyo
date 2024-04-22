@@ -3,8 +3,11 @@ import tkinter as tk
 from datetime import datetime
 from tkcalendar import Calendar
 from ui.user_info_view import UserInfoView
+
+
 class CalendarView:
     """Daily planner view for the application"""
+
     def __init__(self, master, user_id, user_service, daily_plan_service):
         self._master = master
         self._user_id = user_id
@@ -13,21 +16,21 @@ class CalendarView:
 
         self._frame = tk.Frame(self._master)
 
-        #generöity koodi alkaa
+        # generöity koodi alkaa
         self._today = datetime.today()
         self.cal = Calendar(self._frame, selectmode='day',
                             year=self._today.year, month=self._today.month, day=self._today.day)
         self.cal.pack(pady=20)
 
         # Button to choose date
-        self.my_button = tk.Button(self._frame, text="Go to this day", command=self._go_to_date)
+        self.my_button = tk.Button(
+            self._frame, text="Go to this day", command=self._go_to_date)
         self.my_button.pack(pady=20)
 
-        #generöity koodi loppuu
+        # generöity koodi loppuu
         self._info_button = tk.Button(
             self._frame, text="Your profile", command=self._go_to_userpage)
         self._info_button.pack()
-
 
         self._frame.pack()
 
@@ -40,16 +43,29 @@ class CalendarView:
         from ui.today_view import TodayView
 
         selected_date_str = self.cal.get_date()
-
-        selected_date = datetime.strptime(selected_date_str, '%d/%m/%Y').date()
+        try:
+            # error handling for possible date problems
+            selected_date = datetime.strptime(
+                selected_date_str, '%d/%m/%Y').date()
+        except ValueError:
+            try:
+                selected_date = datetime.strptime(
+                    selected_date_str, '%d/%m/%y').date()
+            except ValueError:
+                try:
+                    selected_date = datetime.strptime(
+                        selected_date_str, '%m/%d/%Y').date()
+                except ValueError:
+                    selected_date = datetime.strptime(
+                        selected_date_str, '%m/%d/%y').date()
 
         print("this is the selected_date:", selected_date)
         self._frame.destroy()
         TodayView(self._master,
-                self._user_id,
-                self._user_service,
-                self._daily_plan_service,
-                choosen_date=selected_date)
+                  self._user_id,
+                  self._user_service,
+                  self._daily_plan_service,
+                  choosen_date=selected_date)
 
     def _go_to_userpage(self):
         """go to userinfoview"""

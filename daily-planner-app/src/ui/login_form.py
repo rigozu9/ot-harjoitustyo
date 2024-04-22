@@ -6,9 +6,11 @@ from ui.daily_planner_view import DailyPlanner
 from ui.survey_view import SurveyView
 from ui.today_view import TodayView
 
+
 class LoginForm:
     """"Sisäänkirjatumisen form. Kysyy nimeä ja salasanaa.
     Käyttää user_service, kun kirjatuu. """
+
     def __init__(self, master, user_service, daily_plan_service):
         self._master = master
         self._frame = tk.Frame(self._master)
@@ -49,18 +51,18 @@ class LoginForm:
             first_login = self._user_service.is_first_login(user_id)
             if plans:
                 TodayView(self._master,
-                    user_id,
-                    self._user_service,
-                    self._daily_plan_service)
+                          user_id,
+                          self._user_service,
+                          self._daily_plan_service)
             elif first_login:
                 SurveyView(self._master,
                            user_id,
                            self._user_service,
                            self._daily_plan_service)
             else:
-                DailyPlanner(self._master, 
+                DailyPlanner(self._master,
                              user_id,
-                             self._user_service, 
+                             self._user_service,
                              self._daily_plan_service)
 
         else:

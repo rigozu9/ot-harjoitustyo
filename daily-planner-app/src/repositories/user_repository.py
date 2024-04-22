@@ -5,6 +5,7 @@ from entities.user import User
 
 class UserRepository:
     """User repository for database actions"""
+
     def __init__(self, session):
         self._session = session
 
@@ -31,7 +32,6 @@ class UserRepository:
             return user_record.id
         return False
 
-
     def find_id_by_username(self, username):
         """Find an ID belonging to a user"""
         user = self.find_by_username(username)
@@ -54,7 +54,8 @@ class UserRepository:
             user.first_login_completed = True
             self._session.commit()
 
-    def create_info(self, age, sex, sleep_goal, exercise_goal, outside_goal, productive_goal, screen_goal, user_id):
+    def create_info(self, age, sex, sleep_goal, exercise_goal, outside_goal,
+                    productive_goal, screen_goal, user_id):
         """method for creating or updating info for a user"""
         user = self._session.query(User).filter_by(id=user_id).one_or_none()
         if user:
@@ -66,8 +67,6 @@ class UserRepository:
             user.productive_goal = productive_goal
             user.screen_goal = screen_goal
             self._session.commit()
-
-
 
     def get_info(self, user_id):
         """method for getting info from a user"""

@@ -6,6 +6,7 @@ from ui.login_form import LoginForm
 
 class RegistrationForm:
     """Registration form view"""
+
     def __init__(self, master, user_service, daily_plan_service):
         self._master = master
         self._frame = tk.Frame(self._master)
@@ -54,7 +55,7 @@ class RegistrationForm:
             username, password)
         if registration_result == "success":
             self._frame.destroy()
-            LoginForm(self._master, 
+            LoginForm(self._master,
                       self._user_service,
                       self._daily_plan_service)
         elif registration_result == "username_exists":

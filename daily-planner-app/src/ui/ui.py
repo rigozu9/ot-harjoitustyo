@@ -1,8 +1,10 @@
 """"Rekisteröionnyn import """
 from ui.registration_form import RegistrationForm
 
+
 class UI:
     """"Näkymien hallinnan tiedosto """
+
     def __init__(self, root, user_service, daily_plan_service):
         self._root = root
         self._user_service = user_service

@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from entities.base import Base
 
-#I need to import the entities for the metadata to work correctly. So I disabled unused import.
+# I need to import the entities for the metadata to work correctly. So I disabled unused import.
 from entities.user import User  # pylint: disable=unused-import
 from entities.dailyplan import DailyPlan  # pylint: disable=unused-import
 
@@ -28,6 +28,7 @@ Session = scoped_session(session_factory)
 def init_db():
     """Creates tables from metadata if necessary"""
     Base.metadata.create_all(bind=engine)
+
 
 def get_database_session():
     """returns database session"""

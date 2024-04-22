@@ -1,5 +1,6 @@
 class UserService:
     """Class for users application logic"""
+
     def __init__(self, user_repository):
         self.user_repository = user_repository
 
@@ -39,13 +40,12 @@ class UserService:
         age = int(age)
         if age < 13 or age > 120:
             raise ValueError("Age must be between 13 and 120.")
-        
+
         self.user_repository.create_info(
-            age, sex, sleep_minutes, exercise_minutes, outside_minutes, 
+            age, sex, sleep_minutes, exercise_minutes, outside_minutes,
             productive_minutes, screen_minutes, user_id
         )
 
     def show_info(self, user_id):
         """calls user repo's get_info method for showing users information from user_id"""
         return self.user_repository.get_info(user_id)
-    
