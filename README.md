@@ -3,7 +3,8 @@
 A sciene based daily planner program to help develop better daily habits. 
 User can be registered and logged in.
 Survey for first time users.
-Can add and delete activites.
+Can browse calendar to see activites on different days.
+In profile view you can see your goals and averages on activites.
 
 Testattu koulun fuksiläppärillä ja toimi oikein.
 
@@ -35,8 +36,13 @@ poetry install
 ```
 
 ### Ohjelman suorittaminen
+Mene poetryn virtual enviin komennolla: 
 
-Ohjelman pystyy suorittamaan komennolla:
+```bash
+poetry shell
+```
+
+Ja suorita ohjelma komennolla:
 
 ```bash
 poetry run invoke start

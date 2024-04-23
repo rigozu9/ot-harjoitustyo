@@ -125,7 +125,8 @@ class UserInfoView:
         """going to todayview button. Need to import here to avoid cross import"""
         # pylint: disable=import-outside-toplevel
         from ui.today_view import TodayView
-        #self._frame.destroy()
+        self._info_frame.destroy()
+        self._chart_frame.destroy()
         self._canvas.destroy()
         self._avg_canvas.destroy()
         TodayView(self._master, self._user_id, self._user_service, self._daily_plan_service)
