@@ -114,24 +114,29 @@ class TestApp(unittest.TestCase):
         user_id = self.user_repository.find_id_by_username("testuser")
 
         try:
-            self.user_service.add_info("25", "Male", "8", user_id)
+            self.user_service.add_info("25", "Male", "480", "60", "120",
+                                        "480", "420", user_id)
         except ValueError:
             self.fail("add_info raised ValueError unexpectedly with valid inputs")
 
+        #if age 0
         with self.assertRaises(ValueError):
-            self.user_service.add_info("0", "Male", "8", user_id)
-
+            self.user_service.add_info("0", "Male", "480", "60", "120",
+                                        "480", "420", user_id)
+        #if age 150
         with self.assertRaises(ValueError):
-            self.user_service.add_info("25", "Male", "0", user_id)
+            self.user_service.add_info("150", "Male", "480", "60", "120",
+                                        "480", "420", user_id)
 
     # test for showing users info
     def test_show_info(self):
         self.user_service.register_user("testuser", "password")
         user_id = self.user_repository.find_id_by_username("testuser")
-        self.user_service.add_info("22", "Male", "8", user_id)
+        self.user_service.add_info("25", "Male", "480", "60", "120",
+                                    "480", "420", user_id)
 
         info = self.user_service.show_info(user_id)
-        self.assertEqual(info, [22, "Male", 8],
+        self.assertEqual(info, [25, "Male", 480, 60, 120, 480, 420],
                          "User info should match the added info")
 
 

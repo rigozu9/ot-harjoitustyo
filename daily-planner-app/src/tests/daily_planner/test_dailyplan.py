@@ -47,11 +47,11 @@ class TestApp(unittest.TestCase):
 
         self.test_user_id = user.id
         self.test_date = date.today()
-        self.test_sleep = 7
-        self.test_outside_time = 6
-        self.test_productive_time = 1
-        self.test_exercise_time = 3
-        self.test_screen_time = 11
+        self.test_sleep = 420
+        self.test_outside_time = 360
+        self.test_productive_time = 60
+        self.test_exercise_time = 180
+        self.test_screen_time = 480
         self.test_other_activities = "Reading"
 
         self.daily_plan_service.create_plans(
@@ -65,10 +65,21 @@ class TestApp(unittest.TestCase):
             self.test_other_activities
         )
 
+        self.daily_plan_service.create_plans(
+            self.test_user_id,
+            self.test_date - timedelta(days=1),
+            self.test_sleep+60,
+            self.test_outside_time+60,
+            self.test_productive_time+60,
+            self.test_exercise_time+60,
+            self.test_screen_time+60,
+            self.test_other_activities
+        )
+
     def test_create_plans(self):
         """Test creating daily plans"""
-        plan = self.session.query(DailyPlan).filter_by(
-            user_id=self.test_user_id).one_or_none()
+        plan = self.session.query(DailyPlan).filter_by(user_id=self.test_user_id).first()
+
         self.assertIsNotNone(plan, "See if plan in db")
         self.assertEqual(plan.date, self.test_date, "date equal.")
         self.assertEqual(plan.sleep, self.test_sleep, "Sleep equal.")
@@ -103,11 +114,31 @@ class TestApp(unittest.TestCase):
 
     def test_get_plans_by_id_no_plan(self):
         """Test retrieving daily plans when no plan exists"""
-        no_plan_date = self.test_date - timedelta(days=1)
+        no_plan_date = self.test_date + timedelta(days=1)
         plan = self.daily_plan_service.get_plans_by_id(
             self.test_user_id, no_plan_date)
         self.assertIsNone(plan, "None for wrong date")
 
+    def test_averages(self):
+        """Test for getting the average dailyplan activities"""
+        result = self.daily_plan_service.calculate_average_attributes(self.test_user_id)
+        expected_result = {
+            'avg_sleep': 450,
+            'avg_outside_time': 390,
+            'avg_productive_time': 90,
+            'avg_exercise': 210,
+            'avg_screen_time': 510
+        }
+        self.assertAlmostEqual(result['avg_sleep'], expected_result['avg_sleep'])
+        self.assertAlmostEqual(result['avg_outside_time'], expected_result['avg_outside_time'])
+        self.assertAlmostEqual(result['avg_productive_time'], expected_result['avg_productive_time'])
+        self.assertAlmostEqual(result['avg_exercise'], expected_result['avg_exercise'], places=2)
+        self.assertAlmostEqual(result['avg_screen_time'], expected_result['avg_screen_time'], places=2)
+
+    def test_averages_no_date(self):
+        """Test for if there are no plans"""
+        plan = self.daily_plan_service.calculate_average_attributes(self.test_user_id+1)
+        self.assertIsNone(plan, "None for wrong date")    
 
 if __name__ == "__main__":
     unittest.main()

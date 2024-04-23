@@ -2,6 +2,9 @@
 ## Viikko 5
 - Ensikysely kysyy nyt tavoitteita
 - Voi sijoittaa tuntien lisäksi minuutteja aktiviteetteihin.
+- Sovellukseen lisätty piiraskaavioita helpottaakseen käyttäjän aktiviteettien näkymää
+- Näkee myös keskiarvon kaikkien päivien aktiviteeteista
+- Pylintissa 4 virhettä ja testi coverage hyvä
 
 ## Viikko 4
 - Pylint lisätty

@@ -8,7 +8,7 @@ services folderista, jossa on sovelluslogiikka ja UI kansiosta, jossa on fronten
 ## Sovelluslogiikka
 ### Mallit 
 [User](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/src/entities/user.py) ja [DailyPlan](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/src/entities/dailyplan.py) muodostavat sovelluksen mallit. User kuvaa käyttäjie ja dailyplan näiden käyttäjien päivittäisiä tekemisiä. 
-
+### Sekvenssikaavio
 ```mermaid
 classDiagram
     class User {
@@ -41,7 +41,7 @@ classDiagram
 
 
 [UserRepository](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/src/repositories/user_repository.py) ja [DailyPlanRepository](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/src/repositories/dailyplan_repository.py) muodostavat sovelluksen tietokannan tehtävät. 
-
+### Sekvenssikaavio
 ```mermaid
 classDiagram
     class UserService {
