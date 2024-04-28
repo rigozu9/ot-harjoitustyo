@@ -30,7 +30,7 @@ def main():
 
     window = Tk()
     window.title("Daily Planner application")
-    window.geometry("800x600")
+    window.geometry("900x700")
 
     ui_view = UI(window, user_service, daily_plan_service)
     ui_view.start()

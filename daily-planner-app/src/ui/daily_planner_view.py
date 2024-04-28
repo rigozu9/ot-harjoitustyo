@@ -45,13 +45,13 @@ class DailyPlanner:
         self._go_to_calender_button.pack()
 
         # generöity koodi alkaa
-        self._create_time_entry("Sleep", "How many hours did you sleep?")
+        self._create_time_entry("Sleep", "How many (hours and minutes) did you sleep?")
         # Outside time
         self._create_time_entry(
-            "Outside", "How many hours did you spend outside?")
+            "Outside", "How many (hours and minutes) did you spend outside?")
         # Productive time
         self._create_time_entry(
-            "Productive", "How many hours were you productive (work, school, etc.)?")
+            "Productive", "How many (hours and minutes) were you productive (work, school, etc.)?")
         # Exercise time
         self._create_time_entry("Exercise", "How many hours did you exercise?")
         # Screentime
@@ -88,13 +88,13 @@ class DailyPlanner:
                 tk.Entry(time_frame, width=5))
         getattr(self, f"_{activity_name.lower()}_hours_entry").pack(
             side=tk.LEFT)
-        tk.Label(time_frame, text="hours").pack(side=tk.LEFT)
+        tk.Label(time_frame, text="hrs").pack(side=tk.LEFT)
 
         setattr(self, f"_{activity_name.lower()}_minutes_entry",
                 tk.Entry(time_frame, width=5))
         getattr(self, f"_{activity_name.lower()}_minutes_entry").pack(
             side=tk.LEFT)
-        tk.Label(time_frame, text="minutes").pack(side=tk.LEFT)
+        tk.Label(time_frame, text="min").pack(side=tk.LEFT)
 
     def _submit(self):
         """Submit the information with validation for new time inputs."""

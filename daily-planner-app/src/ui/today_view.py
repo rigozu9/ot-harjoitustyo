@@ -1,6 +1,6 @@
 """importing tkinter, datetime, userinfoview and messagebox"""
 import tkinter as tk
-from tkinter import Canvas
+from tkinter import Canvas, messagebox
 import math
 from datetime import date
 from ui.calendar_view import CalendarView
@@ -17,7 +17,7 @@ class TodayView:
         self._frame = tk.Frame(self._master)
 
         self._canvas = Canvas(self._master, width=500, height=500)
-        self._canvas.place(x=190, y=220)
+        self._canvas.place(x=190, y=260)
 
         self._user_service = user_service
         self._daily_plan_service = daily_plan_service
@@ -66,6 +66,10 @@ class TodayView:
             self._other_label = tk.Label(
                 self._frame, text=f"You also did other stuff like: {self._plans.other_activities} ")
             self._other_label.pack()
+
+            self._delete_plan_button = tk.Button(
+                self._frame, text="Delete daily plan", command=self._delete_plan)
+            self._delete_plan_button.pack()
 
             self._go_to_calender_button = tk.Button(
                 self._frame, text="Go to calendar", command=self._go_to_calender)
@@ -148,6 +152,28 @@ class TodayView:
                      self._user_id,
                      self._user_service,
                      self._daily_plan_service)
+        
+    def _delete_plan(self):
+        """
+            method for deleting a dailyplan
+            if deleted goes to dailyplanner so you can make new plan
+            need to import here to avoid cross imports.
+        """
+        # pylint: disable=import-outside-toplevel
+        if messagebox.askyesno("Confirm", "Do you want to delete this plan?"):
+            plan_id = self._plans.id
+            self._daily_plan_service.remove_plan(plan_id)
+            messagebox.showinfo("Success", "Plan deleted successfully.")
+            from ui.daily_planner_view import DailyPlanner
+            self._frame.destroy()
+            self._canvas.destroy()
+            DailyPlanner(self._master,
+                        self._user_id,
+                        self._user_service,
+                        self._daily_plan_service,
+                        self._date)
+        else:
+            messagebox.showinfo("Cancelled", "Plan deletion cancelled.")
 
     def _go_to_planner(self):
         """

@@ -1,4 +1,7 @@
 # Changelog
+## Viikko 6
+- Voi poistaa dailyplannin
+
 ## Viikko 5
 - Ensikysely kysyy nyt tavoitteita
 - Voi sijoittaa tuntien lisäksi minuutteja aktiviteetteihin.

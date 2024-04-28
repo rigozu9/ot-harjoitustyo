@@ -23,6 +23,7 @@
 | 19.4.  | 3    | Lisätty kaavio josta näkee paremmin tietoja ja tavoitteita.|
 | 22.4.  | 3    | Debuggausta ja linttausta. Lisätty keskivertotunnit päiviltä ja kaavio tavoitteiden viereen.|
 | 23.4.  | 2    | Testien tekemistä ja viimeistelyä välipalautusta varten.|
+| 28.4.  | 1    | Voi poistaa dailyplannin.|
 
 
 

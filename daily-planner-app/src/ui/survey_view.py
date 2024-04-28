@@ -42,7 +42,7 @@ class SurveyView:
 
         # generöity koodi alkaa
         self._create_time_entry(
-            "Sleep", "How many hours and minutes dou you want to sleep a night?")
+            "Sleep", "How many hours and minutes do you want to sleep a night?")
         # Outside time
         self._create_time_entry(
             "Outside", "How many hours and minutes would you like to spend outside a day?")
@@ -78,13 +78,13 @@ class SurveyView:
                 tk.Entry(time_frame, width=5))
         getattr(self, f"_{activity_name.lower()}_hours_entry").pack(
             side=tk.LEFT)
-        tk.Label(time_frame, text="hours").pack(side=tk.LEFT)
+        tk.Label(time_frame, text="hrs").pack(side=tk.LEFT)
 
         setattr(self, f"_{activity_name.lower()}_minutes_entry",
                 tk.Entry(time_frame, width=5))
         getattr(self, f"_{activity_name.lower()}_minutes_entry").pack(
             side=tk.LEFT)
-        tk.Label(time_frame, text="minutes").pack(side=tk.LEFT)
+        tk.Label(time_frame, text="min").pack(side=tk.LEFT)
 
     # generöity koodi alkaa
     def _submit(self):
