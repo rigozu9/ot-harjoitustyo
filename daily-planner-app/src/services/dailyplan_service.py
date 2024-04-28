@@ -61,3 +61,8 @@ class DailyPlanService:
     def remove_plan(self, plan_id):
         """Calculate average values from totals."""
         self._dailyplan_repository.delete_plan(plan_id)
+
+    def count_user_plans(self, user_id):
+        """Returns the count of all daily plans for a specific user."""
+        plans = self._dailyplan_repository.get_all_plans_for_user_db(user_id)
+        return len(plans) if plans else 0

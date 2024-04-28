@@ -1,14 +1,14 @@
 # Tests for user functions.
 # pylint: disable=all
+import os
+# Turn testing enviroment on when running this
+os.environ["TEST_ENV"] = "True"
 from database_connection import get_database_session, Base, engine
 from repositories.user_repository import UserRepository
 from services.user_service import UserService
 from entities.user import User
 from entities.dailyplan import DailyPlan
 import unittest
-import os
-# Turn testing enviroment on when running this
-os.environ["TEST_ENV"] = "True"
 
 
 class TestApp(unittest.TestCase):
@@ -132,12 +132,19 @@ class TestApp(unittest.TestCase):
     def test_show_info(self):
         self.user_service.register_user("testuser", "password")
         user_id = self.user_repository.find_id_by_username("testuser")
-        self.user_service.add_info("25", "Male", "480", "60", "120",
-                                    "480", "420", user_id)
+        self.user_service.add_info("25", "Male", "480", "60", "120", "480", "420", user_id)
 
         info = self.user_service.show_info(user_id)
-        self.assertEqual(info, [25, "Male", 480, 60, 120, 480, 420],
-                         "User info should match the added info")
+        expected_info = {
+            'age': 25,
+            'sex': 'Male',
+            'sleep_goal': 480,
+            'exercise_goal': 60,
+            'outside_goal': 120,
+            'productive_goal': 480,
+            'screen_goal': 420
+        }
+        self.assertEqual(info, expected_info, "User info should match the added info")
 
 
 if __name__ == "__main__":

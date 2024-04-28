@@ -43,10 +43,11 @@ class DailyPlanRepository:
         """Retrieve all daily plans for a specific user_id."""
         daily_plans = self._session.query(DailyPlan).filter(DailyPlan.user_id == user_id).all()
         return daily_plans
-    
+
     def delete_plan(self, plan_id):
         """Deletes a specific plan based on plan_id."""
-        plan_to_delete = self._session.query(DailyPlan).filter(DailyPlan.id == plan_id).one_or_none()
+        plan_to_delete = self._session.query(DailyPlan).filter(
+            DailyPlan.id == plan_id).one_or_none()
         if plan_to_delete:
             self._session.delete(plan_to_delete)
             self._session.commit()

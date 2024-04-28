@@ -43,29 +43,12 @@ class TodayView:
             self._user_id, self._date)
 
         if self._plans:
-            self._sleep_label = tk.Label(
-                self._frame, text=f"You slept for: {self._plans.sleep/60} hours")
-            self._sleep_label.pack()
-
-            self._outside_label = tk.Label(
-                self._frame, text=f"You spent {self._plans.outside_time/60} hours outside:")
-            self._outside_label.pack()
-
-            self._productivity_label = tk.Label(
-                self._frame, text=f"You spent {self._plans.productive_time/60} hours productive things:")
-            self._productivity_label.pack()
-
-            self._exercise_label = tk.Label(
-                self._frame, text=f"You spent {self._plans.exercise/60} hours exercising:")
-            self._exercise_label.pack()
-
-            self._screentime_label = tk.Label(
-                self._frame, text=f"Your screentime was {self._plans.screen_time/60} hours:")
-            self._screentime_label.pack()
-
-            self._other_label = tk.Label(
-                self._frame, text=f"You also did other stuff like: {self._plans.other_activities} ")
-            self._other_label.pack()
+            self._create_and_pack_label(f"You slept for: {self._plans.sleep/60:.1f} hours", self._frame)
+            self._create_and_pack_label(f"You spent {self._plans.outside_time/60:.1f} hours outside:", self._frame)
+            self._create_and_pack_label(f"You spent {self._plans.productive_time/60:.1f} hours productive things:", self._frame)
+            self._create_and_pack_label(f"You spent {self._plans.exercise/60:.1f} hours exercising:", self._frame)
+            self._create_and_pack_label(f"Your screentime was {self._plans.screen_time/60:.1f} hours:", self._frame)
+            self._create_and_pack_label(f"You also did other stuff like: {self._plans.other_activities}", self._frame)
 
             self._delete_plan_button = tk.Button(
                 self._frame, text="Delete daily plan", command=self._delete_plan)
@@ -101,6 +84,11 @@ class TodayView:
 
         self._frame.pack()
 
+    def _create_and_pack_label(self, text, frame):
+        """Helper function to create a label with the specified text and pack it into the given frame."""
+        label = tk.Label(frame, text=text, anchor="w")
+        label.pack(fill='x', padx=10)
+
     def _create_piechart(self, pie_v, col_v):
         """create a piechart for the user info"""
         st = 0  # Start angle for the first segment
@@ -131,14 +119,14 @@ class TodayView:
             # Minus because the y-coordinates go down
             text_y = center_y - text_offset * math.sin(angle_rad)
 
-            # Create the text with a contrasting color, say white
+            # Create the text with a contrasting color
             self._canvas.create_text(text_x, text_y, text=label, fill="white")
 
             # Optionally, draw a line from the text to the slice
             line_end_x = center_x + radius * 0.5 * math.cos(angle_rad)
             line_end_y = center_y - radius * 0.5 * math.sin(angle_rad)
             self._canvas.create_line(
-                text_x, text_y, line_end_x, line_end_y, fill="white")
+                text_x, text_y, line_end_x, line_end_y, fill="cyan")
 
             # Update the start angle for the next slice
             st += extent

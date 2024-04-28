@@ -39,14 +39,29 @@ class UserInfoView:
             self._info_frame, text="Today's view", command=self._goto_todayview)
         self._goto_dailyplanner_button.pack()
 
+        self._day_counter = self._daily_plan_service.count_user_plans(self._user_id)
+        self._days_label = tk.Label(
+            self._info_frame, text=f"Averages from {self._day_counter} days", font=('Arial', 14))
+        self._days_label.pack()
+
         self._info = self._user_service.show_info(self._user_id)
         self._display_info()
 
-        self._info_summed = sum(self._info[2:7])
-        self._create_piechart(self._info[2:7], self._canvas, "goal")
-        self._create_piechart([self._all_plans['avg_sleep'], self._all_plans['avg_outside_time'],
-                                self._all_plans['avg_productive_time'], self._all_plans['avg_exercise'],
-                                self._all_plans['avg_screen_time']], self._avg_canvas, "avg")
+        self._create_piechart([
+            self._info['sleep_goal'],
+            self._info['exercise_goal'],
+            self._info['outside_goal'],
+            self._info['productive_goal'],
+            self._info['screen_goal']
+        ], self._canvas, "goal")
+        if self._all_plans:
+            self._create_piechart([
+                self._all_plans['avg_sleep'],
+                self._all_plans['avg_outside_time'],
+                self._all_plans['avg_productive_time'],
+                self._all_plans['avg_exercise'],
+                self._all_plans['avg_screen_time']
+            ], self._avg_canvas, "avg")
 
     #generöity koodi alkaa
     def _create_piechart(self, values, canvas, chart_type):
@@ -98,28 +113,40 @@ class UserInfoView:
     #generöity koodi loppuu
 
     def _display_info(self):
-        """displaying information in the info frame"""
-        info_labels = [
-            f"Age: {self._info[0]}",
-            f"Gender: {self._info[1]}",
-            f"Sleep goal: {self._info[2] / 60:.1f} hours",
-            f"Average sleep: {self._all_plans['avg_sleep'] / 60:.1f} hours",
-            f"Exercise goal: {self._info[3] / 60:.1f} hours",
-            f"Average exercise time: {self._all_plans['avg_exercise'] / 60:.1f} hours",
-            f"Outside goal: {self._info[4] / 60:.1f} hours",
-            f"Average outside time: {self._all_plans['avg_outside_time'] / 60:.1f} hours",
-            f"Productive goal: {self._info[5] / 60:.1f} hours",
-            f"Average productive time: {self._all_plans['avg_productive_time'] / 60:.1f} hours",
-            f"Screentime goal: {self._info[6] / 60:.1f} hours",
-            f"Average screentime: {self._all_plans['avg_screen_time'] / 60:.1f} hours",
-        ]
+        """Displaying user information in the info frame using dictionary keys."""
+        if self._all_plans:
+            info_labels = [
+                f"Age: {self._info['age']}",
+                f"Gender: {self._info['sex']}",
+                f"Sleep goal: {self._info['sleep_goal'] / 60:.1f} hours",
+                f"Average sleep: {self._all_plans['avg_sleep'] / 60:.1f} hours",
+                f"Exercise goal: {self._info['exercise_goal'] / 60:.1f} hours",
+                f"Average exercise time: {self._all_plans['avg_exercise'] / 60:.1f} hours",
+                f"Outside goal: {self._info['outside_goal'] / 60:.1f} hours",
+                f"Average outside time: {self._all_plans['avg_outside_time'] / 60:.1f} hours",
+                f"Productive goal: {self._info['productive_goal'] / 60:.1f} hours",
+                f"Average productive time: {self._all_plans['avg_productive_time'] / 60:.1f} hours",
+                f"Screentime goal: {self._info['screen_goal'] / 60:.1f} hours",
+                f"Average screentime: {self._all_plans['avg_screen_time'] / 60:.1f} hours",
+            ]
+        else:
+            info_labels = [
+                f"Age: {self._info['age']}",
+                f"Gender: {self._info['sex']}",
+                f"Sleep goal: {self._info['sleep_goal'] / 60:.1f} hours",
+                f"Exercise goal: {self._info['exercise_goal'] / 60:.1f} hours",
+                f"Outside goal: {self._info['outside_goal'] / 60:.1f} hours",
+                f"Productive goal: {self._info['productive_goal'] / 60:.1f} hours",
+                f"Screentime goal: {self._info['screen_goal'] / 60:.1f} hours",
+            ]
         for text in info_labels:
             self._create_and_pack_label(text, self._info_frame)
 
     def _create_and_pack_label(self, text, frame):
         """Helper function to create a label with the specified text and pack it into the given frame."""
-        label = tk.Label(frame, text=text)
-        label.pack()
+        label = tk.Label(frame, text=text, anchor="w")
+        label.pack(fill='x', padx=350)
+
 
     def _goto_todayview(self):
         """going to todayview button. Need to import here to avoid cross import"""

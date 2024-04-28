@@ -71,5 +71,12 @@ class UserRepository:
     def get_info(self, user_id):
         """method for getting info from a user"""
         user = self._session.query(User).filter_by(id=user_id).one_or_none()
-        return [user.age, user.sex, user.sleep_goal, user.exercise_goal, user.outside_goal,
-                user.productive_goal, user.screen_goal]
+        return {
+            'age': user.age,
+            'sex': user.sex,
+            'sleep_goal': user.sleep_goal,
+            'exercise_goal': user.exercise_goal,
+            'outside_goal': user.outside_goal,
+            'productive_goal': user.productive_goal,
+            'screen_goal': user.screen_goal
+        }
