@@ -32,19 +32,14 @@ class UserService:
         """completes the first login"""
         self.user_repository.complete_first_login_process(user_id)
 
-    def add_info(self, age, sex, sleep_minutes, exercise_minutes, outside_minutes,
-                 productive_minutes, screen_minutes, user_id):
+    def add_info(self, user_info):
         """
-        Validates and updates the user's info with new time goals in minutes.
+        Validates and updates the user's info with new time goals in minutes using a dictionary.
         """
-        age = int(age)
+        age = int(user_info['age'])
         if age < 13 or age > 120:
             raise ValueError("Age must be between 13 and 120.")
-
-        self.user_repository.create_info(
-            age, sex, sleep_minutes, exercise_minutes, outside_minutes,
-            productive_minutes, screen_minutes, user_id
-        )
+        self.user_repository.create_info(user_info)
 
     def show_info(self, user_id):
         """calls user repo's get_info method for showing users information from user_id"""

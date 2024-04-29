@@ -4,27 +4,9 @@ class DailyPlanService:
     def __init__(self, dailyplan_repository):
         self._dailyplan_repository = dailyplan_repository
 
-    def create_plans(self,
-                     user_id,
-                     date,
-                     sleep,
-                     outsidetime,
-                     productivetime,
-                     exercisetime,
-                     screentime,
-                     other
-                     ):
-        """Calls daily plan repository to add new plans"""
-        self._dailyplan_repository.add_plans(
-            user_id,
-            date,
-            sleep,
-            outsidetime,
-            productivetime,
-            exercisetime,
-            screentime,
-            other
-        )
+    def create_plans(self, activity_dict):
+        """Calls daily plan repository to add new plans using a dictionary"""
+        self._dailyplan_repository.add_plans(activity_dict)
 
     def get_plans_by_id(self, user_id, date):
         """gets users plans from repository"""

@@ -3,7 +3,7 @@
 import os
 # Turn testing enviroment on when running this
 os.environ["TEST_ENV"] = "True"
-from database_connection import get_database_session, Base, engine, database_url, init_db
+from database_connection import get_database_session, Base, engine
 from repositories.user_repository import UserRepository
 from repositories.dailyplan_repository import DailyPlanRepository
 from services.user_service import UserService
@@ -54,27 +54,30 @@ class TestApp(unittest.TestCase):
         self.test_screen_time = 480
         self.test_other_activities = "Reading"
 
-        self.daily_plan_service.create_plans(
-            self.test_user_id,
-            self.test_date,
-            self.test_sleep,
-            self.test_outside_time,
-            self.test_productive_time,
-            self.test_exercise_time,
-            self.test_screen_time,
-            self.test_other_activities
-        )
+        test_plan = {
+            "user_id": self.test_user_id,
+            "date": self.test_date,
+            "total_sleep_minutes": self.test_sleep,
+            "total_outside_minutes": self.test_outside_time,
+            "total_productive_minutes": self.test_productive_time,
+            "total_exercise_minutes": self.test_exercise_time,
+            "total_screen_minutes": self.test_screen_time,
+            "other": self.test_other_activities
+        }
 
-        self.daily_plan_service.create_plans(
-            self.test_user_id,
-            self.test_date - timedelta(days=1),
-            self.test_sleep+60,
-            self.test_outside_time+60,
-            self.test_productive_time+60,
-            self.test_exercise_time+60,
-            self.test_screen_time+60,
-            self.test_other_activities
-        )
+        self.daily_plan_service.create_plans(test_plan)
+
+        test_plan_2 = {
+            "user_id": self.test_user_id,
+            "date": self.test_date - timedelta(days=1),
+            "total_sleep_minutes": self.test_sleep + 60,
+            "total_outside_minutes": self.test_outside_time + 60,
+            "total_productive_minutes": self.test_productive_time + 60,
+            "total_exercise_minutes": self.test_exercise_time + 60,
+            "total_screen_minutes": self.test_screen_time + 60,
+            "other": self.test_other_activities
+        }
+        self.daily_plan_service.create_plans(test_plan_2)
 
     def test_create_plans(self):
         """Test creating daily plans"""
@@ -93,6 +96,7 @@ class TestApp(unittest.TestCase):
                          self.test_screen_time, "screentime equal")
         self.assertEqual(plan.other_activities,
                          self.test_other_activities, "other activites equal")
+
 
     def test_get_plans_by_id(self):
         """Test retrieving daily plans"""

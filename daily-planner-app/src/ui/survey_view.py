@@ -118,9 +118,18 @@ class SurveyView:
                     "Error", "All fields are required and must be valid numbers!")
                 return
 
-            # Assuming your user_service.add_info method can handle these new parameters
-            self._user_service.add_info(age, sex, total_sleep_minutes, total_exercise_minutes,
-                                        total_outside_minutes, total_productive_minutes, total_screen_minutes, self._user_id)
+            user_info_dict = {
+                "age": int(self._age_entry.get()),
+                "sex": self._sex_entry.get(),
+                "total_sleep_minutes": total_sleep_minutes,
+                "total_exercise_minutes": total_exercise_minutes,
+                "total_outside_minutes": total_outside_minutes,
+                "total_productive_minutes": total_productive_minutes,
+                "total_screen_minutes": total_screen_minutes,
+                "user_id": self._user_id
+            }
+
+            self._user_service.add_info(user_info_dict)
 
             messagebox.showinfo(
                 "Success", "Your information has been submitted successfully!")

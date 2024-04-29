@@ -8,27 +8,18 @@ class DailyPlanRepository:
     def __init__(self, session):
         self._session = session
 
-    def add_plans(self,
-                  user_id,
-                  date,
-                  sleep,
-                  outsidetime,
-                  productivetime,
-                  exercisetime,
-                  screentime,
-                  other
-                  ):
-        """adding plans to database"""
+    def add_plans(self, activity_dict):
+        """adding plans to database using a dictionary"""
         plan = DailyPlan()
 
-        plan.user_id = user_id
-        plan.date = date
-        plan.sleep = sleep
-        plan.outside_time = outsidetime
-        plan.productive_time = productivetime
-        plan.exercise = exercisetime
-        plan.screen_time = screentime
-        plan.other_activities = other
+        plan.user_id = activity_dict['user_id']
+        plan.date = activity_dict['date']
+        plan.sleep = activity_dict['total_sleep_minutes']
+        plan.outside_time = activity_dict['total_outside_minutes']
+        plan.productive_time = activity_dict['total_productive_minutes']
+        plan.exercise = activity_dict['total_exercise_minutes']
+        plan.screen_time = activity_dict['total_screen_minutes']
+        plan.other_activities = activity_dict['other']
 
         self._session.add(plan)
         self._session.commit()

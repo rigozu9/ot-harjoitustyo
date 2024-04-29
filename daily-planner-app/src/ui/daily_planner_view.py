@@ -117,17 +117,19 @@ class DailyPlanner:
             total_exercise_minutes = get_total_minutes("Exercise")
             total_screen_minutes = get_total_minutes("Screen")
 
+            activity_dict = {
+                "user_id": self._user_id,
+                "date": self._date,
+                "total_sleep_minutes": total_sleep_minutes,
+                "total_outside_minutes": total_outside_minutes,
+                "total_productive_minutes": total_productive_minutes,
+                "total_exercise_minutes": total_exercise_minutes,
+                "total_screen_minutes": total_screen_minutes,
+                "other": self._other_entry.get()  # Assuming you're keeping the other activity as a simple entry
+            }
+
             # Call the daily_plan_service to create or update the plan
-            self._daily_plan_service.create_plans(
-                self._user_id,
-                self._date,
-                total_sleep_minutes,
-                total_outside_minutes,
-                total_productive_minutes,
-                total_exercise_minutes,
-                total_screen_minutes,
-                self._other_entry.get()  # Assuming you're keeping the other activity as a simple entry
-            )
+            self._daily_plan_service.create_plans(activity_dict)
 
             messagebox.showinfo(
                 "Success", "Your daily plan has been submitted successfully!")

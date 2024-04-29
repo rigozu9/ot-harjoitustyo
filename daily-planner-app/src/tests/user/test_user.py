@@ -110,29 +110,55 @@ class TestApp(unittest.TestCase):
 
     # test for info addiung with valid and invalid data
     def test_add_info(self):
+        """Tests for adding user information with valid and invalid data."""
         self.user_service.register_user("testuser", "password")
         user_id = self.user_repository.find_id_by_username("testuser")
 
+        valid_user_info = {
+            "age": 25,
+            "sex": "Male",
+            "total_sleep_minutes": 480,
+            "total_exercise_minutes": 60,
+            "total_outside_minutes": 120,
+            "total_productive_minutes": 480,
+            "total_screen_minutes": 420,
+            "user_id": user_id
+        }
+
         try:
-            self.user_service.add_info("25", "Male", "480", "60", "120",
-                                        "480", "420", user_id)
+            self.user_service.add_info(valid_user_info)
         except ValueError:
             self.fail("add_info raised ValueError unexpectedly with valid inputs")
 
         #if age 0
+        invalid_user_info = valid_user_info.copy()
+        invalid_user_info['age'] = 0
         with self.assertRaises(ValueError):
-            self.user_service.add_info("0", "Male", "480", "60", "120",
-                                        "480", "420", user_id)
+            self.user_service.add_info(invalid_user_info)
+
         #if age 150
+        invalid_user_info['age'] = 150
         with self.assertRaises(ValueError):
-            self.user_service.add_info("150", "Male", "480", "60", "120",
-                                        "480", "420", user_id)
+            self.user_service.add_info(invalid_user_info)
+
 
     # test for showing users info
     def test_show_info(self):
+        """Test for showing users info after adding it."""
         self.user_service.register_user("testuser", "password")
         user_id = self.user_repository.find_id_by_username("testuser")
-        self.user_service.add_info("25", "Male", "480", "60", "120", "480", "420", user_id)
+
+        user_info = {
+            "age": 25,
+            "sex": "Male",
+            "total_sleep_minutes": 480,
+            "total_exercise_minutes": 60,
+            "total_outside_minutes": 120,
+            "total_productive_minutes": 480,
+            "total_screen_minutes": 420,
+            "user_id": user_id
+        }
+        self.user_service.add_info(user_info)
 
         info = self.user_service.show_info(user_id)
         expected_info = {

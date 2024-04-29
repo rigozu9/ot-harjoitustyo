@@ -54,18 +54,17 @@ class UserRepository:
             user.first_login_completed = True
             self._session.commit()
 
-    def create_info(self, age, sex, sleep_goal, exercise_goal, outside_goal,
-                    productive_goal, screen_goal, user_id):
+    def create_info(self, user_info):
         """method for creating or updating info for a user"""
-        user = self._session.query(User).filter_by(id=user_id).one_or_none()
+        user = self._session.query(User).filter_by(id=user_info['user_id']).one_or_none()
         if user:
-            user.age = age
-            user.sex = sex
-            user.sleep_goal = sleep_goal
-            user.exercise_goal = exercise_goal
-            user.outside_goal = outside_goal
-            user.productive_goal = productive_goal
-            user.screen_goal = screen_goal
+            user.age = user_info['age']
+            user.sex = user_info['sex']
+            user.sleep_goal = user_info['total_sleep_minutes']
+            user.exercise_goal = user_info['total_exercise_minutes']
+            user.outside_goal = user_info['total_outside_minutes']
+            user.productive_goal = user_info['total_productive_minutes']
+            user.screen_goal = user_info['total_screen_minutes']
             self._session.commit()
 
     def get_info(self, user_id):

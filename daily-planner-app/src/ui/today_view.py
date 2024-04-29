@@ -93,9 +93,13 @@ class TodayView:
         """create a piechart for the user info"""
         st = 0  # Start angle for the first segment
         coord = 100, 100, 300, 300  # The bounding coordinates of the pie chart
-        activity_labels = [f"Sleep {self._plans.sleep/60} hours", f"Outside {self._plans.outside_time/60} hours",
-                           f"Productive {self._plans.productive_time/60} hours", f"Exercise {self._plans.exercise/60} hours",
-                           f"Screen Time {self._plans.screen_time/60} hours"]
+        activity_labels = [
+            f"Sleep {self._plans.sleep / 60:.1f} hours",
+            f"Outside {self._plans.outside_time / 60:.1f} hours",
+            f"Productive {self._plans.productive_time / 60:.1f} hours",
+            f"Exercise {self._plans.exercise / 60:.1f} hours",
+            f"Screen Time {self._plans.screen_time / 60:.1f} hours"
+        ]
 
         center_x = (coord[0] + coord[2]) / 2
         center_y = (coord[1] + coord[3]) / 2
