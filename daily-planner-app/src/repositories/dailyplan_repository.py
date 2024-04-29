@@ -49,9 +49,17 @@ class DailyPlanRepository:
         """Comparing a days plan to goals"""
         plan_to_compare = self._session.query(DailyPlan).filter(
             DailyPlan.id == plan_id).one_or_none()
-        return plan_to_compare, goals
-        #prints: (<entities.dailyplan.DailyPlan object at 0x7f75d9ccce50>, {'age': 22, 'sex': 'Male', 'sleep_goal': 480, 
-        #'exercise_goal': 120, 'outside_goal': 120, 'productive_goal': 480, 'screen_goal': 330})
+        compared_stats = {}
 
+        sleep_compare = plan_to_compare.sleep - goals['sleep_goal']
+        outside_compare = plan_to_compare.outside_time - goals['outside_goal']
+        productive_compare = plan_to_compare.productive_time - goals['productive_goal']
+        exercise_compare = plan_to_compare.exercise - goals['exercise_goal']
+        screen_time_compare = plan_to_compare.screen_time - goals['screen_goal']
+        compared_stats = {'sleep_compare': sleep_compare,
+                          'exercise_compare': exercise_compare, 
+                          'outside_compare': outside_compare, 
+                          'productive_compare': productive_compare, 
+                          'screen_time_compare': screen_time_compare}
 
-            
+        return compared_stats

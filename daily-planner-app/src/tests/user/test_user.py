@@ -11,7 +11,7 @@ from entities.dailyplan import DailyPlan
 import unittest
 
 
-class TestApp(unittest.TestCase):
+class TestUser(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.session = get_database_session()

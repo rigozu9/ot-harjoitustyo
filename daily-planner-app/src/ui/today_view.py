@@ -9,7 +9,6 @@ from ui.user_info_view import UserInfoView
 
 class TodayView:
     """Todays view for the application to see the days activities"""
-
     def __init__(self, master, user_id, user_service, daily_plan_service, choosen_date=None):
         self._master = master
         self._user_id = user_id
@@ -36,47 +35,15 @@ class TodayView:
         self._info_button.pack()
 
         self._date_label = tk.Label(
-            self._frame, text=f"{self._username}'s activities on {self._formatted_date}", font=('Arial', 18))
+            self._frame, text=f"{self._username}'s activities on {self._formatted_date}",
+            font=('Arial', 18))
         self._date_label.pack()
 
         self._plans = self._daily_plan_service.get_plans_by_id(
             self._user_id, self._date)
-        
-        self._goals = self._user_service.show_info(self._user_id)
-        self._compared_stats = self._daily_plan_service.compare_day_to_goal(self._plans.id, self._goals)
-        print(self._compared_stats)
 
         if self._plans:
-            self._create_and_pack_label(f"You slept for: {self._plans.sleep/60:.1f} hours", self._frame)
-            self._create_and_pack_label(f"You spent {self._plans.outside_time/60:.1f} hours outside:", self._frame)
-            self._create_and_pack_label(f"You spent {self._plans.productive_time/60:.1f} hours productive things:", self._frame)
-            self._create_and_pack_label(f"You spent {self._plans.exercise/60:.1f} hours exercising:", self._frame)
-            self._create_and_pack_label(f"Your screentime was {self._plans.screen_time/60:.1f} hours:", self._frame)
-            self._create_and_pack_label(f"You also did other stuff like: {self._plans.other_activities}", self._frame)
-
-            self._delete_plan_button = tk.Button(
-                self._frame, text="Delete daily plan", command=self._delete_plan)
-            self._delete_plan_button.pack()
-
-            self._go_to_calender_button = tk.Button(
-                self._frame, text="Go to calendar", command=self._go_to_calender)
-            self._go_to_calender_button.pack()
-
-            self._plans_summed = self._plans.sleep+self._plans.outside_time + \
-                self._plans.productive_time+self._plans.exercise+self._plans.screen_time
-
-            self._sleep_fraction = self._plans.sleep/self._plans_summed*100
-            self._outside_timefraction = self._plans.outside_time/self._plans_summed*100
-            self._productive_time_fraction = self._plans.productive_time/self._plans_summed*100
-            self._exercise_fraction = self._plans.exercise/self._plans_summed*100
-            self._screen_time_fraction = self._plans.screen_time/self._plans_summed*100
-
-            self._pie_v = [self._sleep_fraction, self._outside_timefraction,
-                           self._productive_time_fraction, self._exercise_fraction, self._screen_time_fraction]
-
-            self._col_v = ["red", "blue", "orange", "green", "black"]
-            self._create_piechart(self._pie_v, self._col_v)
-
+            self._view_plans()
         else:
             self._no_plan_label = tk.Label(
                 self._frame, text="There are no plans for this date.")
@@ -88,8 +55,75 @@ class TodayView:
 
         self._frame.pack()
 
+    # Define a function to determine the message based on the difference
+    def _get_message(self, diff_hours):
+        if diff_hours > 0:
+            return f"{abs(diff_hours):.1f} hours more than your goal"
+        elif diff_hours < 0:
+            return f"{abs(diff_hours):.1f} hours less than your goal"
+        else:
+            return "the same as your goal"
+
+    def _view_plans(self):
+        self._goals = self._user_service.show_info(self._user_id)
+        self._compared_stats = self._daily_plan_service.compare_day_to_goal(self._plans.id, self._goals)
+        sleep_message = self._get_message(self._compared_stats['sleep_compare'] / 60)
+        self._create_and_pack_label(
+            f"You slept for: {self._plans.sleep / 60:.1f} hours, which is {sleep_message}",
+            self._frame)
+
+        outside_message = self._get_message(self._compared_stats['outside_compare'] / 60)
+        self._create_and_pack_label(
+            f"You spent {self._plans.outside_time / 60:.1f} hours outside, "
+            f"which is {outside_message}",
+            self._frame)
+
+        productive_message = self._get_message(self._compared_stats['productive_compare'] / 60)
+        self._create_and_pack_label(
+            f"You spent {self._plans.productive_time / 60:.1f} hours on productive things, "
+            f"which is {productive_message}",
+            self._frame)
+
+        exercise_message = self._get_message(self._compared_stats['exercise_compare'] / 60)
+        self._create_and_pack_label(
+            f"You spent {self._plans.exercise / 60:.1f} hours exercising, "
+            f"which is {exercise_message}",
+            self._frame)
+
+        screen_message = self._get_message(self._compared_stats['screen_time_compare'] / 60)
+        self._create_and_pack_label(
+            f"Your screentime was {self._plans.screen_time / 60:.1f} hours, "
+            f"which is {screen_message}",
+            self._frame)
+
+        self._delete_plan_button = tk.Button(
+            self._frame, text="Delete daily plan", command=self._delete_plan)
+        self._delete_plan_button.pack()
+
+        self._go_to_calender_button = tk.Button(
+            self._frame, text="Go to calendar", command=self._go_to_calender)
+        self._go_to_calender_button.pack()
+
+        self._plans_summed = self._plans.sleep+self._plans.outside_time + \
+            self._plans.productive_time+self._plans.exercise+self._plans.screen_time
+
+        self._sleep_fraction = self._plans.sleep/self._plans_summed*100
+        self._outside_timefraction = self._plans.outside_time/self._plans_summed*100
+        self._productive_time_fraction = self._plans.productive_time/self._plans_summed*100
+        self._exercise_fraction = self._plans.exercise/self._plans_summed*100
+        self._screen_time_fraction = self._plans.screen_time/self._plans_summed*100
+
+        self._pie_v = [self._sleep_fraction, self._outside_timefraction,
+                        self._productive_time_fraction, self._exercise_fraction, 
+                        self._screen_time_fraction]
+
+        self._col_v = ["red", "blue", "orange", "green", "black"]
+        self._create_piechart(self._pie_v, self._col_v)
+
     def _create_and_pack_label(self, text, frame):
-        """Helper function to create a label with the specified text and pack it into the given frame."""
+        """Helper function to create a label with the 
+            specified text and pack it into the given frame.
+        """
         label = tk.Label(frame, text=text, anchor="w")
         label.pack(fill='x', padx=10)
 
@@ -128,7 +162,7 @@ class TodayView:
             text_y = center_y - text_offset * math.sin(angle_rad)
 
             # Create the text with a contrasting color
-            self._canvas.create_text(text_x, text_y, text=label, fill="white")
+            self._canvas.create_text(text_x, text_y, text=label, fill="magenta")
 
             # Optionally, draw a line from the text to the slice
             line_end_x = center_x + radius * 0.5 * math.cos(angle_rad)

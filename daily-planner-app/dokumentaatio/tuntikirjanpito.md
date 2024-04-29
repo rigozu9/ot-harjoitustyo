@@ -24,8 +24,8 @@
 | 22.4.  | 3    | Debuggausta ja linttausta. Lisätty keskivertotunnit päiviltä ja kaavio tavoitteiden viereen.|
 | 23.4.  | 2    | Testien tekemistä ja viimeistelyä välipalautusta varten.|
 | 28.4.  | 2    | Voi poistaa dailyplannin. UI:n parannusta|
-| 29.4.  | 1    | Pylint 10/10 ja testien muutoksia.|
+| 29.4.  | 3    | Pylint 10/10 ja testien muutoksia. Näkee päivän tulosten vertailut tavoitteisiin.|
 
 
 
-| YHT | 50h    |
+| YHT | 52h |

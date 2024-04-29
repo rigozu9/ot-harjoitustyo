@@ -13,6 +13,6 @@ Tehty
 - Aktiviteettien perusteella sovellus ehdottaa tieteellisten tutkimuksien perusteella parannuksia
     - Käyttäjä (21 vuotias) kertoo nukkuneensa 5 tuntia --> sovellus kertoo paljon 21 vuotiaan pitäisi saada unta jonkin tutkimuksen perusteella
 - Päiviä voi seurata omalta tililtään. Tehty
-- Saa yhteenvetoja x ajalta. Osin tehty
+- Saa yhteenvetoja x ajalta. Tehty
 
 

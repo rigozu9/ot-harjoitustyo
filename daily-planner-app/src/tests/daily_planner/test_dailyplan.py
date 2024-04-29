@@ -14,7 +14,7 @@ from datetime import date, timedelta
 import unittest
 
 
-class TestApp(unittest.TestCase):
+class TestDailyPlan(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.session = get_database_session()

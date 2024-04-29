@@ -1,6 +1,7 @@
 # Changelog
 ## Viikko 6
 - Voi poistaa dailyplannin
+- Näkee vertailua tavoitteisiin päivän aktiviteettien perusteella.
 
 ## Viikko 5
 - Ensikysely kysyy nyt tavoitteita
