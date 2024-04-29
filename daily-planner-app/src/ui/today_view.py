@@ -41,6 +41,10 @@ class TodayView:
 
         self._plans = self._daily_plan_service.get_plans_by_id(
             self._user_id, self._date)
+        
+        self._goals = self._user_service.show_info(self._user_id)
+        self._compared_stats = self._daily_plan_service.compare_day_to_goal(self._plans.id, self._goals)
+        print(self._compared_stats)
 
         if self._plans:
             self._create_and_pack_label(f"You slept for: {self._plans.sleep/60:.1f} hours", self._frame)

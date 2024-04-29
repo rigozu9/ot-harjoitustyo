@@ -48,3 +48,7 @@ class DailyPlanService:
         """Returns the count of all daily plans for a specific user."""
         plans = self._dailyplan_repository.get_all_plans_for_user_db(user_id)
         return len(plans) if plans else 0
+
+    def compare_day_to_goal(self, plan_id, goals):
+        """Comparing a days plan to goals"""
+        return self._dailyplan_repository.compare_day_to_goal_from_db(plan_id, goals)

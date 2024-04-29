@@ -42,3 +42,16 @@ class DailyPlanRepository:
         if plan_to_delete:
             self._session.delete(plan_to_delete)
             self._session.commit()
+
+
+
+    def compare_day_to_goal_from_db(self, plan_id, goals):
+        """Comparing a days plan to goals"""
+        plan_to_compare = self._session.query(DailyPlan).filter(
+            DailyPlan.id == plan_id).one_or_none()
+        return plan_to_compare, goals
+        #prints: (<entities.dailyplan.DailyPlan object at 0x7f75d9ccce50>, {'age': 22, 'sex': 'Male', 'sleep_goal': 480, 
+        #'exercise_goal': 120, 'outside_goal': 120, 'productive_goal': 480, 'screen_goal': 330})
+
+
+            
