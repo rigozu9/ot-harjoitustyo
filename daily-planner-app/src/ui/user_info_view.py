@@ -112,22 +112,44 @@ class UserInfoView:
         canvas.create_line(text_x, text_y, line_end_x, line_end_y, fill="white")
     #generöity koodi loppuu
 
+    def _get_message(self, diff_hours):
+        if diff_hours > 0:
+            return f"{abs(diff_hours):.1f} hours more than your goal"
+        elif diff_hours < 0:
+            return f"{abs(diff_hours):.1f} hours less than your goal"
+        else:
+            return "the same as your goal"
+
     def _display_info(self):
         """Displaying user information in the info frame using dictionary keys."""
         if self._all_plans:
+            compared_stats = self._daily_plan_service.compare_total_days_to_goal(self._all_plans, self._info)
+
+            # Generate dynamic messages using the comparison stats
+            sleep_message = self._get_message(compared_stats['sleep_compare'] / 60)
+            exercise_message = self._get_message(compared_stats['exercise_compare'] / 60)
+            outside_message = self._get_message(compared_stats['outside_compare'] / 60)
+            productive_message = self._get_message(compared_stats['productive_compare'] / 60)
+            screen_message = self._get_message(compared_stats['screen_time_compare'] / 60)
+
+            # Info labels list with dynamic messages
             info_labels = [
                 f"Age: {self._info['age']}",
                 f"Gender: {self._info['sex']}",
-                f"Sleep goal: {self._info['sleep_goal'] / 60:.1f} hours",
-                f"Average sleep: {self._all_plans['avg_sleep'] / 60:.1f} hours",
-                f"Exercise goal: {self._info['exercise_goal'] / 60:.1f} hours",
-                f"Average exercise time: {self._all_plans['avg_exercise'] / 60:.1f} hours",
-                f"Outside goal: {self._info['outside_goal'] / 60:.1f} hours",
-                f"Average outside time: {self._all_plans['avg_outside_time'] / 60:.1f} hours",
-                f"Productive goal: {self._info['productive_goal'] / 60:.1f} hours",
-                f"Average productive time: {self._all_plans['avg_productive_time'] / 60:.1f} hours",
-                f"Screentime goal: {self._info['screen_goal'] / 60:.1f} hours",
-                f"Average screentime: {self._all_plans['avg_screen_time'] / 60:.1f} hours",
+                f"Sleep goal: {self._info['sleep_goal'] / 60:.1f} hours, your average sleep: "
+                f"{self._all_plans['avg_sleep'] / 60:.1f} hours, {sleep_message}",
+
+                f"Exercise goal: {self._info['exercise_goal'] / 60:.1f} hours, your average exercise time: "
+                f"{self._all_plans['avg_exercise'] / 60:.1f} hours, {exercise_message}",
+
+                f"Outside goal: {self._info['outside_goal'] / 60:.1f} hours, your average outside time: "
+                f"{self._all_plans['avg_outside_time'] / 60:.1f} hours, {outside_message}",
+
+                f"Productive goal: {self._info['productive_goal'] / 60:.1f} hours, your average productive time: "
+                f"{self._all_plans['avg_productive_time'] / 60:.1f} hours, {productive_message}",
+
+                f"Screentime goal: {self._info['screen_goal'] / 60:.1f} hours, your average screentime: "
+                f"{self._all_plans['avg_screen_time'] / 60:.1f} hours, {screen_message}"
             ]
         else:
             info_labels = [
@@ -145,7 +167,7 @@ class UserInfoView:
     def _create_and_pack_label(self, text, frame):
         """Helper function to create a label with the specified text and pack it into the given frame."""
         label = tk.Label(frame, text=text, anchor="w")
-        label.pack(fill='x', padx=350)
+        label.pack(fill='x', padx=150)
 
 
     def _goto_todayview(self):

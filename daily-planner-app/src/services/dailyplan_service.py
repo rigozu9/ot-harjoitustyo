@@ -52,3 +52,7 @@ class DailyPlanService:
     def compare_day_to_goal(self, plan_id, goals):
         """Comparing a days plan to goals"""
         return self._dailyplan_repository.compare_day_to_goal_from_db(plan_id, goals)
+
+    def compare_total_days_to_goal(self, total_plans, goals):
+        """Comparing a days plan to goals"""
+        return self._dailyplan_repository.compare_total_days_to_goal_from_db(total_plans, goals)

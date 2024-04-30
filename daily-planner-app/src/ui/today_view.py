@@ -66,7 +66,8 @@ class TodayView:
 
     def _view_plans(self):
         self._goals = self._user_service.show_info(self._user_id)
-        self._compared_stats = self._daily_plan_service.compare_day_to_goal(self._plans.id, self._goals)
+        self._compared_stats = self._daily_plan_service.compare_day_to_goal(self._plans.id,
+                                                                            self._goals)
         sleep_message = self._get_message(self._compared_stats['sleep_compare'] / 60)
         self._create_and_pack_label(
             f"You slept for: {self._plans.sleep / 60:.1f} hours, which is {sleep_message}",

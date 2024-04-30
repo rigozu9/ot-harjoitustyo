@@ -63,3 +63,21 @@ class DailyPlanRepository:
                           'screen_time_compare': screen_time_compare}
 
         return compared_stats
+
+    def compare_total_days_to_goal_from_db(self, total_plans, goals):
+        """Comparing total days plan to goals"""
+        plan_to_compare = total_plans
+        compared_stats = {}
+
+        sleep_compare = plan_to_compare['avg_sleep'] - goals['sleep_goal']
+        outside_compare = plan_to_compare['avg_outside_time']  - goals['outside_goal']
+        productive_compare = plan_to_compare['avg_productive_time']  - goals['productive_goal']
+        exercise_compare = plan_to_compare['avg_exercise']  - goals['exercise_goal']
+        screen_time_compare = plan_to_compare['avg_screen_time']  - goals['screen_goal']
+        compared_stats = {'sleep_compare': sleep_compare,
+                          'exercise_compare': exercise_compare, 
+                          'outside_compare': outside_compare, 
+                          'productive_compare': productive_compare, 
+                          'screen_time_compare': screen_time_compare}
+
+        return compared_stats
