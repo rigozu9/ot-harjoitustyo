@@ -19,6 +19,8 @@ Testattu koulun fuksiläppärillä ja toimi oikein.
 
 [Arkkitehtuuri](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/dokumentaatio/arkkitehtuuri.md)
 
+[Releases] (https://github.com/rigozu9/ot-harjoitustyo/releases)
+
 
 ## Asennus
 
