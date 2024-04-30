@@ -25,13 +25,21 @@ class DailyPlanRepository:
         self._session.commit()
 
     def get_plan_from_db(self, user_id, date):
-        """Gets a user's plan from the database for a specific date."""
+        """Gets a user's plan from the database for a specific date.
+
+        Returns:
+            object: DailyPlan object
+        """
         daily_plan = self._session.query(DailyPlan).filter(DailyPlan.user_id == user_id,
                                                            DailyPlan.date == date).one_or_none()
         return daily_plan
 
     def get_all_plans_for_user_db(self, user_id):
-        """Retrieve all daily plans for a specific user_id."""
+        """Retrieve all daily plans for a specific user_id.
+
+        Returns:
+            object: all DailyPlan objects from user
+        """
         daily_plans = self._session.query(DailyPlan).filter(DailyPlan.user_id == user_id).all()
         return daily_plans
 
@@ -46,7 +54,11 @@ class DailyPlanRepository:
 
 
     def compare_day_to_goal_from_db(self, plan_id, goals):
-        """Comparing a days plan to goals"""
+        """Comparing a days plan to goals
+
+        Returns:
+            dict: dictionary that contains the compared activites
+        """
         plan_to_compare = self._session.query(DailyPlan).filter(
             DailyPlan.id == plan_id).one_or_none()
         compared_stats = {}
@@ -65,7 +77,11 @@ class DailyPlanRepository:
         return compared_stats
 
     def compare_total_days_to_goal_from_db(self, total_plans, goals):
-        """Comparing total days plan to goals"""
+        """Comparing total days plan to goals
+
+        Returns:
+            dict: dictionary that contains the compared activites
+        """
         plan_to_compare = total_plans
         compared_stats = {}
 

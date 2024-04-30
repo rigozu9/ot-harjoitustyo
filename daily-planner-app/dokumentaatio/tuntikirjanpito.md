@@ -25,7 +25,7 @@
 | 23.4.  | 2    | Testien tekemistä ja viimeistelyä välipalautusta varten.|
 | 28.4.  | 2    | Voi poistaa dailyplannin. UI:n parannusta|
 | 29.4.  | 3    | Pylint 10/10 ja testien muutoksia. Näkee päivän tulosten vertailut tavoitteisiin.|
+| 30.4.  | 2    | Nyt näkee kaikien päivien vertailut tavoitteisiin. Viikko 6 palautuksen viimeistely|
 
 
-
-| YHT | 52h |
+| YHT | 54h |

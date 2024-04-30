@@ -5,9 +5,22 @@ Ohjelman pakkausrakenne koostuu, sqlalchemy malleista entities kansiossa, reposi
 services folderista, jossa on sovelluslogiikka ja UI kansiosta, jossa on frontend.
 ![Pakkausrakenne](./kuvat/pakkausrakenne.png)
 
+## Käyttöliittymä
+Käyttöliittymässä on 7 näkymää
+- Uuden käyttäjän luominen
+- Kirjautuminen
+- Daily planner näkymä
+- Kalenteri näkymä
+- Ensikyselyn näkymä
+- Today view, eli päivän aktiviteettien näkymä
+- User info view, eli omien tietojen näkymä.
+
+Näkymillä on omat luokkansa, jotka kutsuvat dailyplanner ja user servicejä. 
+
 ## Sovelluslogiikka
 ### Mallit 
 [User](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/src/entities/user.py) ja [DailyPlan](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/src/entities/dailyplan.py) muodostavat sovelluksen mallit. User kuvaa käyttäjie ja dailyplan näiden käyttäjien päivittäisiä tekemisiä. 
+
 ### Sekvenssikaavio
 ```mermaid
 classDiagram
@@ -85,3 +98,8 @@ classDiagram
     UserService --> UserRepository
     DailyPlanService --> DailyPlanRepository
 ```
+
+## Tietokannan käyttö
+Sovellus käyttää sqliteä tietokantana. Siellä on pöydät käyttäjille ja dailyplaneille. 
+dailyplan_repository ja user_repository tekevät muutokset tietokantaan ja services kutsuu niitä.
+Testien aikana laitetaan test env muuttuja päälle ja silloin käytetään eri tietokantaa kuin normaalisti sovelluksessa.

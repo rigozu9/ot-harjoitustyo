@@ -144,5 +144,55 @@ class TestDailyPlan(unittest.TestCase):
         plan = self.daily_plan_service.calculate_average_attributes(self.test_user_id+1)
         self.assertIsNone(plan, "None for wrong date")    
 
+    def test_delete_plan(self):
+        """Test deleting a daily plan"""
+        plan = DailyPlan(user_id=self.test_user_id, date=self.test_date, sleep=420, outside_time=360)
+        self.session.add(plan)
+        self.session.commit()
+
+        self.assertIsNotNone(self.session.query(DailyPlan).filter_by(id=plan.id).one_or_none(), "Plan exists")
+
+        self.daily_plan_service.remove_plan(plan.id)
+        self.assertIsNone(self.session.query(DailyPlan).filter_by(id=plan.id).one_or_none(), "Plan deleted")
+
+    def test_compare_day_to_goal_from_db(self):
+        """Test comparing a day's plan to goals"""
+        goals = {
+            'sleep_goal': 400, 'exercise_goal': 180, 'outside_goal': 300,
+            'productive_goal': 120, 'screen_goal': 480
+        }
+
+        plan = DailyPlan(user_id=self.test_user_id, date=self.test_date,
+                        sleep=420, outside_time=360, productive_time=100, exercise=200, screen_time=500)
+        self.session.add(plan)
+        self.session.commit()
+
+        compared_stats = self.daily_plan_service.compare_day_to_goal(plan.id, goals)
+
+        self.assertEqual(compared_stats['sleep_compare'], 20, "Sleep same")
+        self.assertEqual(compared_stats['exercise_compare'], 20, "Exercise same")
+        self.assertEqual(compared_stats['outside_compare'], 60, "Outside same")
+        self.assertEqual(compared_stats['productive_compare'], -20, "Productive same")
+        self.assertEqual(compared_stats['screen_time_compare'], 20, "Screen same")
+
+    def test_compare_total_days_to_goal_from_db(self):
+        """Test comparing total days' averages to goals"""
+        total_plans = {
+            'avg_sleep': 450, 'avg_exercise': 200, 'avg_outside_time': 360,
+            'avg_productive_time': 120, 'avg_screen_time': 490
+        }
+        goals = {
+            'sleep_goal': 400, 'exercise_goal': 180, 'outside_goal': 350,
+            'productive_goal': 100, 'screen_goal': 480
+        }
+
+        compared_stats = self.daily_plan_service.compare_total_days_to_goal(total_plans, goals)
+
+        self.assertEqual(compared_stats['sleep_compare'], 50, "Sleep same")
+        self.assertEqual(compared_stats['exercise_compare'], 20, "Exercise csame")
+        self.assertEqual(compared_stats['outside_compare'], 10, "Outisde same")
+        self.assertEqual(compared_stats['productive_compare'], 20, "Productive same")
+        self.assertEqual(compared_stats['screen_time_compare'], 10, "Screen time same")
+
 if __name__ == "__main__":
     unittest.main()

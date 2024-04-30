@@ -4,7 +4,8 @@ A sciene based daily planner program to help develop better daily habits.
 User can be registered and logged in.
 Survey for first time users.
 Can browse calendar to see activites on different days.
-In profile view you can see your goals and averages on activites.
+In profile view you can see your goals and averages on activites. Also you can compare your averages to the goals you set.
+When you submit days activites you get compared stats to the goals you've set.
 
 Testattu koulun fuksiläppärillä ja toimi oikein.
 

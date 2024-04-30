@@ -2,6 +2,9 @@
 ## Viikko 6
 - Voi poistaa dailyplannin
 - Näkee vertailua tavoitteisiin päivän aktiviteettien perusteella.
+- Näkee vertailua tavoitteisiin kaikkien päivine perusteella.
+- Koodia selkeytetty copypastea vähennetty
+- Pylint 10/10 
 
 ## Viikko 5
 - Ensikysely kysyy nyt tavoitteita

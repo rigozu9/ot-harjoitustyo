@@ -10,11 +10,19 @@ class UserRepository:
         self._session = session
 
     def find_by_username(self, username):
-        """Check for username in the database"""
+        """Check for username in the database
+
+        Returns:
+            object: User object
+        """
         return self._session.query(User).filter_by(username=username).first()
 
     def create_user(self, username, password):
-        """Creates a user"""
+        """Creates a user
+
+        Returns:
+            object: User object
+        """
         hashed_password = bcrypt.hashpw(password.encode(
             'utf-8'), bcrypt.gensalt()).decode('utf-8')
         new_user = User(username=username, password=hashed_password)
@@ -23,7 +31,11 @@ class UserRepository:
         return new_user
 
     def verify_user(self, username, password):
-        """Logging in verification of username and password."""
+        """Logging in verification of username and password.
+
+        Returns:
+            id: user id or False if password doesnt match
+        """
         user_record = self.find_by_username(username)
         password_match = user_record and bcrypt.checkpw(
             password.encode('utf-8'), user_record.password.encode('utf-8')
@@ -33,17 +45,29 @@ class UserRepository:
         return False
 
     def find_id_by_username(self, username):
-        """Find an ID belonging to a user"""
+        """Find an ID belonging to a user
+        
+        Returns:
+            id: user id or False if username doesnt match
+        """
         user = self.find_by_username(username)
         return user.id if user else None
 
     def get_username_by_user(self, user_id):
-        """Retrieving user's username"""
+        """Retrieving user's username
+
+        Returns:
+            username: users username if exists
+        """
         user = self._session.get(User, user_id)
         return user.username if user else None
 
     def check_first_login(self, user_id):
-        """checks if users has logged in before"""
+        """checks if users has logged in before
+
+        Returns:
+            object: user object if first login completed
+        """
         user = self._session.query(User).filter_by(id=user_id).one_or_none()
         return user is not None and not user.first_login_completed
 
@@ -68,7 +92,11 @@ class UserRepository:
             self._session.commit()
 
     def get_info(self, user_id):
-        """method for getting info from a user"""
+        """method for getting info from a user
+
+        Returns:
+            dict: dictionary that contains user info
+        """
         user = self._session.query(User).filter_by(id=user_id).one_or_none()
         return {
             'age': user.age,
