@@ -3,15 +3,18 @@ import tkinter as tk
 from tkinter import Canvas, messagebox
 import math
 from datetime import date
-from ui.calendar_view import CalendarView
-from ui.user_info_view import UserInfoView
 
 
 class TodayView:
     """Todays view for the application to see the days activities"""
-    def __init__(self, master, user_id, user_service, daily_plan_service, choosen_date=None):
+
+    def __init__(self, master, user_id, user_service, daily_plan_service, views, choosen_date=None):
         self._master = master
         self._user_id = user_id
+
+        self._handle_show_calendar_view = views['calendar']
+        self._handle_show_user_info_view = views['user_info']
+        self._handle_show_daily_plan_view = views['daily_planner']
 
         self._frame = tk.Frame(self._master)
 
@@ -68,30 +71,35 @@ class TodayView:
         self._goals = self._user_service.show_info(self._user_id)
         self._compared_stats = self._daily_plan_service.compare_day_to_goal(self._plans.id,
                                                                             self._goals)
-        sleep_message = self._get_message(self._compared_stats['sleep_compare'] / 60)
+        sleep_message = self._get_message(
+            self._compared_stats['sleep_compare'] / 60)
         self._create_and_pack_label(
             f"You slept for: {self._plans.sleep / 60:.1f} hours, which is {sleep_message}",
             self._frame)
 
-        outside_message = self._get_message(self._compared_stats['outside_compare'] / 60)
+        outside_message = self._get_message(
+            self._compared_stats['outside_compare'] / 60)
         self._create_and_pack_label(
             f"You spent {self._plans.outside_time / 60:.1f} hours outside, "
             f"which is {outside_message}",
             self._frame)
 
-        productive_message = self._get_message(self._compared_stats['productive_compare'] / 60)
+        productive_message = self._get_message(
+            self._compared_stats['productive_compare'] / 60)
         self._create_and_pack_label(
             f"You spent {self._plans.productive_time / 60:.1f} hours on productive things, "
             f"which is {productive_message}",
             self._frame)
 
-        exercise_message = self._get_message(self._compared_stats['exercise_compare'] / 60)
+        exercise_message = self._get_message(
+            self._compared_stats['exercise_compare'] / 60)
         self._create_and_pack_label(
             f"You spent {self._plans.exercise / 60:.1f} hours exercising, "
             f"which is {exercise_message}",
             self._frame)
 
-        screen_message = self._get_message(self._compared_stats['screen_time_compare'] / 60)
+        screen_message = self._get_message(
+            self._compared_stats['screen_time_compare'] / 60)
         self._create_and_pack_label(
             f"Your screentime was {self._plans.screen_time / 60:.1f} hours, "
             f"which is {screen_message}",
@@ -108,15 +116,22 @@ class TodayView:
         self._plans_summed = self._plans.sleep+self._plans.outside_time + \
             self._plans.productive_time+self._plans.exercise+self._plans.screen_time
 
-        self._sleep_fraction = self._plans.sleep/self._plans_summed*100
-        self._outside_timefraction = self._plans.outside_time/self._plans_summed*100
-        self._productive_time_fraction = self._plans.productive_time/self._plans_summed*100
-        self._exercise_fraction = self._plans.exercise/self._plans_summed*100
-        self._screen_time_fraction = self._plans.screen_time/self._plans_summed*100
+        if self._plans_summed != 0:
+            self._sleep_fraction = self._plans.sleep/self._plans_summed*100
+            self._outside_timefraction = self._plans.outside_time/self._plans_summed*100
+            self._productive_time_fraction = self._plans.productive_time/self._plans_summed*100
+            self._exercise_fraction = self._plans.exercise/self._plans_summed*100
+            self._screen_time_fraction = self._plans.screen_time/self._plans_summed*100
+        else:
+            self._sleep_fraction = 0
+            self._outside_timefraction = 0
+            self._productive_time_fraction = 0
+            self._exercise_fraction = 0
+            self._screen_time_fraction = 0
 
         self._pie_v = [self._sleep_fraction, self._outside_timefraction,
-                        self._productive_time_fraction, self._exercise_fraction, 
-                        self._screen_time_fraction]
+                       self._productive_time_fraction, self._exercise_fraction,
+                       self._screen_time_fraction]
 
         self._col_v = ["red", "blue", "orange", "green", "black"]
         self._create_piechart(self._pie_v, self._col_v)
@@ -163,7 +178,8 @@ class TodayView:
             text_y = center_y - text_offset * math.sin(angle_rad)
 
             # Create the text with a contrasting color
-            self._canvas.create_text(text_x, text_y, text=label, fill="magenta")
+            self._canvas.create_text(
+                text_x, text_y, text=label, fill="magenta")
 
             # Optionally, draw a line from the text to the slice
             line_end_x = center_x + radius * 0.5 * math.cos(angle_rad)
@@ -179,53 +195,35 @@ class TodayView:
         """method for going to calendar"""
         self._frame.destroy()
         self._canvas.destroy()
-        CalendarView(self._master,
-                     self._user_id,
-                     self._user_service,
-                     self._daily_plan_service)
-        
+        self._handle_show_calendar_view(self._user_id)
+
     def _delete_plan(self):
         """
             method for deleting a dailyplan
             if deleted goes to dailyplanner so you can make new plan
-            need to import here to avoid cross imports.
         """
         # pylint: disable=import-outside-toplevel
         if messagebox.askyesno("Confirm", "Do you want to delete this plan?"):
             plan_id = self._plans.id
             self._daily_plan_service.remove_plan(plan_id)
             messagebox.showinfo("Success", "Plan deleted successfully.")
-            from ui.daily_planner_view import DailyPlanner
+
             self._frame.destroy()
             self._canvas.destroy()
-            DailyPlanner(self._master,
-                        self._user_id,
-                        self._user_service,
-                        self._daily_plan_service,
-                        self._date)
+            self._handle_show_daily_plan_view(self._user_id, self._date)
         else:
             messagebox.showinfo("Cancelled", "Plan deletion cancelled.")
 
     def _go_to_planner(self):
         """
-            method for going to calendar
-            need to import here to avoid cross imports.
+            method for going to planner
         """
-        # pylint: disable=import-outside-toplevel
-        from ui.daily_planner_view import DailyPlanner
         self._frame.destroy()
         self._canvas.destroy()
-        DailyPlanner(self._master,
-                     self._user_id,
-                     self._user_service,
-                     self._daily_plan_service,
-                     self._date)
+        self._handle_show_daily_plan_view(self._user_id, self._date)
 
     def _go_to_userpage(self):
         """go to userinfoview"""
         self._frame.destroy()
         self._canvas.destroy()
-        UserInfoView(self._master,
-                     self._user_id,
-                     self._user_service,
-                     self._daily_plan_service)
+        self._handle_show_user_info_view(self._user_id)

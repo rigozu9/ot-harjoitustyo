@@ -2,20 +2,23 @@
 import tkinter as tk
 from tkinter import messagebox
 from datetime import date
-from ui.daily_planner_view import DailyPlanner
-from ui.survey_view import SurveyView
-from ui.today_view import TodayView
 
 
 class LoginForm:
     """"Sisäänkirjatumisen form. Kysyy nimeä ja salasanaa.
     Käyttää user_service, kun kirjatuu. """
 
-    def __init__(self, master, user_service, daily_plan_service):
+    def __init__(self, master, user_service, daily_plan_service, views):
+
         self._master = master
         self._frame = tk.Frame(self._master)
         self._user_service = user_service
         self._daily_plan_service = daily_plan_service
+
+        self._handle_show_registration_view = views['register']
+        self._handle_show_today_view = views['today']
+        self._handle_show_survey_view = views['survey']
+        self._handle_show_daily_plan_view = views['daily_planner']
 
         self._date = date.today()
 
@@ -50,34 +53,17 @@ class LoginForm:
             self._frame.destroy()
             first_login = self._user_service.is_first_login(user_id)
             if plans:
-                TodayView(self._master,
-                          user_id,
-                          self._user_service,
-                          self._daily_plan_service)
+                self._handle_show_today_view(user_id)
             elif first_login:
-                SurveyView(self._master,
-                           user_id,
-                           self._user_service,
-                           self._daily_plan_service)
+                self._handle_show_survey_view(user_id)
             else:
-                DailyPlanner(self._master,
-                             user_id,
-                             self._user_service,
-                             self._daily_plan_service)
-
+                self._handle_show_daily_plan_view(user_id)
         else:
             # Display an error message if login fails
             messagebox.showerror(
                 "Login failed", "Incorrect username or password.")
 
     def _go_to_register(self):
-        """
-            going to register method
-            need to import here to avoid cross imports.
-        """
-        # pylint: disable=import-outside-toplevel
-        from ui.registration_form import RegistrationForm
+        """going to register method"""
         self._frame.destroy()
-        RegistrationForm(self._master,
-                         self._user_service,
-                         self._daily_plan_service)
+        self._handle_show_registration_view()

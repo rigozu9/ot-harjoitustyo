@@ -46,7 +46,7 @@ class UserRepository:
 
     def find_id_by_username(self, username):
         """Find an ID belonging to a user
-        
+
         Returns:
             id: user id or False if username doesnt match
         """
@@ -80,7 +80,8 @@ class UserRepository:
 
     def create_info(self, user_info):
         """method for creating or updating info for a user"""
-        user = self._session.query(User).filter_by(id=user_info['user_id']).one_or_none()
+        user = self._session.query(User).filter_by(
+            id=user_info['user_id']).one_or_none()
         if user:
             user.age = user_info['age']
             user.sex = user_info['sex']

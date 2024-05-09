@@ -1,17 +1,18 @@
 """importing tkinter, messagebox for errors and loginform."""
 import tkinter as tk
 from tkinter import messagebox
-from ui.login_form import LoginForm
 
 
 class RegistrationForm:
     """Registration form view"""
 
-    def __init__(self, master, user_service, daily_plan_service):
+    def __init__(self, master, user_service, daily_plan_service, views):
         self._master = master
         self._frame = tk.Frame(self._master)
         self._user_service = user_service
         self._daily_plan_service = daily_plan_service
+
+        self._handle_show_login_view = views['login']
 
         self._username_label = tk.Label(self._frame, text="Username:")
         self._username_label.pack()
@@ -54,10 +55,7 @@ class RegistrationForm:
         registration_result = self._user_service.register_user(
             username, password)
         if registration_result == "success":
-            self._frame.destroy()
-            LoginForm(self._master,
-                      self._user_service,
-                      self._daily_plan_service)
+            self._go_to_login()
         elif registration_result == "username_exists":
             # Show error if username is in use
             messagebox.showerror("Error", "Username already exists.")
@@ -71,6 +69,4 @@ class RegistrationForm:
     def _go_to_login(self):
         """method for goign back to login"""
         self._frame.destroy()
-        LoginForm(self._master,
-                  self._user_service,
-                  self._daily_plan_service)
+        self._handle_show_login_view()

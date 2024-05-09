@@ -40,7 +40,8 @@ class DailyPlanRepository:
         Returns:
             object: all DailyPlan objects from user
         """
-        daily_plans = self._session.query(DailyPlan).filter(DailyPlan.user_id == user_id).all()
+        daily_plans = self._session.query(DailyPlan).filter(
+            DailyPlan.user_id == user_id).all()
         return daily_plans
 
     def delete_plan(self, plan_id):
@@ -50,8 +51,6 @@ class DailyPlanRepository:
         if plan_to_delete:
             self._session.delete(plan_to_delete)
             self._session.commit()
-
-
 
     def compare_day_to_goal_from_db(self, plan_id, goals):
         """Comparing a days plan to goals
@@ -65,13 +64,15 @@ class DailyPlanRepository:
 
         sleep_compare = plan_to_compare.sleep - goals['sleep_goal']
         outside_compare = plan_to_compare.outside_time - goals['outside_goal']
-        productive_compare = plan_to_compare.productive_time - goals['productive_goal']
+        productive_compare = plan_to_compare.productive_time - \
+            goals['productive_goal']
         exercise_compare = plan_to_compare.exercise - goals['exercise_goal']
-        screen_time_compare = plan_to_compare.screen_time - goals['screen_goal']
+        screen_time_compare = plan_to_compare.screen_time - \
+            goals['screen_goal']
         compared_stats = {'sleep_compare': sleep_compare,
-                          'exercise_compare': exercise_compare, 
-                          'outside_compare': outside_compare, 
-                          'productive_compare': productive_compare, 
+                          'exercise_compare': exercise_compare,
+                          'outside_compare': outside_compare,
+                          'productive_compare': productive_compare,
                           'screen_time_compare': screen_time_compare}
 
         return compared_stats
@@ -86,14 +87,18 @@ class DailyPlanRepository:
         compared_stats = {}
 
         sleep_compare = plan_to_compare['avg_sleep'] - goals['sleep_goal']
-        outside_compare = plan_to_compare['avg_outside_time']  - goals['outside_goal']
-        productive_compare = plan_to_compare['avg_productive_time']  - goals['productive_goal']
-        exercise_compare = plan_to_compare['avg_exercise']  - goals['exercise_goal']
-        screen_time_compare = plan_to_compare['avg_screen_time']  - goals['screen_goal']
+        outside_compare = plan_to_compare['avg_outside_time'] - \
+            goals['outside_goal']
+        productive_compare = plan_to_compare['avg_productive_time'] - \
+            goals['productive_goal']
+        exercise_compare = plan_to_compare['avg_exercise'] - \
+            goals['exercise_goal']
+        screen_time_compare = plan_to_compare['avg_screen_time'] - \
+            goals['screen_goal']
         compared_stats = {'sleep_compare': sleep_compare,
-                          'exercise_compare': exercise_compare, 
-                          'outside_compare': outside_compare, 
-                          'productive_compare': productive_compare, 
+                          'exercise_compare': exercise_compare,
+                          'outside_compare': outside_compare,
+                          'productive_compare': productive_compare,
                           'screen_time_compare': screen_time_compare}
 
         return compared_stats

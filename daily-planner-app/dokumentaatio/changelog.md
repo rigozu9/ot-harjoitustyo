@@ -1,4 +1,7 @@
 # Changelog
+## Loppupalautus
+- Vaihdettu miten UI ikkunat vaihtuu, nyt ei tarvitse pylint warningien ignoraamista.
+
 ## Viikko 6
 - Voi poistaa dailyplannin
 - Näkee vertailua tavoitteisiin päivän aktiviteettien perusteella.

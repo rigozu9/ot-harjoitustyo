@@ -2,17 +2,19 @@
 import tkinter as tk
 from datetime import datetime
 from tkcalendar import Calendar
-from ui.user_info_view import UserInfoView
 
 
 class CalendarView:
     """Daily planner view for the application"""
 
-    def __init__(self, master, user_id, user_service, daily_plan_service):
+    def __init__(self, master, user_id, user_service, daily_plan_service, views):
         self._master = master
         self._user_id = user_id
         self._user_service = user_service
         self._daily_plan_service = daily_plan_service
+
+        self._handle_show_user_info_view = views['user_info']
+        self._handle_show_today_view = views['today']
 
         self._frame = tk.Frame(self._master)
 
@@ -35,13 +37,7 @@ class CalendarView:
         self._frame.pack()
 
     def _go_to_date(self):
-        """
-            Function to print selected date
-            need to import here to avoid cross imports.
-        """
-        # pylint: disable=import-outside-toplevel
-        from ui.today_view import TodayView
-
+        """Function to go to selected date"""
         selected_date_str = self.cal.get_date()
         try:
             # error handling for possible date problems
@@ -59,18 +55,10 @@ class CalendarView:
                     selected_date = datetime.strptime(
                         selected_date_str, '%m/%d/%y').date()
 
-        print("this is the selected_date:", selected_date)
         self._frame.destroy()
-        TodayView(self._master,
-                  self._user_id,
-                  self._user_service,
-                  self._daily_plan_service,
-                  choosen_date=selected_date)
+        self._handle_show_today_view(self._user_id, selected_date)
 
     def _go_to_userpage(self):
         """go to userinfoview"""
         self._frame.destroy()
-        UserInfoView(self._master,
-                     self._user_id,
-                     self._user_service,
-                     self._daily_plan_service)
+        self._handle_show_user_info_view(self._user_id)

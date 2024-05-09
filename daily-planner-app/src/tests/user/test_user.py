@@ -1,14 +1,14 @@
 # Tests for user functions.
 # pylint: disable=all
+import unittest
+from entities.dailyplan import DailyPlan
+from entities.user import User
+from services.user_service import UserService
+from repositories.user_repository import UserRepository
+from database_connection import get_database_session, Base, engine
 import os
 # Turn testing enviroment on when running this
 os.environ["TEST_ENV"] = "True"
-from database_connection import get_database_session, Base, engine
-from repositories.user_repository import UserRepository
-from services.user_service import UserService
-from entities.user import User
-from entities.dailyplan import DailyPlan
-import unittest
 
 
 class TestUser(unittest.TestCase):
@@ -130,19 +130,19 @@ class TestUser(unittest.TestCase):
         except ValueError:
             self.fail("add_info raised ValueError unexpectedly with valid inputs")
 
-        #if age 0
+        # if age 0
         invalid_user_info = valid_user_info.copy()
         invalid_user_info['age'] = 0
         with self.assertRaises(ValueError):
             self.user_service.add_info(invalid_user_info)
 
-        #if age 150
+        # if age 150
         invalid_user_info['age'] = 150
         with self.assertRaises(ValueError):
             self.user_service.add_info(invalid_user_info)
 
-
     # test for showing users info
+
     def test_show_info(self):
         """Test for showing users info after adding it."""
         self.user_service.register_user("testuser", "password")
@@ -170,7 +170,8 @@ class TestUser(unittest.TestCase):
             'productive_goal': 480,
             'screen_goal': 420
         }
-        self.assertEqual(info, expected_info, "User info should match the added info")
+        self.assertEqual(info, expected_info,
+                         "User info should match the added info")
 
 
 if __name__ == "__main__":

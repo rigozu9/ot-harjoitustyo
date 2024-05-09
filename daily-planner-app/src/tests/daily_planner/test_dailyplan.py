@@ -1,17 +1,17 @@
 # pylint: disable=all
 """tests for dailyplan """
+import unittest
+from datetime import date, timedelta
+from entities.dailyplan import DailyPlan
+from entities.user import User
+from services.dailyplan_service import DailyPlanService
+from services.user_service import UserService
+from repositories.dailyplan_repository import DailyPlanRepository
+from repositories.user_repository import UserRepository
+from database_connection import get_database_session, Base, engine
 import os
 # Turn testing enviroment on when running this
 os.environ["TEST_ENV"] = "True"
-from database_connection import get_database_session, Base, engine
-from repositories.user_repository import UserRepository
-from repositories.dailyplan_repository import DailyPlanRepository
-from services.user_service import UserService
-from services.dailyplan_service import DailyPlanService
-from entities.user import User
-from entities.dailyplan import DailyPlan
-from datetime import date, timedelta
-import unittest
 
 
 class TestDailyPlan(unittest.TestCase):
@@ -81,7 +81,8 @@ class TestDailyPlan(unittest.TestCase):
 
     def test_create_plans(self):
         """Test creating daily plans"""
-        plan = self.session.query(DailyPlan).filter_by(user_id=self.test_user_id).first()
+        plan = self.session.query(DailyPlan).filter_by(
+            user_id=self.test_user_id).first()
 
         self.assertIsNotNone(plan, "See if plan in db")
         self.assertEqual(plan.date, self.test_date, "date equal.")
@@ -96,7 +97,6 @@ class TestDailyPlan(unittest.TestCase):
                          self.test_screen_time, "screentime equal")
         self.assertEqual(plan.other_activities,
                          self.test_other_activities, "other activites equal")
-
 
     def test_get_plans_by_id(self):
         """Test retrieving daily plans"""
@@ -125,7 +125,8 @@ class TestDailyPlan(unittest.TestCase):
 
     def test_averages(self):
         """Test for getting the average dailyplan activities"""
-        result = self.daily_plan_service.calculate_average_attributes(self.test_user_id)
+        result = self.daily_plan_service.calculate_average_attributes(
+            self.test_user_id)
         expected_result = {
             'avg_sleep': 450,
             'avg_outside_time': 390,
@@ -133,27 +134,36 @@ class TestDailyPlan(unittest.TestCase):
             'avg_exercise': 210,
             'avg_screen_time': 510
         }
-        self.assertAlmostEqual(result['avg_sleep'], expected_result['avg_sleep'])
-        self.assertAlmostEqual(result['avg_outside_time'], expected_result['avg_outside_time'])
-        self.assertAlmostEqual(result['avg_productive_time'], expected_result['avg_productive_time'])
-        self.assertAlmostEqual(result['avg_exercise'], expected_result['avg_exercise'], places=2)
-        self.assertAlmostEqual(result['avg_screen_time'], expected_result['avg_screen_time'], places=2)
+        self.assertAlmostEqual(
+            result['avg_sleep'], expected_result['avg_sleep'])
+        self.assertAlmostEqual(
+            result['avg_outside_time'], expected_result['avg_outside_time'])
+        self.assertAlmostEqual(
+            result['avg_productive_time'], expected_result['avg_productive_time'])
+        self.assertAlmostEqual(
+            result['avg_exercise'], expected_result['avg_exercise'], places=2)
+        self.assertAlmostEqual(
+            result['avg_screen_time'], expected_result['avg_screen_time'], places=2)
 
     def test_averages_no_date(self):
         """Test for if there are no plans"""
-        plan = self.daily_plan_service.calculate_average_attributes(self.test_user_id+1)
-        self.assertIsNone(plan, "None for wrong date")    
+        plan = self.daily_plan_service.calculate_average_attributes(
+            self.test_user_id+1)
+        self.assertIsNone(plan, "None for wrong date")
 
     def test_delete_plan(self):
         """Test deleting a daily plan"""
-        plan = DailyPlan(user_id=self.test_user_id, date=self.test_date, sleep=420, outside_time=360)
+        plan = DailyPlan(user_id=self.test_user_id,
+                         date=self.test_date, sleep=420, outside_time=360)
         self.session.add(plan)
         self.session.commit()
 
-        self.assertIsNotNone(self.session.query(DailyPlan).filter_by(id=plan.id).one_or_none(), "Plan exists")
+        self.assertIsNotNone(self.session.query(DailyPlan).filter_by(
+            id=plan.id).one_or_none(), "Plan exists")
 
         self.daily_plan_service.remove_plan(plan.id)
-        self.assertIsNone(self.session.query(DailyPlan).filter_by(id=plan.id).one_or_none(), "Plan deleted")
+        self.assertIsNone(self.session.query(DailyPlan).filter_by(
+            id=plan.id).one_or_none(), "Plan deleted")
 
     def test_compare_day_to_goal_from_db(self):
         """Test comparing a day's plan to goals"""
@@ -163,17 +173,21 @@ class TestDailyPlan(unittest.TestCase):
         }
 
         plan = DailyPlan(user_id=self.test_user_id, date=self.test_date,
-                        sleep=420, outside_time=360, productive_time=100, exercise=200, screen_time=500)
+                         sleep=420, outside_time=360, productive_time=100, exercise=200, screen_time=500)
         self.session.add(plan)
         self.session.commit()
 
-        compared_stats = self.daily_plan_service.compare_day_to_goal(plan.id, goals)
+        compared_stats = self.daily_plan_service.compare_day_to_goal(
+            plan.id, goals)
 
         self.assertEqual(compared_stats['sleep_compare'], 20, "Sleep same")
-        self.assertEqual(compared_stats['exercise_compare'], 20, "Exercise same")
+        self.assertEqual(
+            compared_stats['exercise_compare'], 20, "Exercise same")
         self.assertEqual(compared_stats['outside_compare'], 60, "Outside same")
-        self.assertEqual(compared_stats['productive_compare'], -20, "Productive same")
-        self.assertEqual(compared_stats['screen_time_compare'], 20, "Screen same")
+        self.assertEqual(
+            compared_stats['productive_compare'], -20, "Productive same")
+        self.assertEqual(
+            compared_stats['screen_time_compare'], 20, "Screen same")
 
     def test_compare_total_days_to_goal_from_db(self):
         """Test comparing total days' averages to goals"""
@@ -186,13 +200,18 @@ class TestDailyPlan(unittest.TestCase):
             'productive_goal': 100, 'screen_goal': 480
         }
 
-        compared_stats = self.daily_plan_service.compare_total_days_to_goal(total_plans, goals)
+        compared_stats = self.daily_plan_service.compare_total_days_to_goal(
+            total_plans, goals)
 
         self.assertEqual(compared_stats['sleep_compare'], 50, "Sleep same")
-        self.assertEqual(compared_stats['exercise_compare'], 20, "Exercise csame")
+        self.assertEqual(
+            compared_stats['exercise_compare'], 20, "Exercise csame")
         self.assertEqual(compared_stats['outside_compare'], 10, "Outisde same")
-        self.assertEqual(compared_stats['productive_compare'], 20, "Productive same")
-        self.assertEqual(compared_stats['screen_time_compare'], 10, "Screen time same")
+        self.assertEqual(
+            compared_stats['productive_compare'], 20, "Productive same")
+        self.assertEqual(
+            compared_stats['screen_time_compare'], 10, "Screen time same")
+
 
 if __name__ == "__main__":
     unittest.main()

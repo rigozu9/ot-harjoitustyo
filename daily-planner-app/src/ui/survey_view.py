@@ -1,15 +1,16 @@
 """importing tkinter, messagebox and ttk. Also the dailyplanner"""
 import tkinter as tk
 from tkinter import messagebox, ttk
-from ui.daily_planner_view import DailyPlanner
 
 
 class SurveyView:
     """Daily planner view for the application"""
 
-    def __init__(self, master, user_id, user_service, daily_plan_service):
+    def __init__(self, master, user_id, user_service, daily_plan_service, views):
         self._master = master
         self._user_id = user_id
+
+        self._handle_show_daily_plan_view = views['daily_planner']
 
         self._frame = tk.Frame(self._master)
         self._user_service = user_service
@@ -134,10 +135,12 @@ class SurveyView:
             messagebox.showinfo(
                 "Success", "Your information has been submitted successfully!")
             self._frame.destroy()
-            DailyPlanner(self._master, self._user_id,
-                         self._user_service, self._daily_plan_service)
+            self._handle_show_daily_plan_view(self._user_id)
 
-        except ValueError as e:
-            messagebox.showerror("Submission Error", str(e))
-
+        except ValueError:
+            messagebox.showerror(
+                "Submission Error",
+                ("Fill all the fields with numbers. "
+                 "If only minutes/hours put 0")
+            )
         # generöity koodi loppuu

@@ -1,18 +1,19 @@
-"""importing tkinter, datetime, userinfoview and messagebox"""
+"""importing tkinter, datetime and messagebox"""
 import tkinter as tk
 from tkinter import messagebox
 from datetime import date
-from ui.user_info_view import UserInfoView
-from ui.today_view import TodayView
-from ui.calendar_view import CalendarView
 
 
 class DailyPlanner:
     """Daily planner view for the application"""
 
-    def __init__(self, master, user_id, user_service, daily_plan_service, selected_date=None):
+    def __init__(self, master, user_id, user_service, daily_plan_service, views, selected_date=None):
         self._master = master
         self._user_id = user_id
+
+        self._handle_show_user_info_view = views['user_info']
+        self._handle_show_today_view = views['today']
+        self._handle_calender_view = views['calendar']
 
         self._frame = tk.Frame(self._master)
 
@@ -45,7 +46,8 @@ class DailyPlanner:
         self._go_to_calender_button.pack()
 
         # generöity koodi alkaa
-        self._create_time_entry("Sleep", "How many (hours and minutes) did you sleep?")
+        self._create_time_entry(
+            "Sleep", "How many (hours and minutes) did you sleep?")
         # Outside time
         self._create_time_entry(
             "Outside", "How many (hours and minutes) did you spend outside?")
@@ -125,7 +127,8 @@ class DailyPlanner:
                 "total_productive_minutes": total_productive_minutes,
                 "total_exercise_minutes": total_exercise_minutes,
                 "total_screen_minutes": total_screen_minutes,
-                "other": self._other_entry.get()  # Assuming you're keeping the other activity as a simple entry
+                # Assuming you're keeping the other activity as a simple entry
+                "other": self._other_entry.get()
             }
 
             # Call the daily_plan_service to create or update the plan
@@ -134,25 +137,22 @@ class DailyPlanner:
             messagebox.showinfo(
                 "Success", "Your daily plan has been submitted successfully!")
             self._frame.destroy()
-            TodayView(self._master, self._user_id,
-                      self._user_service, self._daily_plan_service)
+            self._handle_show_today_view(self._user_id, self._date)
 
-        except ValueError as e:
-            messagebox.showerror("Submission Error", str(e))
+        except ValueError:
+            messagebox.showerror(
+                "Submission Error",
+                ("Fill all the fields with numbers. "
+                 "If only minutes/hours put 0")
+            )
     # generöity koodi loppuu
 
     def _go_to_userpage(self):
         """go to userinfoview"""
         self._frame.destroy()
-        UserInfoView(self._master,
-                     self._user_id,
-                     self._user_service,
-                     self._daily_plan_service)
+        self._handle_show_user_info_view(self._user_id)
 
     def _go_to_calender(self):
         """method for going to calendar"""
         self._frame.destroy()
-        CalendarView(self._master,
-                     self._user_id,
-                     self._user_service,
-                     self._daily_plan_service)
+        self._handle_calender_view(self._user_id)

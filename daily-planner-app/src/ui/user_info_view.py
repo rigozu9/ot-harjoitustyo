@@ -2,14 +2,18 @@ import tkinter as tk
 from tkinter import Canvas
 import math
 
+
 class UserInfoView:
     """here you can see your own information"""
-    def __init__(self, master, user_id, user_service, daily_plan_service):
+
+    def __init__(self, master, user_id, user_service, daily_plan_service, views):
         self._master = master
         self._user_id = user_id
 
         # Define colors for the pie chart
         self._col_v = ["red", "blue", "orange", "green", "black"]
+
+        self._handle_show_today_view = views['today']
 
         # Central frame for information and goals
         self._info_frame = tk.Frame(self._master)
@@ -28,7 +32,8 @@ class UserInfoView:
 
         self._user_service = user_service
         self._daily_plan_service = daily_plan_service
-        self._all_plans = self._daily_plan_service.calculate_average_attributes(self._user_id)
+        self._all_plans = self._daily_plan_service.calculate_average_attributes(
+            self._user_id)
         self._username = self._user_service.get_username(self._user_id)
 
         self._welcome_label = tk.Label(
@@ -39,7 +44,8 @@ class UserInfoView:
             self._info_frame, text="Today's view", command=self._goto_todayview)
         self._goto_dailyplanner_button.pack()
 
-        self._day_counter = self._daily_plan_service.count_user_plans(self._user_id)
+        self._day_counter = self._daily_plan_service.count_user_plans(
+            self._user_id)
         self._days_label = tk.Label(
             self._info_frame, text=f"Averages from {self._day_counter} days", font=('Arial', 14))
         self._days_label.pack()
@@ -63,10 +69,10 @@ class UserInfoView:
                 self._all_plans['avg_screen_time']
             ], self._avg_canvas, "avg")
 
-    #generöity koodi alkaa
+    # generöity koodi alkaa
     def _create_piechart(self, values, canvas, chart_type):
         """create a piechart for the user info"""
-        st = 0 
+        st = 0
         coord = 110, 110, 250, 250
         if chart_type == "goal":
             activity_labels = [f"Sleep {values[0]/60:.1f} hours", f"Outside {values[1]/60:.1f} hours",
@@ -80,37 +86,40 @@ class UserInfoView:
             values_summed = sum(values)
 
         for val, col, label in zip(values, self._col_v, activity_labels):
-            extent = (val / values_summed) * 360  # Calculate extent as a percentage of 360 degrees
+            # Calculate extent as a percentage of 360 degrees
+            extent = (val / values_summed) * 360
             self._draw_pie_slice(canvas, coord, st, extent, col, label)
             st += extent  # Update the start angle for the next slice
 
     def _draw_pie_slice(self, canvas, coord, start, extent, fill_color, label):
         # Draw the arc (a slice of the pie chart)
-        canvas.create_arc(coord, start=start, extent=extent, fill=fill_color, outline=fill_color)
+        canvas.create_arc(coord, start=start, extent=extent,
+                          fill=fill_color, outline=fill_color)
 
         # Calculate the angle in the middle of the slice for text placement
         mid_angle = start + extent / 2
         angle_rad = math.radians(mid_angle)
-        
+
         center_x = (coord[0] + coord[2]) / 2
         center_y = (coord[1] + coord[3]) / 2
         radius = (coord[2] - coord[0]) / 2
         text_offset = radius * 1.5
-        
+
         # Text coordinates
         text_x = center_x + text_offset * math.cos(angle_rad)
         text_y = center_y - text_offset * math.sin(angle_rad)
-        
+
         # Line end coordinates (on the pie slice)
         line_end_x = center_x + radius * math.cos(angle_rad) + 10
         line_end_y = center_y - radius * math.sin(angle_rad) + 10
-        
+
         # Create the text
         canvas.create_text(text_x, text_y, text=label, fill="magenta")
 
         # Draw the line
-        canvas.create_line(text_x, text_y, line_end_x, line_end_y, fill="white")
-    #generöity koodi loppuu
+        canvas.create_line(text_x, text_y, line_end_x,
+                           line_end_y, fill="white")
+    # generöity koodi loppuu
 
     def _get_message(self, diff_hours):
         if diff_hours > 0:
@@ -123,14 +132,20 @@ class UserInfoView:
     def _display_info(self):
         """Displaying user information in the info frame using dictionary keys."""
         if self._all_plans:
-            compared_stats = self._daily_plan_service.compare_total_days_to_goal(self._all_plans, self._info)
+            compared_stats = self._daily_plan_service.compare_total_days_to_goal(
+                self._all_plans, self._info)
 
             # Generate dynamic messages using the comparison stats
-            sleep_message = self._get_message(compared_stats['sleep_compare'] / 60)
-            exercise_message = self._get_message(compared_stats['exercise_compare'] / 60)
-            outside_message = self._get_message(compared_stats['outside_compare'] / 60)
-            productive_message = self._get_message(compared_stats['productive_compare'] / 60)
-            screen_message = self._get_message(compared_stats['screen_time_compare'] / 60)
+            sleep_message = self._get_message(
+                compared_stats['sleep_compare'] / 60)
+            exercise_message = self._get_message(
+                compared_stats['exercise_compare'] / 60)
+            outside_message = self._get_message(
+                compared_stats['outside_compare'] / 60)
+            productive_message = self._get_message(
+                compared_stats['productive_compare'] / 60)
+            screen_message = self._get_message(
+                compared_stats['screen_time_compare'] / 60)
 
             # Info labels list with dynamic messages
             info_labels = [
@@ -169,13 +184,11 @@ class UserInfoView:
         label = tk.Label(frame, text=text, anchor="w")
         label.pack(fill='x', padx=150)
 
-
     def _goto_todayview(self):
-        """going to todayview button. Need to import here to avoid cross import"""
-        # pylint: disable=import-outside-toplevel
-        from ui.today_view import TodayView
+        """going to todayview button."""
         self._info_frame.destroy()
         self._chart_frame.destroy()
         self._canvas.destroy()
         self._avg_canvas.destroy()
-        TodayView(self._master, self._user_id, self._user_service, self._daily_plan_service)
+
+        self._handle_show_today_view(self._user_id)

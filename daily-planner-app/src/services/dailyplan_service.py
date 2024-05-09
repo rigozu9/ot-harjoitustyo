@@ -39,7 +39,6 @@ class DailyPlanService:
         """Calculate average values from totals."""
         return {f"avg_{key}": total / count for key, total in totals.items()}
 
-
     def remove_plan(self, plan_id):
         """Calculate average values from totals."""
         self._dailyplan_repository.delete_plan(plan_id)
