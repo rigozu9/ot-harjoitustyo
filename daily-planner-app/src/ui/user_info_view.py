@@ -14,6 +14,7 @@ class UserInfoView:
         self._col_v = ["red", "blue", "orange", "green", "black"]
 
         self._handle_show_today_view = views['today']
+        self._handle_show_advice_view = views['user_advice']
 
         # Central frame for information and goals
         self._info_frame = tk.Frame(self._master)
@@ -42,6 +43,11 @@ class UserInfoView:
 
         self._goto_dailyplanner_button = tk.Button(
             self._info_frame, text="Today's view", command=self._goto_todayview)
+        self._goto_dailyplanner_button.pack()
+
+        self._goto_dailyplanner_button = tk.Button(
+            self._info_frame, text="See recommendations for better daily habits here",
+                command=self._goto_advice_view)
         self._goto_dailyplanner_button.pack()
 
         self._day_counter = self._daily_plan_service.count_user_plans(
@@ -192,3 +198,11 @@ class UserInfoView:
         self._avg_canvas.destroy()
 
         self._handle_show_today_view(self._user_id)
+
+    def _goto_advice_view(self):
+        """going to advice page button."""
+        self._info_frame.destroy()
+        self._chart_frame.destroy()
+        self._canvas.destroy()
+        self._avg_canvas.destroy()
+        self._handle_show_advice_view(self._user_id)

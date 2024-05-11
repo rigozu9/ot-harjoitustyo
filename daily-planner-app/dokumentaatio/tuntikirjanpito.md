@@ -27,6 +27,6 @@
 | 29.4.  | 3    | Pylint 10/10 ja testien muutoksia. Näkee päivän tulosten vertailut tavoitteisiin.|
 | 30.4.  | 2    | Nyt näkee kaikien päivien vertailut tavoitteisiin. Viikko 6 palautuksen viimeistely. |
 | 9.5.   | 2    | UI näkymien muuttaminen selvemmäksi. |
+| 11.5.   | 2   | Lisätty ensiaskeleet vinkkien antamiseen. |
 
-
-| YHT | 56h |
+| YHT | 58h |

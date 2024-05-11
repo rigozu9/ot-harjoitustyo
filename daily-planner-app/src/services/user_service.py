@@ -44,3 +44,12 @@ class UserService:
     def show_info(self, user_id):
         """calls user repo's get_info method for showing users information from user_id"""
         return self.user_repository.get_info(user_id)
+
+    def get_advice(self, goals=None, averages=None):
+        """calls get adivce from db
+
+        Args:
+            goals (dict): users goals
+            averages (dict): users averages
+        """
+        return self.user_repository.get_advice_from_db(goals, averages)

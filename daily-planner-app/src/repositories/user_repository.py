@@ -108,3 +108,69 @@ class UserRepository:
             'productive_goal': user.productive_goal,
             'screen_goal': user.screen_goal
         }
+
+    def get_advice_from_db(self, goals, averages):
+        good_goals = {
+            'good_sleep': 420,
+            'good_exercise': 30,
+            'good_outside': 20,
+            'good_productive': 456,
+            'good_screen': 360
+        }
+
+        goal_improvements = {}
+        average_improvements = {}
+
+        if goals:
+            if goals["sleep_goal"] < good_goals["good_sleep"]:
+                goal_improvements["sleep_advice"] = "Sleep more"
+            else:
+                goal_improvements["sleep_advice"] = "Your sleep habits are good"
+
+            if goals["exercise_goal"] < good_goals["good_exercise"]:
+                goal_improvements["exercise_advice"] = "Exercise more"
+            else:
+                goal_improvements["exercise_advice"] = "Your exercise habits are good"
+
+            if goals["outside_goal"] < good_goals["good_outside"]:
+                goal_improvements["outside_advice"] = "Be outside more"
+            else:
+                goal_improvements["outside_advice"] = "Your outside habits are good"
+
+            if goals["productive_goal"] < good_goals["good_productive"]:
+                goal_improvements["productive_advice"] = "Be more productive"
+            else:
+                goal_improvements["productive_advice"] = "Your productive habits are good"
+
+            if goals["screen_goal"] > good_goals["good_screen"]:
+                goal_improvements["screen_time_advice"] = "Have less screentime"
+            else:
+                goal_improvements["screen_time_advice"] = "Your screentime habits are good"
+        
+        if averages:
+            if averages["avg_sleep"] < good_goals["good_sleep"]:
+                average_improvements["sleep_advice"] = "Sleep more"
+            else:
+                average_improvements["sleep_advice"] = "Your sleep habits are good"
+
+            if averages["avg_exercise"] < good_goals["good_exercise"]:
+                average_improvements["exercise_advice"] = "Exercise more"
+            else:
+                average_improvements["exercise_advice"] = "Your exercise habits are good"
+
+            if averages["avg_outside_time"] < good_goals["good_outside"]:
+                average_improvements["outside_advice"] = "Be outside more"
+            else:
+                average_improvements["outside_advice"] = "Your outside habits are good"
+
+            if averages["avg_productive_time"] < good_goals["good_productive"]:
+                average_improvements["productive_advice"] = "Be more productive"
+            else:
+                average_improvements["productive_advice"] = "Your productive habits are good"
+
+            if averages["avg_screen_time"] > good_goals["good_screen"]:
+                average_improvements["screen_time_advice"] = "Have less screentime"
+            else:
+                average_improvements["screen_time_advice"] = "Your screentime habits are good"
+
+        return goal_improvements, average_improvements
