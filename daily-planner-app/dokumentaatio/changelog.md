@@ -1,6 +1,7 @@
 # Changelog
 ## Loppupalautus
 - Vaihdettu miten UI ikkunat vaihtuu, nyt ei tarvitse pylint warningien ignoraamista.
+- Sovellus antaa ehdotuksia päivittäisien tapojen parantamiseen. 
 
 ## Viikko 6
 - Voi poistaa dailyplannin

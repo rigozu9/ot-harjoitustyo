@@ -1,3 +1,7 @@
+# Käyttöohje
+
+Lataa projektin viimeisimmän [releasen](https://github.com/rigozu9/ot-harjoitustyo/releases) lähdekoodi valitsemalla _Assets_-osion alta _Source code_.
+
 ### Ohjelman suorittaminen
 Mene poetryn virtual enviin komennolla: 
 

@@ -6,7 +6,7 @@ services folderista, jossa on sovelluslogiikka ja UI kansiosta, jossa on fronten
 ![Pakkausrakenne](./kuvat/pakkausrakenne.png)
 
 ## Käyttöliittymä
-Käyttöliittymässä on 7 näkymää
+Käyttöliittymässä on 8 näkymää
 - Uuden käyttäjän luominen
 - Kirjautuminen
 - Daily planner näkymä
@@ -14,8 +14,10 @@ Käyttöliittymässä on 7 näkymää
 - Ensikyselyn näkymä
 - Today view, eli päivän aktiviteettien näkymä
 - User info view, eli omien tietojen näkymä.
+- Advice view mistä näkee omia ehdotuksia.
 
 Näkymillä on omat luokkansa, jotka kutsuvat dailyplanner ja user servicejä. 
+Kun näkymää vaihdetaan kutsutaan views sanakirjaa, jossa on ui.py:ssä alusetetut näkymät. 
 
 ## Sovelluslogiikka
 ### Mallit 
