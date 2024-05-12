@@ -47,7 +47,7 @@ class UserInfoView:
 
         self._goto_dailyplanner_button = tk.Button(
             self._info_frame, text="See recommendations for better daily habits here",
-                command=self._goto_advice_view)
+            command=self._goto_advice_view)
         self._goto_dailyplanner_button.pack()
 
         self._day_counter = self._daily_plan_service.count_user_plans(

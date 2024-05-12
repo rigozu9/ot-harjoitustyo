@@ -71,13 +71,13 @@ class UI:
                      self._user_service,
                      self._daily_plan_service,
                      self._views)
-        
+
     def _show_user_advice_view(self, user_id):
         AdvicePageView(self._root,
-                     user_id,
-                     self._user_service,
-                     self._daily_plan_service,
-                     self._views)
+                       user_id,
+                       self._user_service,
+                       self._daily_plan_service,
+                       self._views)
 
     def _add_views_to_dict(self):
         """Store view functions in a dictionary for easy access and management."""

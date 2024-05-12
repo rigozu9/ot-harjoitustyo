@@ -8,6 +8,26 @@ class UserRepository:
 
     def __init__(self, session):
         self._session = session
+        self._good_goals = {
+            'sleep': 420,
+            'exercise': 30,
+            'outside': 20,
+            'productive': 456,
+            'screen': 360
+        }
+        self._advice_urls = {
+            'sleep': "https://www.sleepfoundation.org/how-sleep-works/" +
+                    "how-much-sleep-do-we-really-need",
+            'exercise': "https://www.cdc.gov/physicalactivity/basics/adults/index.htm",
+            'outside': "https://www.menshealth.com/fitness/a36547849/" +
+                        "how-much-time-should-i-spend-outside/",
+            'productive': "https://www.atlassian.com/blog/productivity/" +
+                            "this-is-how-many-hours-you-should-really-be-working",
+            'screen': [
+                "https://www.reidhealth.org/blog/screen-time-for-adults",
+                "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5574844/"
+            ]
+        }
 
     def find_by_username(self, username):
         """Check for username in the database
@@ -110,67 +130,45 @@ class UserRepository:
         }
 
     def get_advice_from_db(self, goals, averages):
-        good_goals = {
-            'good_sleep': 420,
-            'good_exercise': 30,
-            'good_outside': 20,
-            'good_productive': 456,
-            'good_screen': 360
+        """Get advice based on your goals or averages."""
+        goal_improvements = self._evaluate_metrics(goals, "goal") if goals else {}
+        average_improvements = self._evaluate_metrics(averages, "avg") if averages else {}
+        return goal_improvements, average_improvements
+
+    def _evaluate_metrics(self, metrics, fix):
+        """Evaluate metrics against good goals and generate advice."""
+        improvements = {}
+        for key, value in metrics.items():
+            if fix == "avg":
+                if key.startswith(fix):
+                    category = key.split('_')[1]
+                    good_value = self._good_goals[category]
+                    advice_key = f"{category}_advice"
+                    is_good = value <= good_value if category == 'screen' else value >= good_value
+                    improvements[advice_key] = self._generate_advice(category, is_good)
+            if fix == "goal":
+                if key.endswith(fix):
+                    category = key[:-len(fix)-1]
+                    good_value = self._good_goals[category]
+                    advice_key = f"{category}_advice"
+                    is_good = value <= good_value if category == 'screen' else value >= good_value
+                    improvements[advice_key] = self._generate_advice(category, is_good)
+        return improvements
+
+    def _generate_advice(self, category, is_good):
+        """Generate advice based on the category and whether the current value is good."""
+        if is_good:
+            return f"Your {category} habits are good."
+
+        advice_messages = {
+            'sleep': "Try to get at least 7 hours of sleep to maintain optimal health.",
+            'exercise': "Aim for at least 30 minutes of exercise daily to stay active.",
+            'outside': "Spending at least 20 minutes outside daily can " +
+                        "greatly benefit your well-being.",
+            'productive': "Aim to have around 7-8 hours of productive time each day.",
+            'screen': "Consider reducing your screen time to improve your overall health."
         }
 
-        goal_improvements = {}
-        average_improvements = {}
-
-        if goals:
-            if goals["sleep_goal"] < good_goals["good_sleep"]:
-                goal_improvements["sleep_advice"] = "Sleep more"
-            else:
-                goal_improvements["sleep_advice"] = "Your sleep habits are good"
-
-            if goals["exercise_goal"] < good_goals["good_exercise"]:
-                goal_improvements["exercise_advice"] = "Exercise more"
-            else:
-                goal_improvements["exercise_advice"] = "Your exercise habits are good"
-
-            if goals["outside_goal"] < good_goals["good_outside"]:
-                goal_improvements["outside_advice"] = "Be outside more"
-            else:
-                goal_improvements["outside_advice"] = "Your outside habits are good"
-
-            if goals["productive_goal"] < good_goals["good_productive"]:
-                goal_improvements["productive_advice"] = "Be more productive"
-            else:
-                goal_improvements["productive_advice"] = "Your productive habits are good"
-
-            if goals["screen_goal"] > good_goals["good_screen"]:
-                goal_improvements["screen_time_advice"] = "Have less screentime"
-            else:
-                goal_improvements["screen_time_advice"] = "Your screentime habits are good"
-        
-        if averages:
-            if averages["avg_sleep"] < good_goals["good_sleep"]:
-                average_improvements["sleep_advice"] = "Sleep more"
-            else:
-                average_improvements["sleep_advice"] = "Your sleep habits are good"
-
-            if averages["avg_exercise"] < good_goals["good_exercise"]:
-                average_improvements["exercise_advice"] = "Exercise more"
-            else:
-                average_improvements["exercise_advice"] = "Your exercise habits are good"
-
-            if averages["avg_outside_time"] < good_goals["good_outside"]:
-                average_improvements["outside_advice"] = "Be outside more"
-            else:
-                average_improvements["outside_advice"] = "Your outside habits are good"
-
-            if averages["avg_productive_time"] < good_goals["good_productive"]:
-                average_improvements["productive_advice"] = "Be more productive"
-            else:
-                average_improvements["productive_advice"] = "Your productive habits are good"
-
-            if averages["avg_screen_time"] > good_goals["good_screen"]:
-                average_improvements["screen_time_advice"] = "Have less screentime"
-            else:
-                average_improvements["screen_time_advice"] = "Your screentime habits are good"
-
-        return goal_improvements, average_improvements
+        urls = self._advice_urls[category]
+        url_text = ' '.join(urls) if isinstance(urls, list) else urls
+        return f"{advice_messages[category]} Learn more: {url_text}"
