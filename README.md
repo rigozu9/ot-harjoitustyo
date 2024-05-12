@@ -19,15 +19,15 @@ Kun syötät päivän aktiviteetit, saat vertailutietoja tavoitteisiisi nähden.
 
 [Arkkitehtuuri](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/dokumentaatio/arkkitehtuuri.md)
 
-[Testaus] (https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/dokumentaatio/testaus.md)
+[Testaus](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/dokumentaatio/testaus.md)
 
-[Releases] (https://github.com/rigozu9/ot-harjoitustyo/releases)
+[Releases](https://github.com/rigozu9/ot-harjoitustyo/releases)
 
 
 ## Nopea asennus
 
 ### (Tarkemmat ohjeet löytyvät täältä):
-[Käyttöohje] (https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/dokumentaatio/kayttoohje.md)
+[Käyttöohje](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/dokumentaatio/kayttoohje.md)
 
 1. Kloona projekti ssh komennolla: 
 ```bash
