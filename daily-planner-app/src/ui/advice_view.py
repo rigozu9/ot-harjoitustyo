@@ -2,6 +2,7 @@
 import tkinter as tk
 import webbrowser
 import re
+import random
 
 class AdvicePageView:
     """Daily planner view for the application"""
@@ -11,6 +12,10 @@ class AdvicePageView:
         self._user_id = user_id
 
         self._frame = tk.Frame(self._master)
+
+        self._handle_show_user_info_view = views['user_info']
+        self._handle_show_source_view = views['source']
+
 
         self._user_service = user_service
         self._daily_plan_service = daily_plan_service
@@ -36,6 +41,14 @@ class AdvicePageView:
 
         self._show_average_improvements()
 
+        self._info_button = tk.Button(
+            self._frame, text="Your profile", command=self._go_to_userpage)
+        self._info_button.pack()
+
+        self._info_button = tk.Button(
+            self._frame, text="Sources", command=self._go_to_sources)
+        self._info_button.pack()
+
         self._frame.pack()
 
     def _create_and_pack_label(self, text, frame):
@@ -49,29 +62,36 @@ class AdvicePageView:
     #koodin generöinti alkaa
     def _create_and_pack_text(self, text, frame):
         """
-            Helper function to create a text widget with optional hyperlinks and
-            pack it into the given frame.
+        Helper function to create a text widget with optional hyperlinks and
+        pack it into the given frame. Randomly selects one hyperlink to display.
         """
         text_widget = tk.Text(frame, height=2, wrap='word', cursor="arrow",
-                              padx=10, pady=5, font=('Arial', 10), bg='lightgrey')
+                            padx=10, pady=5, font=('Arial', 10), bg='lightgrey')
         url_pattern = r'(https?://\S+)'  # Regex pattern to find URLs
+        urls = []  # List to store found URLs with their positions
+
         start = 0
         for match in re.finditer(url_pattern, text):
             url = match.group(0)
-            start_index = '1.0+' + str(start) + 'c'
-            end_index = '1.0+' + str(start + len(url)) + 'c'
-            text_widget.insert('end', text[start:match.start()])
-            text_widget.insert('end', url, 'hyper')
-            text_widget.tag_bind('hyper', "<Enter>", 
-                                 lambda e, url=url: text_widget.config(cursor="hand2"))
-            text_widget.tag_bind('hyper', "<Leave>", 
-                                 lambda e, url=url: text_widget.config(cursor="arrow"))
-            text_widget.tag_bind('hyper', "<Button-1>", 
-                                 lambda e, url=url: webbrowser.open_new(url))
-            start = match.end()
+            urls.append((url, match.start(), match.end()))  # Store URL and positions
+            text_widget.insert('end', text[start:match.start()])  # Insert text up to the URL
+            start = match.end()  # Update start to end of the current URL
 
-        # Insert any remaining text after the last URL
-        text_widget.insert('end', text[start:])
+        # Insert any remaining text after the last URL if no URLs found
+        if not urls:
+            text_widget.insert('end', text)
+        else:
+            selected_url, start_pos, end_pos = random.choice(urls)  # Randomly select one URL
+            # Insert the selected URL with hyperlink
+            text_widget.insert('end', text[start_pos:end_pos], 'hyper')
+            text_widget.tag_bind('hyper', "<Enter>",
+                                lambda e, url=selected_url: text_widget.config(cursor="hand2"))
+            text_widget.tag_bind('hyper', "<Leave>",
+                                lambda e, url=selected_url: text_widget.config(cursor="arrow"))
+            text_widget.tag_bind('hyper', "<Button-1>",
+                                lambda e, url=selected_url: webbrowser.open_new(url))
+            # Insert any text after the selected URL
+            text_widget.insert('end', text[end_pos:])
 
         text_widget.tag_configure("hyper", foreground="blue", underline=1)
         text_widget.config(state='disabled')
@@ -90,3 +110,13 @@ class AdvicePageView:
         average_advice_dict = self._user_service.get_advice(None, averages)[1]
         for _, advice_text in average_advice_dict.items():
             self._create_and_pack_text(advice_text, self._frame)
+
+    def _go_to_userpage(self):
+        """go to userinfoview"""
+        self._frame.destroy()
+        self._handle_show_user_info_view(self._user_id)
+
+    def _go_to_sources(self):
+        """go to sourcepage"""
+        self._frame.destroy()
+        self._handle_show_source_view(self._user_id)

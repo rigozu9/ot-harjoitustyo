@@ -16,16 +16,44 @@ class UserRepository:
             'screen': 360
         }
         self._advice_urls = {
-            'sleep': "https://www.sleepfoundation.org/how-sleep-works/" +
-                    "how-much-sleep-do-we-really-need",
-            'exercise': "https://www.cdc.gov/physicalactivity/basics/adults/index.htm",
-            'outside': "https://www.menshealth.com/fitness/a36547849/" +
-                        "how-much-time-should-i-spend-outside/",
-            'productive': "https://www.atlassian.com/blog/productivity/" +
-                            "this-is-how-many-hours-you-should-really-be-working",
+            'sleep': [
+                "https://www.sleepfoundation.org/how-sleep-works/" +
+                "how-much-sleep-do-we-really-need",
+                "https://www.nhlbi.nih.gov/health/sleep-deprivation/" + 
+                "health-effects",
+                "https://www.cdc.gov/sleep/about_sleep/sleep_hygiene.html"
+         
+            ],
+            'exercise': [
+                "https://www.cdc.gov/physicalactivity/basics/adults/index.htm",
+                "https://health.clevelandclinic.org/benefits-of-exercise-other-" + 
+                "than-weight-loss", "https://www.healthdirect.gov.au/exercise-and" + 
+                "-mental-health"
+
+            ],
+            'outside': [
+                "https://www.menshealth.com/fitness/a36547849/" +
+                "how-much-time-should-i-spend-outside/",
+                "https://www.hsph.harvard.edu/news/hsph-in-the-news/" +
+                "spend-time-outdoors-itll-improve-your-health-say-experts/",
+                "https://www.healthline.com/health/health-benefits-of-being-" +
+                "outdoors"
+          
+            ],
+            'productive': [
+                "https://www.atlassian.com/blog/productivity/" +
+                "this-is-how-many-hours-you-should-really-be-working",
+                "https://habitgrowth.com/advantages-of-being-productive/",
+                "https://www.verywellmind.com/how-to-be-more-productive-6499714"
+
+            ],
             'screen': [
                 "https://www.reidhealth.org/blog/screen-time-for-adults",
-                "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5574844/"
+                "https://www.mayoclinichealthsystem.org/hometown-health/featured-topic/" +
+                "5-ways-slimming-screen-time-is-good-for-your-health",
+                "https://www.heart.org/en/news/2024/02/29/tips-for-reducing" +
+                "-screen-time-and-why-that-might-be-a-good-idea"
+
             ]
         }
 

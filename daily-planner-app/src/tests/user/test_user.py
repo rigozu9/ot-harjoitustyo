@@ -173,6 +173,36 @@ class TestUser(unittest.TestCase):
         self.assertEqual(info, expected_info,
                          "User info should match the added info")
 
+    def test_get_advice(self):
+        """Test for getting advice based on user data."""
+        self.user_service.register_user("testuser", "password")
+        user_id = self.user_repository.find_id_by_username("testuser")
+
+        user_info = {
+            "age": 25,
+            "sex": "Male",
+            "total_sleep_minutes": 480,
+            "total_exercise_minutes": 60,
+            "total_outside_minutes": 120,
+            "total_productive_minutes": 480,
+            "total_screen_minutes": 420,
+            "user_id": user_id
+        }
+        self.user_service.add_info(user_info)
+
+        goals = {'sleep_goal': 480, 'exercise_goal': 60}
+        averages = {'avg_sleep': 450, 'avg_exercise': 20} 
+
+        goal_advice, avg_advice = self.user_service.get_advice(goals, averages)
+
+        expected_goal_advice = "Your sleep habits are good."
+        expected_avg_advice = "Aim for at least 30 minutes of exercise daily to stay active. " \
+                              "Learn more: https://www.cdc.gov/physicalactivity/basics/adults/index.htm " \
+                              "https://health.clevelandclinic.org/benefits-of-exercise-other-than-weight-loss " \
+                              "https://www.healthdirect.gov.au/exercise-and-mental-health"
+
+        self.assertEqual(goal_advice['sleep_advice'], expected_goal_advice)
+        self.assertEqual(avg_advice['exercise_advice'], expected_avg_advice)
 
 if __name__ == "__main__":
     unittest.main()

@@ -8,9 +8,9 @@ Sovelluslogiikan testeissä on 2 eri tiedostoa. Yksi [User](https://github.com/r
 
 ### Testauskattavuus
 
-Testauksen haarautumakattavuus on %
+Testauksen haarautumakattavuus on 96%
 
-<!-- ![](./kuvat/testikattavuus.png) -->
+![](./kuvat/testikattavuus.png)
 
 
 ## Järjestelmätestaus ja asennus
