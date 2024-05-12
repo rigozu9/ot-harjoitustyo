@@ -21,5 +21,6 @@ Sovelluksen ideana on käyttäjän päivittäisten tapojen parantaminen tieteell
     - Omista tiedoista pääset myös dailyplan ehdotuksiin.
 - Dailyplan ehdotukset
     - Täältä näkee ehdotuksia, jotka on räätälöity käyttäjän tavoitteiden ja keskiarvojen perusteella.
+    - Ehdotussivulta pääsee myös lähteisiin, mitä on käytetty vinkkeihin.
 
 

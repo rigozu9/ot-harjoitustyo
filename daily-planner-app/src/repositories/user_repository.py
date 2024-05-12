@@ -22,7 +22,7 @@ class UserRepository:
                 "https://www.nhlbi.nih.gov/health/sleep-deprivation/" + 
                 "health-effects",
                 "https://www.cdc.gov/sleep/about_sleep/sleep_hygiene.html"
-         
+
             ],
             'exercise': [
                 "https://www.cdc.gov/physicalactivity/basics/adults/index.htm",
@@ -38,7 +38,7 @@ class UserRepository:
                 "spend-time-outdoors-itll-improve-your-health-say-experts/",
                 "https://www.healthline.com/health/health-benefits-of-being-" +
                 "outdoors"
-          
+
             ],
             'productive': [
                 "https://www.atlassian.com/blog/productivity/" +
@@ -163,6 +163,8 @@ class UserRepository:
         average_improvements = self._evaluate_metrics(averages, "avg") if averages else {}
         return goal_improvements, average_improvements
 
+
+    #generöity koodi alkaa
     def _evaluate_metrics(self, metrics, fix):
         """Evaluate metrics against good goals and generate advice."""
         improvements = {}
@@ -200,3 +202,4 @@ class UserRepository:
         urls = self._advice_urls[category]
         url_text = ' '.join(urls) if isinstance(urls, list) else urls
         return f"{advice_messages[category]} Learn more: {url_text}"
+    #generöity koodi loppuu

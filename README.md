@@ -1,13 +1,13 @@
 # Science based daily planner
 
-A sciene based daily planner program to help develop better daily habits. 
-User can be registered and logged in.
-Survey for first time users.
-Can browse calendar to see activites on different days.
-In profile view you can see your goals and averages on activites. Also you can compare your averages to the goals you set.
-When you submit days activites you get compared stats to the goals you've set.
-
-Testattu koulun fuksiläppärillä ja toimi oikein.
+Tieteelliseen tietoon perustuva päivittäinen suunnitteluohjelma parempien päivittäisten tapojen kehittämiseen. 
+Käyttäjät voivat rekisteröityä ja kirjautua sisään. Ensikertalaisille on kysely. 
+Kyselyssä asetetaan tavoitteita ja kerrotaan perustietoja.
+Kalenteria selatessa voi tarkastella eri päivien aktiviteetteja. 
+Profiilinäkymästä voi tarkastella omia tavoitteita ja aktiviteettien keskiarvoja. 
+Lisäksi voit verrata keskiarvojasi asettamiisi tavoitteisiin. 
+Käyttäjä saa omiin tietoihin räätälöityjä parannusehdotuksia ja linkkejä mistä voi lukea enemmän infoa.
+Kun syötät päivän aktiviteetit, saat vertailutietoja tavoitteisiisi nähden.
 
 ### Dokumentaatio
 
@@ -19,10 +19,15 @@ Testattu koulun fuksiläppärillä ja toimi oikein.
 
 [Arkkitehtuuri](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/dokumentaatio/arkkitehtuuri.md)
 
+[Testaus] (https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/dokumentaatio/testaus.md)
+
 [Releases](https://github.com/rigozu9/ot-harjoitustyo/releases)
 
 
-## Asennus
+## Nopea asennus
+
+### (Tarkemmat ohjeet löytyvät täältä):
+[Käyttöohje](https://github.com/rigozu9/ot-harjoitustyo/blob/main/daily-planner-app/dokumentaatio/kayttoohje.md)
 
 1. Kloona projekti ssh komennolla: 
 ```bash
@@ -32,6 +37,9 @@ tai https:
 ```bash
 git clone https://github.com/rigozu9/ot-harjoitustyo.git
 ```
+- TAI
+1. Lataa loppupalautus release [täältä](https://github.com/rigozu9/ot-harjoitustyo/releases)
+
 2. Navigoi daily-planner-app folderiin ja asenna riippuvuudet komennolla:
 
 ```bash

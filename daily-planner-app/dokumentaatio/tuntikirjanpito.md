@@ -28,6 +28,6 @@
 | 30.4.  | 2    | Nyt näkee kaikien päivien vertailut tavoitteisiin. Viikko 6 palautuksen viimeistely. |
 | 9.5.   | 2    | UI näkymien muuttaminen selvemmäksi. |
 | 11.5.  | 2   | Lisätty ensiaskeleet vinkkien antamiseen. |
-| 12.5.  | 3   | Loppupalautuksen viimesteily. Vinkkisivun viimesteilyä |
+| 12.5.  | 5   | Loppupalautuksen viimesteily. Vinkkisivun viimesteily. Lähdesivun lisäys. |
 
-| YHT | 61h |
+| YHT | 66h |
