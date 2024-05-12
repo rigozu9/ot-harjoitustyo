@@ -1,5 +1,8 @@
 # pylint: disable=all
 """tests for dailyplan """
+import os
+# Turn testing enviroment on when running this
+os.environ["TEST_ENV"] = "True"
 import unittest
 from datetime import date, timedelta
 from entities.dailyplan import DailyPlan
@@ -9,10 +12,6 @@ from services.user_service import UserService
 from repositories.dailyplan_repository import DailyPlanRepository
 from repositories.user_repository import UserRepository
 from database_connection import get_database_session, Base, engine
-import os
-# Turn testing enviroment on when running this
-os.environ["TEST_ENV"] = "True"
-
 
 class TestDailyPlan(unittest.TestCase):
     @classmethod

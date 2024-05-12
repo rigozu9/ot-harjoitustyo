@@ -1,14 +1,14 @@
 # Tests for user functions.
 # pylint: disable=all
+import os
+# Turn testing enviroment on when running this
+os.environ["TEST_ENV"] = "True"
 import unittest
 from entities.dailyplan import DailyPlan
 from entities.user import User
 from services.user_service import UserService
 from repositories.user_repository import UserRepository
 from database_connection import get_database_session, Base, engine
-import os
-# Turn testing enviroment on when running this
-os.environ["TEST_ENV"] = "True"
 
 
 class TestUser(unittest.TestCase):
